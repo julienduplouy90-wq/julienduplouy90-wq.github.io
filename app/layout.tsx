@@ -1,35 +1,29 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import "./globals.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("host") ?? "localhost:3000";
-  const protocol = host.startsWith("localhost") ? "http" : "https";
-  const title = "Tambouloup | Initiation aux pratiques chamaniques";
-  const description = "Un atelier d'initiation aux pratiques chamaniques au Mélilot, à Gerde.";
+const title = "Tambouloup | Initiation aux pratiques chamaniques";
+const description = "Un atelier d'initiation aux pratiques chamaniques au Mélilot, à Gerde.";
 
-  return {
-    metadataBase: new URL(`${protocol}://${host}`),
+export const metadata: Metadata = {
+  metadataBase: new URL("https://julienduplouy90-wq.github.io"),
+  title,
+  description,
+  openGraph: {
+    title,
+    description: "Voyage chamanique, exploration des mondes et rencontre avec l'animal totem.",
+    images: ["/og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
     title,
     description,
-    openGraph: {
-      title,
-      description: "Voyage chamanique, exploration des mondes et rencontre avec l'animal totem.",
-      images: ["/og.png"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["/og.png"],
-    },
-    icons: {
-      icon: "/favicon.svg",
-      shortcut: "/favicon.svg",
-    },
-  };
-}
+    images: ["/og.png"],
+  },
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
+};
 
 export default function RootLayout({
   children,
