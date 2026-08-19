@@ -41,7 +41,7 @@ export default function Home() {
               <a className="button button-primary" href="#infos">Découvrir l&apos;atelier <span aria-hidden="true">↓</span></a>
               <a className="button button-quiet" href="tel:+33664977749">Échanger avec moi <span aria-hidden="true">↗</span></a>
             </div>
-            <p className="hero-meta">Samedi &amp; dimanche · 12h — 18h · Gerde</p>
+            <p className="hero-meta">Samedi et dimanche · 12h — 18h · Gerde</p>
           </div>
 
           <div className="hero-art" aria-hidden="true">
@@ -121,7 +121,7 @@ export default function Home() {
           <div className="details-grid">
             <article className="detail-card detail-card-time">
               <span className="detail-label">Le rythme</span>
-              <h3>Samedi &amp;<br />dimanche</h3>
+              <h3>Samedi<br />et dimanche</h3>
               <p className="detail-highlight">12h — 18h</p>
               <p>Dates à définir ultérieurement</p>
             </article>
