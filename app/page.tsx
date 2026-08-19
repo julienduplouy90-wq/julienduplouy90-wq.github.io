@@ -18,7 +18,7 @@ export default function Home() {
         </nav>
 
         <a className="header-contact" href="tel:+33664977749" aria-label="Appeler Alexandre Godgenger">
-          <span className="contact-label">Contact</span>
+          <span className="contact-label">Appeler</span>
           <span className="contact-arrow" aria-hidden="true">↗</span>
           <span className="contact-icon" aria-hidden="true">☎</span>
         </a>
