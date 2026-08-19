@@ -146,7 +146,7 @@ export default function Home() {
           <p>Je vous réponds directement pour vous renseigner sur l&apos;atelier et les prochaines dates.</p>
           <a className="phone-link" href="tel:+33664977749">
             <span>06 64 97 77 49</span>
-            <i aria-hidden="true">↗</i>
+            <span className="phone-arrow" aria-hidden="true">↗</span>
           </a>
           <p className="contact-name">Alexandre Godgenger</p>
         </section>
