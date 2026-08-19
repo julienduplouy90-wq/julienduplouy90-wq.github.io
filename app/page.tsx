@@ -33,11 +33,11 @@ export default function Home() {
               <em>pratiques</em> chamaniques
             </h1>
             <p className="hero-intro">
-              Un temps pour écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent.
+              Je vous invite à écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#infos">Découvrir l&apos;atelier <span aria-hidden="true">↓</span></a>
-              <a className="button button-quiet" href="tel:+33664977749">Parler à Alexandre <span aria-hidden="true">↗</span></a>
+              <a className="button button-quiet" href="tel:+33664977749">Échanger avec moi <span aria-hidden="true">↗</span></a>
             </div>
             <p className="hero-meta">Samedi &amp; dimanche · 12h — 18h · Gerde</p>
           </div>
@@ -57,7 +57,7 @@ export default function Home() {
             <p className="quote-mark" aria-hidden="true">“</p>
             <h2 id="invitation-title">S&apos;aventurer avec justesse dans <em>l&apos;invisible.</em></h2>
             <p>
-              Cet atelier propose d&apos;apprendre à faire un voyage chamanique, d&apos;explorer les différents mondes et de rencontrer un animal totem — pour soi, puis pour quelqu&apos;un d&apos;autre.
+              Je vous propose d&apos;apprendre à faire un voyage chamanique, d&apos;explorer les différents mondes et de rencontrer un animal totem — pour vous-même, puis pour quelqu&apos;un d&apos;autre.
             </p>
           </div>
           <p className="side-note">Un espace d&apos;initiation<br />et d&apos;exploration</p>
@@ -69,7 +69,7 @@ export default function Home() {
               <p className="section-kicker section-kicker-light">02 · Le chemin</p>
               <h2 id="path-title">Trois seuils<br />à <em>franchir.</em></h2>
             </div>
-            <p>Une pratique guidée, à votre rythme, pour poser les premières bases du voyage chamanique.</p>
+            <p>Je vous guide, à votre rythme, pour poser les premières bases du voyage chamanique.</p>
           </div>
 
           <div className="path-grid">
@@ -106,7 +106,7 @@ export default function Home() {
           <div className="rhythm-copy">
             <p className="section-kicker">03 · Le rythme</p>
             <h2 id="rhythm-title">Quand le tambour devient <em>un passage.</em></h2>
-            <p>Le rythme accompagne le voyage et ouvre un espace d&apos;attention, de présence et de rencontre.</p>
+            <p>Je m&apos;appuie sur le rythme du tambour pour accompagner le voyage et ouvrir un espace d&apos;attention, de présence et de rencontre.</p>
           </div>
         </section>
 
@@ -114,7 +114,7 @@ export default function Home() {
           <div className="details-intro">
             <p className="section-kicker">04 · Informations pratiques</p>
             <h2 id="details-title">Se retrouver au <em>Mélilot.</em></h2>
-            <p>Les dates seront définies ultérieurement. Pour manifester votre intérêt ou obtenir les prochaines informations, contactez Alexandre directement.</p>
+            <p>Les dates seront définies ultérieurement. Pour manifester votre intérêt ou recevoir les prochaines informations, contactez-moi directement.</p>
           </div>
 
           <div className="details-grid">
@@ -142,7 +142,7 @@ export default function Home() {
           <div className="contact-moon" aria-hidden="true" />
           <p className="eyebrow"><span /> UNE QUESTION, UNE INSCRIPTION ?</p>
           <h2 id="contact-title">Le voyage commence<br />par <em>un échange.</em></h2>
-          <p>Alexandre Godgenger vous répond directement pour vous renseigner sur l&apos;atelier et les prochaines dates.</p>
+          <p>Je vous réponds directement pour vous renseigner sur l&apos;atelier et les prochaines dates.</p>
           <a className="phone-link" href="tel:+33664977749">
             <span>06 64 97 77 49</span>
             <i aria-hidden="true">↗</i>
