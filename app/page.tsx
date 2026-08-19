@@ -46,7 +46,6 @@ export default function Home() {
             <div className="sun-disc" />
             <div className="sun-orbit orbit-one" />
             <div className="sun-orbit orbit-two" />
-            <div className="art-caption">Tambouloup<br /><span>Le tambour comme boussole</span></div>
             <img src="/tambouloup-loup.jpeg" alt="" className="wolf-illustration" />
           </div>
         </section>
