@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: remplacer le domaine par le domaine temporaire Hostinger, puis le définitif -->
+<!-- Adresse actuelle (GitHub Pages) ; remplacer par le domaine dédié lors de la bascule -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://julienduplouy.fr/</loc>
+    <loc>https://julienduplouy90-wq.github.io/paysage/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

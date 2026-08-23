@@ -12,10 +12,11 @@ window.SITE_CONFIG = {
   brandTagline: "Système de demandes de devis pour paysagistes",
 
   // --- Coordonnées ---
-  // TODO: créer une adresse email dédiée à l'activité avant mise en ligne
-  // (éviter une adresse personnelle sur un site public).
-  contactEmail: "contact@julienduplouy.fr",
-  // TODO: ajouter un lien de prise de rendez-vous (Calendly, Cal.com…)
+  // NOTE: adresse personnelle utilisée provisoirement pour que le contact
+  // fonctionne dès aujourd'hui. À remplacer par une adresse dédiée
+  // (ex. contact@julienduplouy.fr) en changeant uniquement cette ligne.
+  contactEmail: "julien.duplouy90@gmail.com",
+  // Lien de prise de rendez-vous (Calendly, Cal.com…) : à renseigner
   // quand l'outil sera choisi. Laisser null pour utiliser l'email.
   bookingUrl: null,
 
@@ -24,10 +25,10 @@ window.SITE_CONFIG = {
   priceCurrency: "€",
 
   // --- Domaine ---
-  // TODO: remplacer par le domaine temporaire Hostinger choisi,
-  // puis par le domaine définitif. Utilisé pour les liens absolus
-  // éventuels côté JS (les meta/canonical sont dans le HTML).
-  siteUrl: "https://julienduplouy.fr",
+  // Adresse actuelle (GitHub Pages). À remplacer par le domaine
+  // Hostinger/définitif lors de la bascule. Utilisé pour les liens
+  // absolus éventuels côté JS (les meta/canonical sont dans le HTML).
+  siteUrl: "https://julienduplouy90-wq.github.io/paysage/",
 
   // --- Analytics ---
   // Aucun service externe n'est connecté par défaut (RGPD).
