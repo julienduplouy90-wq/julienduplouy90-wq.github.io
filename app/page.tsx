@@ -7,8 +7,8 @@ export default function Home() {
 
       <header className="site-header">
         <a className="wordmark" href="#accueil" aria-label="Tambouloup, accueil">
-          <span className="wordmark-mark" aria-hidden="true">◒</span>
-          <span>TAMBOULOUP</span>
+          <span className="brand-drum" aria-hidden="true"><span /></span>
+          <span className="wordmark-type">Tambouloup</span>
         </a>
 
         <nav aria-label="Navigation principale">
@@ -18,9 +18,8 @@ export default function Home() {
         </nav>
 
         <a className="header-contact" href="tel:+33664977749" aria-label="Appeler Alexandre Godgenger">
-          <span className="contact-label">Contact</span>
-          <span className="contact-arrow" aria-hidden="true">↗</span>
-          <span className="contact-icon" aria-hidden="true">☎</span>
+          <span>Contact</span>
+          <span aria-hidden="true">↗</span>
         </a>
       </header>
 
@@ -28,11 +27,12 @@ export default function Home() {
         <section className="hero" id="accueil" aria-labelledby="hero-title">
           <div className="aurora aurora-left" aria-hidden="true" />
           <div className="aurora aurora-right" aria-hidden="true" />
+
           <div className="hero-copy">
-            <p className="eyebrow"><span /> ATELIER DE BASE · 2 JOURS</p>
+            <p className="eyebrow"><span /> Atelier de base · 2 jours</p>
             <h1 id="hero-title">
-              Initiation aux<br />
-              <em>pratiques</em> chamaniques
+              <span>Initiation aux</span>
+              <span><em>pratiques</em> chamaniques</span>
             </h1>
             <p className="hero-intro">
               Je vous invite à écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent.
@@ -48,7 +48,9 @@ export default function Home() {
             <div className="sun-disc" />
             <div className="sun-orbit orbit-one" />
             <div className="sun-orbit orbit-two" />
-            <img src="/tambouloup-loup.jpeg" alt="" className="wolf-illustration" />
+            <div className="wolf-frame">
+              <img src="/tambouloup-loup.jpeg" alt="" className="wolf-illustration" />
+            </div>
           </div>
         </section>
 
@@ -68,7 +70,7 @@ export default function Home() {
           <div className="path-heading">
             <div>
               <p className="section-kicker section-kicker-light">02 · Le chemin</p>
-              <h2 id="path-title">Trois seuils<br />à <em>franchir.</em></h2>
+              <h2 id="path-title">Trois seuils à <em>franchir.</em></h2>
             </div>
             <p>Je vous guide, à votre rythme, pour poser les premières bases du voyage chamanique.</p>
           </div>
@@ -141,8 +143,8 @@ export default function Home() {
 
         <section className="contact" aria-labelledby="contact-title">
           <div className="contact-moon" aria-hidden="true" />
-          <p className="eyebrow"><span /> UNE QUESTION, UNE INSCRIPTION ?</p>
-          <h2 id="contact-title">Le voyage commence<br />par <em>un échange.</em></h2>
+          <p className="eyebrow"><span /> Une question, une inscription ?</p>
+          <h2 id="contact-title">Le voyage commence par <em>un échange.</em></h2>
           <p>Je vous réponds directement pour vous renseigner sur l&apos;atelier et les prochaines dates.</p>
           <a className="phone-link" href="tel:+33664977749">
             <span>06 64 97 77 49</span>
@@ -153,9 +155,12 @@ export default function Home() {
       </main>
 
       <footer>
-        <a className="wordmark footer-wordmark" href="#accueil"><span className="wordmark-mark" aria-hidden="true">◒</span><span>TAMBOULOUP</span></a>
+        <a className="wordmark footer-wordmark" href="#accueil" aria-label="Revenir à l&apos;accueil">
+          <span className="brand-drum" aria-hidden="true"><span /></span>
+          <span className="wordmark-type">Tambouloup</span>
+        </a>
         <p>Initiation aux pratiques chamaniques<br />Gerde · Hautes-Pyrénées</p>
-        <a href="#accueil">Revenir au sommet <span aria-hidden="true">↑</span></a>
+        <a className="back-to-top" href="#accueil">Revenir au sommet <span aria-hidden="true">↑</span></a>
       </footer>
     </>
   );
