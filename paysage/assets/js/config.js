@@ -25,10 +25,7 @@ window.SITE_CONFIG = {
   priceCurrency: "€",
 
   // --- Domaine ---
-  // Adresse actuelle (GitHub Pages). À remplacer par le domaine
-  // Hostinger/définitif lors de la bascule. Utilisé pour les liens
-  // absolus éventuels côté JS (les meta/canonical sont dans le HTML).
-  siteUrl: "https://julienduplouy90-wq.github.io/paysage/",
+  siteUrl: "https://julienduplouy.fr",
 
   // --- Analytics ---
   // Aucun service externe n'est connecté par défaut (RGPD).
