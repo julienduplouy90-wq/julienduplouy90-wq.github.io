@@ -1,0 +1,6 @@
+# TODO: remplacer le domaine par le domaine temporaire Hostinger,
+# puis par le domaine définitif.
+User-agent: *
+Allow: /
+
+Sitemap: https://julienduplouy.fr/sitemap.xml
