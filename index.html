@@ -226,11 +226,13 @@ footer>a:last-child{color:var(--amber);letter-spacing:.08em;text-transform:upper
   .hero{min-height:auto;padding:4rem 1.25rem 0;display:block}
   .hero-copy{max-width:590px}
   .hero h1{font-size:clamp(3.3rem,13.5vw,5.5rem)}
-  .hero-art{min-height:410px;margin:1.4rem -1.25rem 0}
+  .hero-meta{position:relative;z-index:2}
+  .hero-art{min-height:calc(min(520px,116vw) + 1.5rem);margin:1.4rem -1.25rem 0}
   .sun-disc{width:min(74vw,430px);top:2%;right:2%}
   .orbit-one{top:-4%;right:-7%}
   .wolf-illustration{width:min(520px,116%);bottom:-8%;right:-4%}
   .invitation{grid-template-columns:1fr;gap:1.2rem}
+  .invitation>.section-kicker{margin-bottom:2.6rem}
   .invitation-copy{padding-left:.6rem}
   .quote-mark{font-size:6rem;top:-3.2rem;left:-1.1rem}
   .side-note{margin-top:1rem}
@@ -243,14 +245,16 @@ footer>a:last-child{color:var(--amber);letter-spacing:.08em;text-transform:upper
   .drum{width:310px;height:310px;left:calc(50% - 155px)}
   .rhythm-copy{padding:1rem 1.25rem 4.6rem}
   .details-grid{grid-template-columns:1fr}
-  .detail-card{min-height:260px}
+  .detail-card{min-height:0}
+  .detail-card h3{margin-top:1.4rem}
+  .detail-card-price .price{margin-top:1.2rem!important}
 }
 @media (max-width:520px){
   .wordmark{font-size:.76rem}
   .hero-actions{grid-template-columns:1fr;display:grid}
   .button{width:100%}
   .hero-meta{font-size:.65rem;line-height:1.7}
-  .hero-art{min-height:335px}
+  .hero-art{min-height:calc(min(520px,116vw) + 1.5rem)}
   .invitation-copy>p:last-child{font-size:1.09rem}
   .path{padding-left:1rem;padding-right:1rem}
   .path-card{border-radius:1.15rem;min-height:240px}
