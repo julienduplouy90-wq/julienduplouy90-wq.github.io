@@ -217,7 +217,7 @@ main { padding-top: calc(var(--header-height) + env(safe-area-inset-top)); }
   gap: .62rem;
   margin: 0;
   color: var(--moss);
-  font-size: .66rem;
+  font-size: clamp(.72rem, 3vw, .82rem);
   font-weight: 700;
   letter-spacing: .13em;
   line-height: 1.35;
@@ -251,8 +251,8 @@ em { font-style: italic; font-weight: 400; }
   max-width: 34rem;
   margin: 0;
   color: rgba(247, 239, 222, .79);
-  font-size: clamp(.98rem, 3.8vw, 1.1rem);
-  line-height: 1.65;
+  font-size: clamp(1.06rem, 4.2vw, 1.2rem);
+  line-height: 1.62;
 }
 
 .hero-actions {
@@ -266,12 +266,12 @@ em { font-style: italic; font-weight: 400; }
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  min-height: 48px;
+  min-height: 52px;
   width: 100%;
-  padding: .78rem 1rem;
+  padding: .86rem 1rem;
   border: 1px solid rgba(247, 239, 222, .46);
   border-radius: 999px;
-  font-size: .69rem;
+  font-size: clamp(.73rem, 2.8vw, .82rem);
   font-weight: 700;
   letter-spacing: .085em;
   text-align: center;
@@ -285,13 +285,28 @@ em { font-style: italic; font-weight: 400; }
 .button-quiet:hover { border-color: var(--amber); color: var(--amber); }
 
 .hero-meta {
-  margin: 1.65rem 0 0;
-  color: rgba(247, 239, 222, .62);
-  font-size: .65rem;
-  font-weight: 600;
-  letter-spacing: .07em;
-  line-height: 1.65;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .36rem .6rem;
+  max-width: 100%;
+  margin: 1.55rem 0 0;
+  padding: .68rem .8rem;
+  border: 1px solid rgba(238, 163, 90, .5);
+  border-radius: .85rem;
+  background: rgba(16, 33, 36, .7);
+  color: var(--cream);
+  font-size: clamp(.73rem, 2.9vw, .86rem);
+  font-weight: 700;
+  letter-spacing: .05em;
+  line-height: 1.45;
   text-transform: uppercase;
+}
+
+.hero-meta-label {
+  color: var(--amber);
+  font-size: .86em;
+  letter-spacing: .11em;
 }
 
 .hero-art {
@@ -401,7 +416,7 @@ h2 { margin: 0; font-size: clamp(2.2rem, 9.6vw, 4.2rem); line-height: 1; }
   max-width: 34rem;
   margin: 0;
   color: rgba(247, 239, 222, .72);
-  font-size: 1rem;
+  font-size: clamp(1.04rem, 3.7vw, 1.15rem);
   line-height: 1.65;
 }
 
@@ -437,7 +452,7 @@ h2 { margin: 0; font-size: clamp(2.2rem, 9.6vw, 4.2rem); line-height: 1; }
 .path-number { font-size: .68rem; font-weight: 700; letter-spacing: .1em; }
 .path-icon { display: block; margin-top: auto; font-family: "Fraunces", Georgia, serif; font-size: 3.6rem; line-height: .9; }
 .path-card h3 { margin: .82rem 0 .65rem; font-size: clamp(1.75rem, 7.8vw, 2.55rem); line-height: 1; }
-.path-card p { max-width: 17rem; margin: 0; font-size: .92rem; line-height: 1.5; }
+.path-card p { max-width: 17rem; margin: 0; font-size: 1rem; line-height: 1.55; }
 
 .rhythm {
   position: relative;
@@ -512,7 +527,7 @@ h2 { margin: 0; font-size: clamp(2.2rem, 9.6vw, 4.2rem); line-height: 1; }
 .rhythm-copy > p:last-child {
   max-width: 31rem;
   margin: 1.4rem 0 0;
-  font-size: 1rem;
+  font-size: clamp(1.04rem, 3.7vw, 1.15rem);
   line-height: 1.7;
 }
 
@@ -527,6 +542,7 @@ h2 { margin: 0; font-size: clamp(2.2rem, 9.6vw, 4.2rem); line-height: 1; }
   max-width: 34rem;
   margin: 0 auto;
   color: rgba(24, 35, 33, .76);
+  font-size: clamp(1.03rem, 3.6vw, 1.12rem);
   line-height: 1.65;
 }
 
@@ -549,7 +565,7 @@ h2 { margin: 0; font-size: clamp(2.2rem, 9.6vw, 4.2rem); line-height: 1; }
 
 .detail-label { font-size: .67rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .72; }
 .detail-card h3 { margin: auto 0 .7rem; font-size: clamp(2rem, 9vw, 3rem); line-height: .98; }
-.detail-card p { margin: 0; line-height: 1.65; }
+.detail-card p { margin: 0; font-size: 1.02rem; line-height: 1.65; }
 .detail-highlight { font-family: "Fraunces", Georgia, serif; font-size: 1.55rem; }
 
 .detail-card a {

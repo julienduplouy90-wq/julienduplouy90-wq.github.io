@@ -41,7 +41,10 @@ export default function Home() {
               <a className="button button-primary" href="#infos">Découvrir l&apos;atelier <span aria-hidden="true">↓</span></a>
               <a className="button button-quiet" href="tel:+33664977749">Échanger avec moi <span aria-hidden="true">↗</span></a>
             </div>
-            <p className="hero-meta">Samedi et dimanche · 12h — 18h · Gerde</p>
+            <p className="hero-meta">
+              <span className="hero-meta-label">Horaires</span>
+              <span>Samedi et dimanche · 12h — 18h · Gerde</span>
+            </p>
           </div>
 
           <div className="hero-art" aria-hidden="true">
