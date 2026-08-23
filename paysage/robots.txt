@@ -1,0 +1,7 @@
+# NOTE: ce fichier n'est pris en compte qu'à la racine d'un domaine.
+# Il servira lors du déploiement sur un domaine dédié (Hostinger) ;
+# mettre alors à jour l'URL du sitemap ci-dessous.
+User-agent: *
+Allow: /
+
+Sitemap: https://julienduplouy90-wq.github.io/paysage/sitemap.xml
