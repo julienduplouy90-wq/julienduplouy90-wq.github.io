@@ -187,8 +187,8 @@ function hero(c) {
     </div>
     <div class="wrap">
       <div class="hero__inner">
-        <span class="overline">${esc(c.tagline)}</span>
-        <h1>Transformons votre extérieur en un lieu qui vous ressemble.</h1>
+        <span class="overline overline--chip">${esc(c.tagline)}</span>
+        <h1>Transformons votre extérieur en un lieu qui vous <em>ressemble</em>.</h1>
         <p class="lead">Création de jardins, terrasses et aménagements extérieurs à ${esc(c.city)} et dans les environs. Un travail soigné, des matériaux durables, un interlocuteur unique.</p>
         <div class="hero__ctas">
           <a class="btn btn--primary" href="#devis" data-track="cta_hero">Décrire mon projet</a>
@@ -204,17 +204,17 @@ function hero(c) {
 
 function trustStrip(c) {
   const items = [];
-  if (c.yearsExperience) items.push({ icon: "medal", strong: c.yearsExperience + " ans d'expérience", text: "dans l'aménagement extérieur" });
-  if (c.trust && c.trust.insurancePro) items.push({ icon: "shield", strong: "Assurance professionnelle", text: c.trust.decennale ? "et garantie décennale" : "responsabilité civile pro" });
-  items.push({ icon: "map", strong: c.city + " et alentours", text: (c.interventionAreas || []).slice(1, 4).join(", ") || "intervention locale" });
-  items.push({ icon: "check", strong: "Devis gratuit", text: "étude de votre projet sans engagement" });
-  if (c.trust && c.trust.qualipaysage) items.push({ icon: "medal", strong: "Qualipaysage", text: "entreprise qualifiée" });
-  if (c.trust && c.trust.unep) items.push({ icon: "medal", strong: "Membre UNEP", text: "Union nationale des entreprises du paysage" });
+  if (c.yearsExperience) items.push({ strong: c.yearsExperience + " ans", text: "d'expérience dans l'aménagement extérieur" });
+  if (c.trust && c.trust.insurancePro) items.push({ strong: "Assuré", text: c.trust.decennale ? "responsabilité civile pro et garantie décennale" : "responsabilité civile professionnelle" });
+  if (c.trust && c.trust.qualipaysage) items.push({ strong: "Qualipaysage", text: "entreprise qualifiée" });
+  if (c.trust && c.trust.unep) items.push({ strong: "Membre UNEP", text: "Union nationale des entreprises du paysage" });
+  items.push({ strong: esc(c.city) + " + 30 km", text: "intervention locale : " + ((c.interventionAreas || []).slice(1, 4).join(", ") || "et alentours") });
+  items.push({ strong: "Devis gratuit", text: "étude détaillée de votre projet, sans engagement" });
   return `
   <div class="trust-strip">
     <div class="wrap trust-strip__inner">
       ${items.slice(0, 4).map((i) => `
-      <div class="trust-item">${icon(i.icon)}<span><strong>${esc(i.strong)}</strong>${esc(i.text)}</span></div>`).join("")}
+      <div class="trust-item"><strong>${i.strong}</strong><span>${esc(i.text)}</span></div>`).join("")}
     </div>
   </div>`;
 }
@@ -225,7 +225,7 @@ function projectsSection(c) {
   <section class="section" id="realisations" aria-labelledby="realisations-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Réalisations</span>
+        <span class="overline"><i>01</i>Réalisations</span>
         <h2 id="realisations-title">Nos aménagements parlent pour nous.</h2>
         <p class="lead">Faites glisser le curseur sur chaque photo pour comparer l'avant et l'après.${c.demoMode ? " (Images d'illustration — les photos des vrais chantiers prendront leur place.)" : ""}</p>
       </div>
@@ -266,7 +266,7 @@ function servicesSection(c) {
   <section class="section section--tint" id="services" aria-labelledby="services-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Services</span>
+        <span class="overline"><i>02</i>Services</span>
         <h2 id="services-title">Tout votre extérieur, un seul interlocuteur.</h2>
         <p class="lead">De la conception aux finitions, nous prenons en charge l'ensemble de votre aménagement.</p>
       </div>
@@ -287,7 +287,7 @@ function whySection(c) {
   <section class="section" id="pourquoi" aria-labelledby="pourquoi-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Pourquoi nous</span>
+        <span class="overline"><i>03</i>Pourquoi nous</span>
         <h2 id="pourquoi-title">Un chantier bien mené, du premier échange à la dernière finition.</h2>
       </div>
       <div class="why">
@@ -305,7 +305,7 @@ function processSection(c) {
   <section class="section section--tint" id="processus" aria-labelledby="processus-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Comment ça se passe</span>
+        <span class="overline"><i>04</i>Comment ça se passe</span>
         <h2 id="processus-title">Votre projet, étape par étape.</h2>
       </div>
       <ol class="process reveal">
@@ -327,7 +327,7 @@ function quoteSection(c) {
     <div class="wrap">
       <div class="section-head section-head--center reveal">
         ${c.demoMode ? `<p><span class="demo-note">Démonstration — aucune donnée n'est envoyée ni conservée</span></p>` : ""}
-        <span class="overline">Devis gratuit</span>
+        <span class="overline"><i>05</i>Devis gratuit</span>
         <h2 id="devis-title">Décrivez-nous votre projet.</h2>
         <p class="lead">Quelques questions, deux minutes montre en main. Plus votre demande est précise, plus notre première réponse le sera aussi.</p>
       </div>
@@ -446,7 +446,7 @@ function areasSection(c) {
   <section class="section section--tint" id="zones" aria-labelledby="zones-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Zone d'intervention</span>
+        <span class="overline"><i>06</i>Zone d'intervention</span>
         <h2 id="zones-title">Nous intervenons à ${esc(c.city)} et aux alentours.</h2>
         <p class="lead">Votre commune n'apparaît pas&nbsp;? Demandez-nous — selon le projet, nous élargissons volontiers.</p>
       </div>
@@ -485,7 +485,7 @@ function reviewsSection(c) {
   <section class="section" id="avis" aria-labelledby="avis-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="overline">Avis clients</span>
+        <span class="overline"><i>07</i>Avis clients</span>
         <h2 id="avis-title">Ce que nos clients retiennent.</h2>
       </div>
       ${body}
@@ -499,7 +499,7 @@ function faqSection(c) {
   <section class="section section--tint" id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <div class="section-head section-head--center reveal">
-        <span class="overline">Questions fréquentes</span>
+        <span class="overline"><i>08</i>Questions fréquentes</span>
         <h2 id="faq-title">Vous vous posez sûrement ces questions.</h2>
       </div>
       <div class="faq reveal">
