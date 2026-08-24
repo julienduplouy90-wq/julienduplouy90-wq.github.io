@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Génère le site multi-pages Tambouloup (statique, SEO).
+"""Génère le site multi-pages Tamboulou (statique, SEO).
 
 Usage : python3 build.py
 Le domaine canonique est défini dans BASE — le changer ici (puis rebuilder)
-quand tambouloup.fr sera connecté.
+quand tamboulou.fr sera connecté.
 """
 import os, textwrap
 
@@ -23,7 +23,7 @@ NAV = """<nav class="main-nav" id="menu" aria-label="Navigation principale">
 
 HEADER = f"""<a class="skip-link" href="#contenu">Aller au contenu</a>
 <header class="site-header">
-<a class="wordmark" href="/" aria-label="Tambouloup, accueil"><span class="wordmark-mark" aria-hidden="true">◒</span><span>TAMBOULOUP</span></a>
+<a class="wordmark" href="/" aria-label="Tamboulou, accueil"><span class="wordmark-mark" aria-hidden="true">◒</span><span>TAMBOULOU</span></a>
 {NAV}
 <div class="header-right">
 <a class="header-contact" href="tel:{TEL}" aria-label="Appeler Alexandre Godgenger"><span class="contact-label">Contact</span><span class="contact-arrow" aria-hidden="true">↗</span></a>
@@ -34,7 +34,7 @@ HEADER = f"""<a class="skip-link" href="#contenu">Aller au contenu</a>
 FOOTER = f"""<footer>
 <div class="footer-grid">
 <div class="footer-brand">
-<a class="wordmark footer-wordmark" href="/"><span class="wordmark-mark" aria-hidden="true">◒</span><span>TAMBOULOUP</span></a>
+<a class="wordmark footer-wordmark" href="/"><span class="wordmark-mark" aria-hidden="true">◒</span><span>TAMBOULOU</span></a>
 <p>L'école du chaman — initiation aux pratiques chamaniques.<br>Gerde · Hautes-Pyrénées · accueil de toute la France.</p>
 </div>
 <nav class="footer-nav" aria-label="Plan du site">
@@ -82,10 +82,10 @@ ORG_LD = f"""{{
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": "{BASE}/#org",
-  "name": "Tambouloup — L'école du chaman",
+  "name": "Tamboulou — L'école du chaman",
   "url": "{BASE}/",
   "logo": "{BASE}/favicon.svg",
-  "image": "{BASE}/tambouloup-loup.jpeg",
+  "image": "{BASE}/tamboulou-loup.jpeg",
   "telephone": "{TEL}",
   "founder": {{"@type": "Person", "name": "Alexandre Godgenger", "url": "{BASE}/alexandre/"}},
   "address": {{"@type": "PostalAddress", "streetAddress": "Au Mélilot, chemin des Humas", "postalCode": "65200", "addressLocality": "Gerde", "addressRegion": "Occitanie", "addressCountry": "FR"}},
@@ -128,11 +128,11 @@ def page(path, title, description, main, extra_ld=None, og_type="website"):
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="Tambouloup">
+<meta property="og:site_name" content="Tamboulou">
 <meta property="og:url" content="{url}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
-<meta property="og:image" content="{BASE}/tambouloup-loup.jpeg">
+<meta property="og:image" content="{BASE}/tamboulou-loup.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,7 +202,7 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 <div class="sun-disc"></div>
 <div class="sun-orbit orbit-one"></div>
 <div class="sun-orbit orbit-two"></div>
-<img src="/tambouloup-loup.jpeg" alt="" width="2000" height="2000" fetchpriority="high" class="wolf-illustration">
+<img src="/tamboulou-loup.jpeg" alt="" width="2000" height="2000" fetchpriority="high" class="wolf-illustration">
 </div>
 </section>
 
@@ -302,7 +302,7 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 website_ld = f"""{{
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Tambouloup",
+  "name": "Tamboulou",
   "url": "{BASE}/",
   "inLanguage": "fr",
   "publisher": {{"@id": "{BASE}/#org"}}
@@ -310,7 +310,7 @@ website_ld = f"""{{
 
 pages.append(page(
     "/",
-    "Tambouloup — L'école du chaman | Initiation au chamanisme, Pyrénées",
+    "Tamboulou — L'école du chaman | Initiation au chamanisme, Pyrénées",
     "Stage d'initiation aux pratiques chamaniques dans les Hautes-Pyrénées : voyage chamanique au tambour, exploration des mondes, rencontre de l'animal totem. Ouvert à toute la France.",
     landing_main,
     extra_ld=[website_ld],
@@ -336,7 +336,7 @@ formation_body = f"""
 <li><strong>Lieu</strong> : Au Mélilot, chemin des Humas, 65200 Gerde — au pied des Pyrénées, à côté de Bagnères-de-Bigorre (Hautes-Pyrénées, Occitanie).</li>
 <li><strong>Tarif</strong> : 150 € pour le stage complet de deux jours.</li>
 <li><strong>Groupe</strong> : en petit groupe, pour préserver la qualité de l'accompagnement.</li>
-<li><strong>Inscription</strong> : par téléphone, au <a href="tel:{TEL}">{TEL_AFF}</a> — un échange direct permet de répondre à vos questions avant de vous inscrire.</li>
+<li><strong>Préinscription</strong> : par téléphone, au <a href="tel:{TEL}">{TEL_AFF}</a> — un échange direct permet de répondre à vos questions et de réserver votre place. Aucun paiement en ligne.</li>
 </ul>
 
 <h2>Venir de toute la France</h2>
@@ -376,7 +376,7 @@ pages.append(content_page(
     "Formation chamanisme : un stage <em>d'initiation</em> de deux jours",
     "Apprendre le voyage chamanique au tambour, explorer les mondes et rencontrer son animal totem — un week-end dans les Pyrénées, ouvert aux débutants de toute la France.",
     formation_body,
-    "Formation chamanisme : stage d'initiation 2 jours | Tambouloup",
+    "Formation chamanisme : stage d'initiation 2 jours | Tamboulou",
     "Stage d'initiation au chamanisme dans les Pyrénées : programme, dates, tarif (150 € les 2 jours), accès depuis toute la France. Voyage au tambour, mondes, animal totem.",
     extra_ld=[course_ld],
     cta=False,
@@ -389,7 +389,7 @@ voyage_body = """
 <p>Il ne s'agit ni de transe spectaculaire ni de perte de contrôle. Le voyage chamanique est une pratique douce, structurée, que l'on apprend pas à pas — et que chacun vit à sa manière.</p>
 
 <h2>Le tambour, un passage</h2>
-<p>Le battement régulier du tambour, autour de quatre coups par seconde, accompagne naturellement le cerveau vers cet état de rêverie éveillée. C'est le fil que l'on suit pour partir — et c'est aussi lui qui ramène : un changement de rythme convenu marque la fin du voyage. C'est pourquoi le tambour est au cœur de la transmission chez Tambouloup : on apprend d'abord à l'écouter, puis à se laisser porter.</p>
+<p>Le battement régulier du tambour, autour de quatre coups par seconde, accompagne naturellement le cerveau vers cet état de rêverie éveillée. C'est le fil que l'on suit pour partir — et c'est aussi lui qui ramène : un changement de rythme convenu marque la fin du voyage. C'est pourquoi le tambour est au cœur de la transmission chez Tamboulou : on apprend d'abord à l'écouter, puis à se laisser porter.</p>
 
 <h2>Les trois mondes</h2>
 <p>La plupart des traditions décrivent la même carte : un axe qui relie trois espaces.</p>
@@ -413,7 +413,7 @@ pages.append(content_page(
     "Le voyage chamanique : <em>ouvrir le passage</em> au son du tambour",
     "Un état de conscience modifié léger, guidé par le rythme du tambour, pour explorer les mondes intérieurs. Ce qu'est le voyage chamanique — et comment on l'apprend.",
     voyage_body,
-    "Qu'est-ce qu'un voyage chamanique ? | Tambouloup",
+    "Qu'est-ce qu'un voyage chamanique ? | Tamboulou",
     "Le voyage chamanique expliqué simplement : l'état de conscience, le rôle du tambour, les trois mondes, et comment l'apprendre lors d'un stage d'initiation dans les Pyrénées.",
 ))
 
@@ -445,7 +445,7 @@ pages.append(content_page(
     "L'animal totem : une rencontre <em>qui se vit,</em> pas un test",
     "L'animal totem se rencontre au cours d'un voyage chamanique, pour soi puis pour autrui. Ce qu'il est, comment le rencontrer, et comment cultiver la relation.",
     totem_body,
-    "Animal totem : comment le rencontrer ? | Tambouloup",
+    "Animal totem : comment le rencontrer ? | Tamboulou",
     "L'animal totem ne se choisit pas, il se rencontre lors d'un voyage chamanique au tambour. Comprendre ce qu'il est et apprendre à le rencontrer lors d'un stage d'initiation.",
 ))
 
@@ -461,8 +461,8 @@ faq_items = [
      "Une tenue confortable, de quoi s'allonger ou se couvrir (plaid, coussin) et un carnet pour noter vos voyages. Le reste — tambour compris — est fourni sur place. Les détails pratiques sont précisés lors de l'inscription."),
     ("Où se déroule le stage et comment venir ?",
      "Au Mélilot, chemin des Humas, 65200 Gerde, à côté de Bagnères-de-Bigorre. Le lieu est accessible de toute la France : gare de Tarbes à ~20 minutes, aéroport de Tarbes-Lourdes-Pyrénées à ~30 minutes, autoroute A64. Les possibilités d'hébergement à proximité sont détaillées sur la page de la formation."),
-    ("Combien coûte le stage et comment s'inscrire ?",
-     "Le stage complet de deux jours coûte 150 €. L'inscription se fait par téléphone au 06 64 97 77 49, après un échange direct avec Alexandre — l'occasion de poser toutes vos questions."),
+    ("Combien coûte le stage et comment se préinscrire ?",
+     "Le stage complet de deux jours coûte 150 €. La préinscription se fait par téléphone au 06 64 97 77 49, après un échange direct avec Alexandre — l'occasion de poser toutes vos questions. Aucun paiement en ligne : vous réservez simplement votre place."),
     ("Le chamanisme est-il une religion ? Faut-il y croire ?",
      "Non. Le chamanisme tel qu'il est transmis ici est une pratique d'exploration, pas une croyance ni une religion. Chacun interprète librement ce qu'il vit, selon sa propre sensibilité."),
     ("Y a-t-il des contre-indications ?",
@@ -497,25 +497,29 @@ pages.append(content_page(
     "Questions <em>fréquentes</em>",
     "Tout ce qu'il faut savoir avant de s'inscrire au stage d'initiation : déroulé, préparation, accès, tarif, contre-indications.",
     faq_body,
-    "Stage de chamanisme : questions fréquentes | Tambouloup",
+    "Stage de chamanisme : questions fréquentes | Tamboulou",
     "Faut-il une expérience préalable ? Que faut-il apporter ? Comment venir de toute la France ? Les réponses aux questions les plus posées sur le stage d'initiation au chamanisme.",
     extra_ld=[faq_ld],
 ))
 
 # ---------------------------------------------------- Alexandre
 alexandre_body = f"""
+<h2>Du soin du corps aux pratiques chamaniques</h2>
+<p>Alexandre Godgenger est <strong>ostéopathe D.O. et masseur-kinésithérapeute</strong> de formation, installé à Bagnères-de-Bigorre, au pied des Pyrénées. Son chemin ne suit pas la ligne droite : parti d'une licence de mathématiques, c'est la découverte du massage qui l'oriente vers le soin à la personne — la masso-kinésithérapie à Lille, puis l'ostéopathie à l'Institut Supérieur d'Ostéopathie du Grand Montpellier, complétées par des formations en énergétique chinoise et en thérapie manuelle périnatale et pédiatrique.</p>
+<p>Transmettre fait déjà partie de son métier : il a co-animé des formations en diagnostic neuromoteur et rééducation neuromotrice de l'enfant, et mis sa pratique au service d'actions humanitaires à Madagascar et en Malaisie. C'est ce parcours, ancré depuis des années dans l'écoute du corps, qui l'a conduit vers les pratiques chamaniques et le tambour. Avec Tamboulou — l'école du chaman — il ouvre un espace pour transmettre le <a href="/voyage-chamanique/">voyage chamanique</a> à ceux qui veulent l'apprendre, en complément de son activité de praticien, dont vous trouverez le détail sur <a href="https://alexandre-godgenger.fr/" rel="noreferrer">alexandre-godgenger.fr</a>.</p>
+
 <h2>Une transmission simple et exigeante</h2>
-<p>Alexandre Godgenger guide les stages Tambouloup au Mélilot, à Gerde, au pied des Pyrénées. Sa manière de transmettre tient en quelques mots : simplicité, justesse, respect du rythme de chacun. Pas de mise en scène ni de folklore — une pratique claire, apprise par l'expérience, partagée en petit groupe.</p>
+<p>Sa manière de transmettre tient en quelques mots : simplicité, justesse, respect du rythme de chacun. Pas de mise en scène ni de folklore — une pratique claire, apprise par l'expérience, partagée en petit groupe au Mélilot, à Gerde.</p>
 <p>Au cœur de sa transmission, le tambour : c'est lui qui ouvre le passage du <a href="/voyage-chamanique/">voyage chamanique</a>, lui qui accompagne l'exploration des mondes et la rencontre de <a href="/animal-totem/">l'animal totem</a>.</p>
 
 <blockquote>« Je vous invite à écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent. »</blockquote>
 
 <h2>L'esprit de l'école</h2>
-<p>Tambouloup — l'école du chaman — est née d'une conviction : le voyage chamanique s'apprend, comme un artisanat. Il demande un cadre, un guide et de la pratique ; il ne demande ni don particulier ni croyance. L'objectif de chaque stage est l'autonomie : que chacun reparte capable de voyager par lui-même, et de faire vivre cette pratique dans sa propre vie.</p>
+<p>Tamboulou — l'école du chaman — est née d'une conviction : le voyage chamanique s'apprend, comme un artisanat. Il demande un cadre, un guide et de la pratique ; il ne demande ni don particulier ni croyance. L'objectif de chaque stage est l'autonomie : que chacun reparte capable de voyager par lui-même, et de faire vivre cette pratique dans sa propre vie.</p>
 
-<h2>Échanger avant de s'inscrire</h2>
-<p>Le chemin commence toujours par un échange. Avant toute inscription au <a href="/formation-chamanisme/">stage d'initiation</a>, Alexandre prend le temps de répondre à vos questions par téléphone — le déroulé, la préparation, l'accès au lieu, ou simplement ce qui vous amène.</p>
-<p><a href="tel:{TEL}"><strong>{TEL_AFF}</strong></a></p>
+<h2>Échanger avant de se préinscrire</h2>
+<p>Le chemin commence toujours par un échange. Avant toute préinscription au <a href="/formation-chamanisme/">stage d'initiation</a>, Alexandre prend le temps de répondre à vos questions par téléphone — le déroulé, la préparation, l'accès au lieu, ou simplement ce qui vous amène.</p>
+<p><a href="tel:{TEL}"><strong>{TEL_AFF}</strong></a> · <a href="mailto:alexandregodgenger@gmail.com">alexandregodgenger@gmail.com</a></p>
 """
 
 person_ld = f"""{{
@@ -524,7 +528,8 @@ person_ld = f"""{{
   "name": "Alexandre Godgenger",
   "url": "{BASE}/alexandre/",
   "telephone": "{TEL}",
-  "jobTitle": "Praticien et enseignant en pratiques chamaniques",
+  "jobTitle": "Ostéopathe D.O., masseur-kinésithérapeute et enseignant en pratiques chamaniques",
+  "sameAs": ["https://alexandre-godgenger.fr/"],
   "worksFor": {{"@id": "{BASE}/#org"}},
   "workLocation": {{"@type": "Place", "name": "Au Mélilot", "address": {{"@type": "PostalAddress", "addressLocality": "Gerde", "postalCode": "65200", "addressCountry": "FR"}}}}
 }}"""
@@ -533,19 +538,19 @@ pages.append(content_page(
     "/alexandre/",
     "Alexandre Godgenger",
     "Alexandre Godgenger, <em>votre guide</em>",
-    "Fondateur de Tambouloup, l'école du chaman. Une transmission du voyage chamanique simple, exigeante et respectueuse du rythme de chacun.",
+    "Fondateur de Tamboulou, l'école du chaman. Une transmission du voyage chamanique simple, exigeante et respectueuse du rythme de chacun.",
     alexandre_body,
-    "Alexandre Godgenger, guide des stages Tambouloup",
-    "Alexandre Godgenger guide les stages d'initiation au chamanisme de Tambouloup, à Gerde dans les Hautes-Pyrénées : transmission du voyage au tambour, simple et exigeante.",
+    "Alexandre Godgenger, guide des stages Tamboulou",
+    "Alexandre Godgenger guide les stages d'initiation au chamanisme de Tamboulou, à Gerde dans les Hautes-Pyrénées : transmission du voyage au tambour, simple et exigeante.",
     extra_ld=[person_ld],
 ))
 
 # ---------------------------------------------------- Mentions légales
 mentions_body = f"""
 <h2>Éditeur du site</h2>
-<p>Le site Tambouloup est édité par Alexandre Godgenger.<br>
-Contact : <a href="tel:{TEL}">{TEL_AFF}</a><br>
-Lieu d'activité : Au Mélilot, chemin des Humas, 65200 Gerde, France.</p>
+<p>Le site Tamboulou est édité par Alexandre Godgenger.<br>
+Contact : <a href="tel:{TEL}">{TEL_AFF}</a> · <a href="mailto:alexandregodgenger@gmail.com">alexandregodgenger@gmail.com</a><br>
+Lieu des stages : Au Mélilot, chemin des Humas, 65200 Gerde, France.</p>
 
 <h2>Hébergement</h2>
 <p>Le site est hébergé par Hostinger International Ltd.<br>
@@ -565,10 +570,10 @@ pages.append(content_page(
     "/mentions-legales/",
     "Mentions légales",
     "Mentions <em>légales</em>",
-    "Informations légales du site Tambouloup.",
+    "Informations légales du site Tamboulou.",
     mentions_body,
-    "Mentions légales | Tambouloup",
-    "Mentions légales du site Tambouloup : éditeur, hébergement, propriété intellectuelle et données personnelles.",
+    "Mentions légales | Tamboulou",
+    "Mentions légales du site Tamboulou : éditeur, hébergement, propriété intellectuelle et données personnelles.",
     cta=False,
 ))
 
