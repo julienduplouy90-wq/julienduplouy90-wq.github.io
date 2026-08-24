@@ -551,30 +551,35 @@ rappel_main = f"""<section class="page-head">
 <h1>Laissez-nous <em>vos coordonnées</em></h1>
 <p class="lede">Vous préférez qu'Alexandre vous appelle ? Indiquez votre numéro et le moment qui vous arrange — il vous rappelle pour répondre à vos questions ou prendre votre préinscription.</p>
 </section>
-<article class="prose">
+<article class="prose rappel-prose">
 <p id="form-erreur" class="form-banner" hidden>Le formulaire n'a pas pu être envoyé : vérifiez votre nom et votre numéro de téléphone, puis réessayez.</p>
+<div class="form-shell">
+<p class="form-kicker"><span></span> DEMANDE DE RAPPEL</p>
 <form class="form-grid" method="post" action="/rappel/envoyer.php">
+<div class="form-row form-row-2">
 <div class="form-field">
-<label for="f-nom">Votre prénom et nom *</label>
-<input id="f-nom" name="nom" type="text" required autocomplete="name" maxlength="100">
+<label for="f-nom">Prénom et nom <span class="requis" aria-hidden="true">*</span></label>
+<input id="f-nom" name="nom" type="text" required autocomplete="name" maxlength="100" placeholder="Camille Dupont">
 </div>
 <div class="form-field">
-<label for="f-tel">Votre numéro de téléphone *</label>
+<label for="f-tel">Téléphone <span class="requis" aria-hidden="true">*</span></label>
 <input id="f-tel" name="telephone" type="tel" required autocomplete="tel" maxlength="30" placeholder="06 12 34 56 78">
 </div>
+</div>
 <div class="form-field">
-<label for="f-moment">Quand préférez-vous être rappelé ? <span class="optionnel">(facultatif)</span></label>
+<label for="f-moment">Quand préférez-vous être rappelé ? <span class="optionnel">facultatif</span></label>
 <input id="f-moment" name="moment" type="text" maxlength="120" placeholder="Par exemple : en semaine après 18h">
 </div>
 <div class="form-field">
-<label for="f-msg">Un mot sur ce qui vous amène ? <span class="optionnel">(facultatif)</span></label>
-<textarea id="f-msg" name="message" rows="4" maxlength="1000"></textarea>
+<label for="f-msg">Un mot sur ce qui vous amène ? <span class="optionnel">facultatif</span></label>
+<textarea id="f-msg" name="message" rows="4" maxlength="1000" placeholder="Vos questions, votre situation, ce qui vous attire dans le stage…"></textarea>
 </div>
 <p class="trap-field" aria-hidden="true"><label>Ne pas remplir ce champ<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label></p>
-<button class="button button-primary" type="submit">Demander à être rappelé <span aria-hidden="true">→</span></button>
-<p class="form-note">Vos coordonnées servent uniquement à vous rappeler — elles ne sont ni partagées, ni utilisées autrement. Voir les <a href="/mentions-legales/">mentions légales</a>.</p>
+<button class="button button-primary form-submit" type="submit">Demander à être rappelé <span aria-hidden="true">→</span></button>
+<p class="form-note">Vos coordonnées servent uniquement à vous rappeler — jamais partagées, jamais utilisées autrement. <a href="/mentions-legales/">Mentions légales</a></p>
 </form>
-<p class="form-alt">Vous pouvez aussi appeler directement : <a href="tel:{TEL}"><strong>{TEL_AFF}</strong></a></p>
+</div>
+<p class="form-alt">Vous préférez appeler directement ? <a class="form-alt-tel" href="tel:{TEL}">{TEL_AFF} <span aria-hidden="true">↗</span></a></p>
 </article>
 <script>if(new URLSearchParams(location.search).has('erreur')){{document.getElementById('form-erreur').hidden=false;}}</script>"""
 
