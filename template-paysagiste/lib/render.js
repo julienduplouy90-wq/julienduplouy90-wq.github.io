@@ -322,6 +322,26 @@ function whySection(c) {
   </section>`;
 }
 
+function aboutSection(c) {
+  const a = c.about;
+  if (!a) return "";
+  return `
+  <section class="section" id="artisan" aria-labelledby="artisan-title">
+    <div class="wrap about">
+      <div class="about__media reveal">
+        <img src="${esc(a.image)}" alt="${esc(a.imageAlt || c.name)}" loading="lazy" width="900" height="1100">
+      </div>
+      <div class="about__body reveal">
+        <span class="overline"><i>00</i>${esc(a.overline || "L'artisan")}</span>
+        <h2 id="artisan-title">${esc(a.title)}</h2>
+        ${(a.paragraphs || []).map((t) => `<p class="lead">${esc(t)}</p>`).join("")}
+        ${a.signature ? `<p class="about__sign">${esc(a.signature)}</p>` : ""}
+        <p><a class="btn btn--primary" href="#devis" data-track="cta_about">Décrire mon projet</a></p>
+      </div>
+    </div>
+  </section>`;
+}
+
 function processSection(c) {
   return `
   <section class="section section--tint" id="processus" aria-labelledby="processus-title">
@@ -562,6 +582,7 @@ function renderIndex(c) {
     hero(c),
     trustStrip(c),
     projectsSection(c),
+    aboutSection(c),
     servicesSection(c),
     whySection(c),
     processSection(c),
