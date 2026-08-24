@@ -1,0 +1,307 @@
+{
+  "slug": "samuel-elagage",
+  "demoMode": true,
+  "demoBannerText": "<strong>Maquette de présentation</strong> — proposition de site préparée pour Samuel Élagage. Ce site n'est pas encore en ligne.",
+  "name": "Samuel Élagage",
+  "legalName": "Entreprise Samuel Steinbach — Artisan",
+  "tagline": "Élagage, abattage & entretien extérieur",
+  "logoText": "Samuel Élagage",
+  "phone": "06 85 16 78 29",
+  "email": "artisansteinbach65@gmail.com",
+  "address": "",
+  "city": "Tarbes",
+  "postalCode": "65000",
+  "department": "Hautes-Pyrénées",
+  "domain": "https://TODO-DOMAINE-TEMPORAIRE.hostingersite.com",
+  "interventionAreas": [
+    "Tarbes",
+    "Ibos",
+    "Aureilhan",
+    "Séméac",
+    "Odos",
+    "Laloubère",
+    "Bordères-sur-l'Échez",
+    "Juillan",
+    "Soues",
+    "Lourdes",
+    "Vic-en-Bigorre",
+    "Bagnères-de-Bigorre"
+  ],
+  "googleBusinessUrl": "",
+  "googleReviewUrl": "",
+  "socialLinks": {
+    "facebook": "https://www.facebook.com/profile.php?id=100032133412332"
+  },
+  "primaryColor": "#20482f",
+  "secondaryColor": "#c9561c",
+  "heroImage": "assets/img/client/hero.jpg",
+  "hero": {
+    "title": "Vos arbres et votre extérieur, entre les mains d'un <em>artisan</em>.",
+    "subtitle": "Élagage, abattage, taille de haies, clôtures, maçonnerie et nettoyage de façades à Tarbes et dans les Hautes-Pyrénées. Travaux soignés, devis gratuit."
+  },
+  "trustItems": [
+    {
+      "strong": "Artisan à Tarbes",
+      "text": "un interlocuteur unique, du devis à la fin du chantier"
+    },
+    {
+      "strong": "Devis gratuit",
+      "text": "déplacement et étude de votre demande sans engagement"
+    },
+    {
+      "strong": "Travaux soignés",
+      "text": "chantier propre et déchets verts évacués"
+    },
+    {
+      "strong": "Hautes-Pyrénées",
+      "text": "Tarbes, Ibos, Aureilhan, Séméac, Lourdes et alentours"
+    }
+  ],
+  "yearsExperience": null,
+  "trust": {
+    "insurancePro": false,
+    "decennale": false,
+    "qualipaysage": false,
+    "unep": false,
+    "sap": false
+  },
+  "services": [
+    {
+      "id": "elagage",
+      "title": "Élagage & abattage",
+      "description": "Taille douce, élagage de mise en sécurité, abattage d'arbres difficiles ou dangereux, rognage de souche. Évacuation complète des branches.",
+      "icon": "tree"
+    },
+    {
+      "id": "haies",
+      "title": "Taille de haies",
+      "description": "Taille de haies de toutes hauteurs, remise en forme, rabattage. Coupes nettes et déchets emportés le jour même.",
+      "icon": "hedge"
+    },
+    {
+      "id": "entretien",
+      "title": "Entretien de parcs & jardins",
+      "description": "Tonte, débroussaillage, désherbage, nettoyage de terrain. Interventions ponctuelles ou contrats à l'année.",
+      "icon": "maintain"
+    },
+    {
+      "id": "cloture",
+      "title": "Pose de clôtures",
+      "description": "Clôtures, grillages, panneaux occultants et portails : délimitez et sécurisez votre terrain proprement.",
+      "icon": "fence"
+    },
+    {
+      "id": "maconnerie",
+      "title": "Maçonnerie extérieure",
+      "description": "Bordures, muret, dalles, allées et abords : les travaux de maçonnerie qui structurent votre extérieur.",
+      "icon": "masonry"
+    },
+    {
+      "id": "nettoyage",
+      "title": "Nettoyage façades & toitures",
+      "description": "Démoussage et nettoyage haute pression des façades, toitures et terrasses. Votre habitat retrouve son aspect d'origine.",
+      "icon": "clean"
+    },
+    {
+      "id": "amenagement",
+      "title": "Aménagement extérieur",
+      "description": "Massifs minéraux, plantations d'arbres, entrées et abords : la finition qui met votre maison en valeur.",
+      "icon": "garden"
+    },
+    {
+      "id": "debarras",
+      "title": "Débarras & évacuation",
+      "description": "Camion benne à disposition : déchets verts, encombrants et gravats évacués en fin de chantier.",
+      "icon": "truck"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Nettoyage de façade et démoussage de toiture",
+      "category": "nettoyage",
+      "city": "Tarbes",
+      "surface": "",
+      "beforeImage": "assets/img/client/nettoyage-avant.jpg",
+      "afterImage": "assets/img/client/nettoyage-apres.jpg",
+      "description": "Façade encrassée et toiture couverte de mousse : nettoyage complet de la maison, gouttières comprises. Faites glisser le curseur pour voir la différence."
+    },
+    {
+      "title": "Aménagement d'entrée avec olivier",
+      "category": "amenagement",
+      "city": "Hautes-Pyrénées",
+      "surface": "",
+      "afterImage": "assets/img/client/amenagement-olivier.jpg",
+      "description": "Massif minéral en gravier blanc, bordure béton et olivier centenaire mis en scène à l'entrée de la propriété."
+    },
+    {
+      "title": "Élagage, abattage et évacuation",
+      "category": "elagage",
+      "city": "Tarbes et alentours",
+      "surface": "",
+      "afterImage": "assets/img/client/camion-materiel.jpg",
+      "description": "Camion benne et matériel professionnel : les branches et déchets verts partent avec nous en fin de chantier."
+    }
+  ],
+  "projectCategories": [
+    {
+      "id": "all",
+      "label": "Tout"
+    },
+    {
+      "id": "elagage",
+      "label": "Élagage"
+    },
+    {
+      "id": "nettoyage",
+      "label": "Nettoyage"
+    },
+    {
+      "id": "amenagement",
+      "label": "Aménagement"
+    }
+  ],
+  "reviews": {
+    "mode": "empty",
+    "items": []
+  },
+  "form": {
+    "projectTypes": [
+      {
+        "id": "elagage",
+        "label": "Élagage ou abattage d'arbre",
+        "emoji": "🌳"
+      },
+      {
+        "id": "haies",
+        "label": "Taille de haies",
+        "emoji": "✂️"
+      },
+      {
+        "id": "entretien",
+        "label": "Entretien de terrain",
+        "emoji": "🌿"
+      },
+      {
+        "id": "cloture",
+        "label": "Pose de clôture",
+        "emoji": "🚧"
+      },
+      {
+        "id": "maconnerie",
+        "label": "Maçonnerie extérieure",
+        "emoji": "🧱"
+      },
+      {
+        "id": "nettoyage",
+        "label": "Nettoyage façade ou toiture",
+        "emoji": "💦"
+      },
+      {
+        "id": "amenagement",
+        "label": "Aménagement extérieur",
+        "emoji": "🪴"
+      },
+      {
+        "id": "autre",
+        "label": "Autre demande",
+        "emoji": "💬"
+      }
+    ],
+    "surfaceQuestion": "Quelle est l'ampleur du chantier ?",
+    "surfaceHint": "Une estimation suffit — cela nous donne une idée du temps et du matériel nécessaires.",
+    "surfaceRanges": [
+      "1 arbre",
+      "2 à 5 arbres",
+      "Plus de 5 arbres",
+      "Haie de moins de 20 m",
+      "Haie de plus de 20 m",
+      "Terrain / façade — je précise plus bas"
+    ],
+    "budgetRanges": [
+      "Moins de 500 €",
+      "500 – 1 500 €",
+      "1 500 – 3 000 €",
+      "3 000 – 8 000 €",
+      "Plus de 8 000 €",
+      "Je ne sais pas encore"
+    ],
+    "timeframes": [
+      "Dès que possible",
+      "Dans moins d'un mois",
+      "Dans 1 à 3 mois",
+      "Plus tard, je me renseigne",
+      "C'est urgent (arbre dangereux)"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Dans quelle zone intervenez-vous ?",
+      "a": "Nous intervenons à Tarbes et dans les Hautes-Pyrénées : Ibos, Aureilhan, Séméac, Odos, Laloubère, Juillan, Lourdes, Vic-en-Bigorre… Pour un chantier plus éloigné, demandez-nous, c'est souvent possible."
+    },
+    {
+      "q": "Les devis sont-ils gratuits ?",
+      "a": "Oui. Nous nous déplaçons pour voir le chantier, puis vous recevez un devis gratuit et sans engagement."
+    },
+    {
+      "q": "Que faites-vous des branches et des déchets verts ?",
+      "a": "Nous repartons avec. Le camion benne fait partie de l'équipement : le terrain est laissé propre en fin de chantier, c'est compris dans la prestation sauf mention contraire au devis."
+    },
+    {
+      "q": "Intervenez-vous en urgence, pour un arbre dangereux ?",
+      "a": "Une branche menaçante ou un arbre fragilisé après une tempête, ça ne peut pas attendre. Appelez directement au 06 85 16 78 29 plutôt que de passer par le formulaire."
+    },
+    {
+      "q": "Faites-vous aussi l'entretien régulier ?",
+      "a": "Oui, en plus des interventions ponctuelles : tonte, taille et entretien de parcs, à la demande ou dans le cadre d'un suivi à l'année."
+    },
+    {
+      "q": "Combien coûte un élagage ou un nettoyage de façade ?",
+      "a": "Cela dépend de la hauteur, de l'accès, du nombre d'arbres ou de la surface à traiter. C'est pour cela que le formulaire pose quelques questions : cela permet de vous répondre avec un ordre de grandeur sérieux plutôt qu'un prix au hasard."
+    },
+    {
+      "q": "Puis-je envoyer des photos de mon terrain ?",
+      "a": "Oui, et c'est très utile : une ou deux photos de l'arbre, de la haie ou de la façade permettent souvent d'estimer le travail avant même de se déplacer."
+    },
+    {
+      "q": "Travaillez-vous pour les professionnels et les collectivités ?",
+      "a": "Oui : entretien de parcs, espaces verts de copropriétés et abords de bâtiments professionnels font partie de nos interventions."
+    }
+  ],
+  "legal": {
+    "status": "TODO_STATUT_JURIDIQUE",
+    "siret": "TODO_SIRET",
+    "director": "Samuel Steinbach",
+    "hostName": "TODO_HEBERGEUR",
+    "hostAddress": "TODO_ADRESSE_HEBERGEUR"
+  },
+  "integrations": {
+    "leadEndpoint": "api/lead.php",
+    "analyticsProvider": null
+  },
+  "seo": {
+    "title": "Élagage & abattage à Tarbes | Samuel Élagage",
+    "description": "Samuel Élagage, artisan à Tarbes (65) : élagage, abattage, taille de haies, clôtures, maçonnerie et nettoyage de façades. Devis gratuit, déchets verts évacués."
+  },
+  "why": [
+    {
+      "t": "Un artisan, pas un intermédiaire",
+      "p": "C'est la même personne qui vient voir le chantier, établit le devis et réalise le travail."
+    },
+    {
+      "t": "Le matériel qu'il faut",
+      "p": "Camion benne, matériel d'élagage et de nettoyage haute pression : les chantiers difficiles ne sont pas sous-traités."
+    },
+    {
+      "t": "Un terrain laissé propre",
+      "p": "Branches, déchets verts et gravats repartent avec nous. Vous retrouvez votre extérieur net, pas un chantier à finir."
+    },
+    {
+      "t": "Un devis clair, gratuit",
+      "p": "Déplacement pour voir le travail, prix annoncé avant de commencer. Pas de surprise en fin de chantier."
+    }
+  ],
+  "sections": {
+    "projectsTitle": "Le travail parle mieux que les mots.",
+    "projectsIntro": "Quelques chantiers récents. Sur la première photo, faites glisser le curseur pour voir l'avant et l'après."
+  }
+}

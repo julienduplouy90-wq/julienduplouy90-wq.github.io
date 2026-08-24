@@ -28,6 +28,11 @@ const ICONS = {
   phone: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>',
   shield: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>',
   map: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>',
+  tree: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6"/><path d="M9 16h6"/><path d="M12 2 7 9h3l-4 5h12l-4-5h3Z"/></svg>',
+  hedge: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="11" rx="2"/><path d="M7 9V6M12 9V4M17 9V6"/><path d="M3 14h18"/></svg>',
+  masonry: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 10h18M3 15h18M8 5v5M16 5v5M11 10v5M8 15v4M16 15v4"/></svg>',
+  clean: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6v5H7z"/><path d="M10 8v4"/><path d="M6 12h8l1 9H5Z"/><path d="M16 4h4M18 2v4"/></svg>',
+  truck: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V6h11v10"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>',
   medal: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>',
 };
 function icon(name) { return ICONS[name] || ICONS.garden; }
@@ -90,7 +95,9 @@ function localBusinessSchema(c, skip) {
 
 function demoBanner(c) {
   if (!c.demoMode) return "";
-  return `<div class="demo-banner"><strong>Site de démonstration</strong> — entreprise et contenus fictifs, présentés pour illustrer le rendu final.</div>`;
+  const txt = c.demoBannerText
+    || "<strong>Site de démonstration</strong> — entreprise et contenus fictifs, présentés pour illustrer le rendu final.";
+  return `<div class="demo-banner">${txt}</div>`;
 }
 
 function initials(name) {
@@ -183,13 +190,13 @@ function hero(c) {
   return `
   <section class="hero">
     <div class="hero__media" aria-hidden="true">
-      <img src="assets/img/placeholders/hero.svg" alt="" width="1600" height="900" fetchpriority="high">
+      <img src="${esc(c.heroImage || "assets/img/placeholders/hero.svg")}" alt="" width="1600" height="900" fetchpriority="high">
     </div>
     <div class="wrap">
       <div class="hero__inner">
         <span class="overline overline--chip">${esc(c.tagline)}</span>
-        <h1>Transformons votre extérieur en un lieu qui vous <em>ressemble</em>.</h1>
-        <p class="lead">Création de jardins, terrasses et aménagements extérieurs à ${esc(c.city)} et dans les environs. Un travail soigné, des matériaux durables, un interlocuteur unique.</p>
+        <h1>${(c.hero && c.hero.title) || "Transformons votre extérieur en un lieu qui vous <em>ressemble</em>."}</h1>
+        <p class="lead">${(c.hero && c.hero.subtitle) || `Création de jardins, terrasses et aménagements extérieurs à ${esc(c.city)} et dans les environs. Un travail soigné, des matériaux durables, un interlocuteur unique.`}</p>
         <div class="hero__ctas">
           <a class="btn btn--primary" href="#devis" data-track="cta_hero">Décrire mon projet</a>
           <a class="btn btn--light" href="#realisations" data-track="cta_hero_projects">Voir nos réalisations</a>
@@ -203,6 +210,17 @@ function hero(c) {
 }
 
 function trustStrip(c) {
+  // Une config peut fournir ses propres items : on n'affiche jamais
+  // une certification que l'entreprise ne possède pas.
+  if (Array.isArray(c.trustItems) && c.trustItems.length) {
+    return `
+  <div class="trust-strip">
+    <div class="wrap trust-strip__inner">
+      ${c.trustItems.slice(0, 4).map((i) => `
+      <div class="trust-item"><strong>${esc(i.strong)}</strong><span>${esc(i.text)}</span></div>`).join("")}
+    </div>
+  </div>`;
+  }
   const items = [];
   if (c.yearsExperience) items.push({ strong: c.yearsExperience + " ans", text: "d'expérience dans l'aménagement extérieur" });
   if (c.trust && c.trust.insurancePro) items.push({ strong: "Assuré", text: c.trust.decennale ? "responsabilité civile pro et garantie décennale" : "responsabilité civile professionnelle" });
@@ -226,8 +244,8 @@ function projectsSection(c) {
     <div class="wrap">
       <div class="section-head reveal">
         <span class="overline"><i>01</i>Réalisations</span>
-        <h2 id="realisations-title">Nos aménagements parlent pour nous.</h2>
-        <p class="lead">Faites glisser le curseur sur chaque photo pour comparer l'avant et l'après.${c.demoMode ? " (Images d'illustration — les photos des vrais chantiers prendront leur place.)" : ""}</p>
+        <h2 id="realisations-title">${esc((c.sections && c.sections.projectsTitle) || "Nos aménagements parlent pour nous.")}</h2>
+        <p class="lead">${esc((c.sections && c.sections.projectsIntro) || "Faites glisser le curseur sur chaque photo pour comparer l'avant et l'après.")}${c.demoMode ? " (Images d'illustration — les photos des vrais chantiers prendront leur place.)" : ""}</p>
       </div>
       <div class="filters reveal" role="group" aria-label="Filtrer les réalisations">
         ${cats.map((cat, i) => `<button type="button" class="filter" data-filter="${esc(cat.id)}" aria-pressed="${i === 0 ? "true" : "false"}">${esc(cat.label)}</button>`).join("")}
@@ -236,6 +254,7 @@ function projectsSection(c) {
         ${(c.projects || []).map((p) => `
         <article class="project reveal" data-category="${esc(p.category)}" data-title="${esc(p.title)}">
           <div class="project__media">
+            ${!p.beforeImage ? `<img src="${esc(p.afterImage)}" alt="${esc(p.title)} — ${esc(p.city)}" loading="lazy" width="800" height="600">` : `
             <div class="ba">
               <div class="ba__after"><img src="${esc(p.afterImage)}" alt="Après travaux — ${esc(p.title)}" loading="lazy" width="800" height="600"></div>
               <div class="ba__before"><img src="${esc(p.beforeImage)}" alt="Avant travaux — ${esc(p.title)}" loading="lazy" width="800" height="600"></div>
@@ -243,7 +262,7 @@ function projectsSection(c) {
               <span class="ba__tag ba__tag--before">Avant</span>
               <span class="ba__tag ba__tag--after">Après</span>
               <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après pour ${esc(p.title)}">
-            </div>
+            </div>`}
           </div>
           <div class="project__body">
             <p class="project__meta"><span class="cat">${esc(catLabel(c, p.category))}</span><span>${esc(p.city)}</span>${p.surface ? `<span>${esc(p.surface)}</span>` : ""}</p>
@@ -291,10 +310,13 @@ function whySection(c) {
         <h2 id="pourquoi-title">Un chantier bien mené, du premier échange à la dernière finition.</h2>
       </div>
       <div class="why">
-        <div class="why-item reveal">${ICONS.check}<div><strong>Une écoute réelle de votre projet</strong><p>Nous partons de vos usages — recevoir, jouer, jardiner, vous détendre — avant de parler matériaux.</p></div></div>
-        <div class="why-item reveal">${ICONS.check}<div><strong>Des devis clairs et détaillés</strong><p>Chaque poste est expliqué. Vous savez ce que vous payez, et pourquoi.</p></div></div>
-        <div class="why-item reveal">${ICONS.check}<div><strong>Des matériaux et végétaux adaptés</strong><p>Choisis pour votre sol, votre exposition et votre budget — pas pour la photo du catalogue.</p></div></div>
-        <div class="why-item reveal">${ICONS.check}<div><strong>Un chantier propre et tenu</strong><p>Dates annoncées, terrain respecté, nettoyage en fin de chantier. Vos voisins ne nous détesteront pas.</p></div></div>
+        ${(c.why || [
+    { t: "Une écoute réelle de votre projet", p: "Nous partons de vos usages — recevoir, jouer, jardiner, vous détendre — avant de parler matériaux." },
+    { t: "Des devis clairs et détaillés", p: "Chaque poste est expliqué. Vous savez ce que vous payez, et pourquoi." },
+    { t: "Des matériaux et végétaux adaptés", p: "Choisis pour votre sol, votre exposition et votre budget — pas pour la photo du catalogue." },
+    { t: "Un chantier propre et tenu", p: "Dates annoncées, terrain respecté, nettoyage en fin de chantier. Vos voisins ne nous détesteront pas." },
+  ]).map((w) => `
+        <div class="why-item reveal">${ICONS.check}<div><strong>${esc(w.t)}</strong><p>${esc(w.p)}</p></div></div>`).join("")}
       </div>
     </div>
   </section>`;
@@ -361,8 +383,8 @@ function quoteSection(c) {
           </div>
 
           <div class="qstep" data-step="surface">
-            <p class="qstep__q">Quelle surface, approximativement&nbsp;?</p>
-            <p class="qstep__why">Une estimation suffit — cela nous donne l'échelle du chantier.</p>
+            <p class="qstep__q">${esc((f.surfaceQuestion) || "Quelle surface, approximativement ?")}</p>
+            <p class="qstep__why">${esc((f.surfaceHint) || "Une estimation suffit — cela nous donne l'échelle du chantier.")}</p>
             <div class="choice-grid choice-grid--2" data-answer="surface">
               ${(f.surfaceRanges || []).map((v) => choiceBtn(v)).join("")}
             </div>
@@ -530,8 +552,9 @@ function finalCta(c) {
 /* ---------- Pages ---------- */
 
 function renderIndex(c) {
-  const title = `Paysagiste à ${c.city} | ${c.name}`;
-  const description = `${c.name} — ${(c.tagline || "").toLowerCase()} à ${c.city} : jardins, terrasses, clôtures, allées, plantations. Devis gratuit et détaillé.`;
+  const title = (c.seo && c.seo.title) || `Paysagiste à ${c.city} | ${c.name}`;
+  const description = (c.seo && c.seo.description)
+    || `${c.name} — ${(c.tagline || "").toLowerCase()} à ${c.city} : jardins, terrasses, clôtures, allées, plantations. Devis gratuit et détaillé.`;
   return [
     headBlock(c, { title, description, noindex: !!c.demoMode }),
     header(c),
