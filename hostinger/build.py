@@ -142,7 +142,10 @@ def page(path, title, description, main, extra_ld=None, og_type="website"):
 <meta property="og:description" content="{description}">
 <meta property="og:image" content="{BASE}/tambouloup-loup.jpeg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/fonts/fonts.css?v={FONTS_V}">
 <link rel="stylesheet" href="/styles.css?v={CSS_V}">
 {ld_html}
