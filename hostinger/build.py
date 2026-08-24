@@ -168,6 +168,7 @@ def content_page(path, crumb_name, h1, lede, body, title, description, extra_ld=
 <a class="button button-primary" href="/formation-chamanisme/">Découvrir la formation <span aria-hidden="true">→</span></a>
 <a class="button button-quiet" href="tel:{TEL}">{TEL_AFF} <span aria-hidden="true">↗</span></a>
 </div>
+<p class="cta-rappel"><a href="/rappel/">Ou demandez à être rappelé</a></p>
 </div>""" if cta else ""
     main = f"""<section class="page-head">
 {breadcrumb_html(crumbs)}
@@ -296,6 +297,7 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 <h2 id="contact-title">Le voyage commence<br>par <em>un échange.</em></h2>
 <p>Je vous réponds directement pour vous renseigner sur le stage et les prochaines dates, où que vous soyez en France.</p>
 <a class="phone-link" href="tel:{TEL}"><span>{TEL_AFF}</span><span class="phone-arrow" aria-hidden="true">↗</span></a>
+<p class="contact-rappel">Vous préférez qu'on vous rappelle ? <a href="/rappel/">Laissez vos coordonnées</a></p>
 <p class="contact-name"><a href="/alexandre/">Alexandre Godgenger</a></p>
 </section>"""
 
@@ -336,7 +338,7 @@ formation_body = f"""
 <li><strong>Lieu</strong> : Au Mélilot, chemin des Humas, 65200 Gerde — au pied des Pyrénées, à côté de Bagnères-de-Bigorre (Hautes-Pyrénées, Occitanie).</li>
 <li><strong>Tarif</strong> : 150 € pour le stage complet de deux jours.</li>
 <li><strong>Groupe</strong> : en petit groupe, pour préserver la qualité de l'accompagnement.</li>
-<li><strong>Préinscription</strong> : par téléphone, au <a href="tel:{TEL}">{TEL_AFF}</a> — un échange direct permet de répondre à vos questions et de réserver votre place. Aucun paiement en ligne.</li>
+<li><strong>Préinscription</strong> : par téléphone, au <a href="tel:{TEL}">{TEL_AFF}</a> — un échange direct permet de répondre à vos questions et de réserver votre place. Aucun paiement en ligne. Vous pouvez aussi <a href="/rappel/">demander à être rappelé</a>.</li>
 </ul>
 
 <h2>Venir de toute la France</h2>
@@ -545,6 +547,68 @@ pages.append(content_page(
     extra_ld=[person_ld],
 ))
 
+# ---------------------------------------------------- Rappel (formulaire)
+rappel_main = f"""<section class="page-head">
+{breadcrumb_html([("Accueil", "/"), ("Être rappelé", None)])}
+<h1>Laissez-nous <em>vos coordonnées</em></h1>
+<p class="lede">Vous préférez qu'Alexandre vous appelle ? Indiquez votre numéro et le moment qui vous arrange — il vous rappelle pour répondre à vos questions ou prendre votre préinscription.</p>
+</section>
+<article class="prose">
+<p id="form-erreur" class="form-banner" hidden>Le formulaire n'a pas pu être envoyé : vérifiez votre nom et votre numéro de téléphone, puis réessayez.</p>
+<form class="form-grid" method="post" action="/rappel/envoyer.php">
+<div class="form-field">
+<label for="f-nom">Votre prénom et nom *</label>
+<input id="f-nom" name="nom" type="text" required autocomplete="name" maxlength="100">
+</div>
+<div class="form-field">
+<label for="f-tel">Votre numéro de téléphone *</label>
+<input id="f-tel" name="telephone" type="tel" required autocomplete="tel" maxlength="30" placeholder="06 12 34 56 78">
+</div>
+<div class="form-field">
+<label for="f-moment">Quand préférez-vous être rappelé ? <span class="optionnel">(facultatif)</span></label>
+<input id="f-moment" name="moment" type="text" maxlength="120" placeholder="Par exemple : en semaine après 18h">
+</div>
+<div class="form-field">
+<label for="f-msg">Un mot sur ce qui vous amène ? <span class="optionnel">(facultatif)</span></label>
+<textarea id="f-msg" name="message" rows="4" maxlength="1000"></textarea>
+</div>
+<p class="trap-field" aria-hidden="true"><label>Ne pas remplir ce champ<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label></p>
+<button class="button button-primary" type="submit">Demander à être rappelé <span aria-hidden="true">→</span></button>
+<p class="form-note">Vos coordonnées servent uniquement à vous rappeler — elles ne sont ni partagées, ni utilisées autrement. Voir les <a href="/mentions-legales/">mentions légales</a>.</p>
+</form>
+<p class="form-alt">Vous pouvez aussi appeler directement : <a href="tel:{TEL}"><strong>{TEL_AFF}</strong></a></p>
+</article>
+<script>if(new URLSearchParams(location.search).has('erreur')){{document.getElementById('form-erreur').hidden=false;}}</script>"""
+
+pages.append(page(
+    "/rappel/",
+    "Être rappelé par Alexandre | Tamboulou",
+    "Laissez votre numéro et le moment qui vous arrange : Alexandre vous rappelle pour répondre à vos questions sur le stage d'initiation au chamanisme ou prendre votre préinscription.",
+    rappel_main,
+    extra_ld=[breadcrumb_ld([("Accueil", "/"), ("Être rappelé", None)])],
+))
+
+merci_main = f"""<section class="page-head">
+{breadcrumb_html([("Accueil", "/"), ("Merci", None)])}
+<h1>C'est noté, <em>merci !</em></h1>
+<p class="lede">Votre demande est bien envoyée : Alexandre vous rappellera au moment indiqué. D'ici là, vous pouvez continuer la découverte.</p>
+</section>
+<article class="prose">
+<ul>
+<li><a href="/formation-chamanisme/">Le programme complet du stage d'initiation</a></li>
+<li><a href="/voyage-chamanique/">Comprendre le voyage chamanique</a></li>
+<li><a href="/faq/">Les questions fréquentes</a></li>
+</ul>
+<p>Besoin d'une réponse tout de suite ? <a href="tel:{TEL}"><strong>{TEL_AFF}</strong></a></p>
+</article>"""
+
+page(
+    "/rappel/merci/",
+    "Demande envoyée | Tamboulou",
+    "Votre demande de rappel est bien envoyée.",
+    merci_main,
+)
+
 # ---------------------------------------------------- Mentions légales
 mentions_body = f"""
 <h2>Éditeur du site</h2>
@@ -560,7 +624,7 @@ Lieu des stages : Au Mélilot, chemin des Humas, 65200 Gerde, France.</p>
 <p>L'ensemble des contenus de ce site (textes, illustrations, identité visuelle) est la propriété de son éditeur, sauf mention contraire. Toute reproduction sans autorisation préalable est interdite.</p>
 
 <h2>Données personnelles</h2>
-<p>Ce site ne collecte aucune donnée personnelle : il n'utilise ni cookies, ni traceurs, ni formulaires. Les échanges se font uniquement par téléphone, à votre initiative.</p>
+<p>Ce site n'utilise ni cookies ni traceurs. Le seul traitement de données est le <a href="/rappel/">formulaire de demande de rappel</a> : les coordonnées transmises (nom, téléphone, éventuel message) servent uniquement à vous rappeler, ne sont communiquées à aucun tiers et sont supprimées une fois la demande traitée. Conformément au RGPD, vous pouvez demander à tout moment l'accès, la rectification ou la suppression de vos données en écrivant à <a href="mailto:alexandregodgenger@gmail.com">alexandregodgenger@gmail.com</a>.</p>
 
 <h2>Responsabilité</h2>
 <p>Les contenus de ce site sont proposés à titre d'information sur une pratique d'exploration personnelle. Ils ne constituent en aucun cas un avis médical, et les stages proposés ne se substituent ni à un traitement ni à un suivi thérapeutique.</p>
@@ -580,7 +644,7 @@ pages.append(content_page(
 # ---------------------------------------------------- sitemap & robots
 priorities = {"/": "1.0", "/formation-chamanisme/": "0.9", "/voyage-chamanique/": "0.8",
               "/animal-totem/": "0.8", "/faq/": "0.7", "/alexandre/": "0.6",
-              "/mentions-legales/": "0.2"}
+              "/rappel/": "0.5", "/mentions-legales/": "0.2"}
 urls = "\n".join(
     f"<url><loc>{BASE}{p}</loc><lastmod>{LASTMOD}</lastmod><priority>{priorities[p]}</priority></url>"
     for p in pages)
