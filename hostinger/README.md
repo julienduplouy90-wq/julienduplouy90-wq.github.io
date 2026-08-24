@@ -1,38 +1,44 @@
-# Tambouloup — version statique pour Hostinger
+# Tambouloup — site multi-pages pour Hostinger
 
-Recréation fidèle du site https://julienduplouy90-wq.github.io/ en un site 100 % statique et autonome, prêt à être hébergé sur Hostinger (ou n'importe quel hébergeur).
+Site statique de Tambouloup (l'école du chaman), généré par `build.py`, déployé
+automatiquement sur Hostinger via la branche Git connectée dans hPanel.
 
-## Contenu
+## Structure
 
-| Fichier | Rôle |
+| URL | Rôle / mot-clé visé |
 |---|---|
-| `index.html` | La page complète (HTML + CSS + JS inclus, aucune dépendance de build) |
-| `tambouloup-loup.jpeg` | Illustration du loup (héro) |
-| `favicon.svg` | Favicon aux couleurs du site (tambour ambre sur fond nuit) |
-| `404.html` | Page d'erreur personnalisée |
-| `.htaccess` | Config Apache/LiteSpeed : page 404, compression, cache, en-têtes de sécurité |
-| `robots.txt` | Autorise l'indexation |
+| `/` | Landing d'inscription (conversion) |
+| `/formation-chamanisme/` | « formation chamanisme », « stage chamanisme » — page commerciale |
+| `/voyage-chamanique/` | « voyage chamanique » — contenu de fond |
+| `/animal-totem/` | « animal totem » — contenu de fond |
+| `/faq/` | Longue traîne (questions) + données FAQPage |
+| `/alexandre/` | E-E-A-T (qui transmet) |
+| `/mentions-legales/` | Obligation légale, confiance |
 
-## Déployer sur Hostinger (domaine temporaire)
+`styles.css` est partagé par toutes les pages. `404.html`, `robots.txt`,
+`sitemap.xml` et `.htaccess` complètent l'ensemble.
 
-1. Connectez-vous à **hPanel** → **Sites Web** → **Ajouter un site web** → *Site vide / Importer un site*.
-   Hostinger attribue automatiquement un domaine temporaire du type `xxxxx.hstn.me` (offre Horizons/Website Builder) ou vous propose d'en créer un.
-2. Ouvrez le **Gestionnaire de fichiers** du site, allez dans `public_html/`.
-3. Téléversez `tambouloup-hostinger.zip` (à la racine de ce dossier) puis **Extraire** son contenu directement dans `public_html/`.
-4. Supprimez le zip et le `default.php`/`index.php` d'exemple s'il existe.
-5. Le site est en ligne sur le domaine temporaire. Rien d'autre à configurer.
+## Modifier le site
 
-Alternative : **hPanel → Sites Web → votre site → Importer un site web** accepte directement le zip et l'extrait tout seul.
+Les pages sont générées par **`build.py`** (contenus, méta, maillage interne,
+données structurées, sitemap). Pour modifier : éditer `build.py` puis
+`python3 build.py`. Ne pas éditer les `index.html` à la main (écrasés au
+prochain build).
 
-## Améliorations par rapport à l'original
+## Changer de domaine (tambouloup.fr)
 
-- **Plus léger et plus rapide** : suppression du runtime Next.js/React (~200 Ko de JS et le payload RSC) — le site est une seule page HTML autonome ; seul un petit script inline (menu + animations) subsiste.
-- **Menu mobile** : l'original masquait totalement la navigation sur mobile ; un menu burger accessible (aria-expanded, fermeture au clic) la restitue.
-- **Favicon de marque** : l'ancien favicon était l'icône par défaut du gabarit ; remplacé par un tambour ambre sur fond nuit.
-- **Animations douces** : apparition des sections au défilement, pulsation du tambour, dérive des halos — toutes désactivées si `prefers-reduced-motion`, et le contenu reste visible sans JavaScript.
-- **SEO** : données structurées JSON-LD (schema.org/Course avec lieu, prix, contact), `og:locale`, `theme-color`, robots.txt.
-- **Accessibilité** : styles `:focus-visible` visibles, lien d'évitement conservé, libellés ARIA.
-- **Hébergement** : page 404 personnalisée, `.htaccess` (compression, cache des images, en-têtes de sécurité).
-- **Stabilité de mise en page** : dimensions déclarées sur l'image du héros (`width`/`height`, `fetchpriority="high"`).
+Quand le vrai domaine est connecté dans hPanel : changer la constante `BASE`
+en tête de `build.py`, relancer le build, pousser. Canoniques, Open Graph,
+données structurées, robots.txt et sitemap suivent automatiquement.
 
-Le contenu (textes, structure, couleurs, typographies DM Sans/Fraunces) est identique à l'original.
+## SEO — fait / à faire
+
+Fait côté site : titres et descriptions uniques, canoniques, maillage interne,
+breadcrumbs (visuels + JSON-LD), Organization/Course/FAQPage/Person,
+sitemap.xml, robots.txt, page 404, mobile, performances (CSS partagée,
+polices préconnectées, dimensions d'images).
+
+À faire côté compte : acheter/connecter le domaine, vérifier la propriété
+dans Google Search Console et soumettre `sitemap.xml`, créer la fiche
+Google Business Profile, collecter des avis, obtenir des liens externes
+(annuaires bien-être, site du lieu, presse locale).
