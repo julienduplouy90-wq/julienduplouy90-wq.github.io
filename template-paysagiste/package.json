@@ -1,0 +1,12 @@
+{
+  "name": "template-paysagiste",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Template de site dupliquable pour entreprises de paysage",
+  "scripts": {
+    "build": "node build.js",
+    "build:all": "node build.js --all",
+    "create-client": "node create-client.js",
+    "serve": "node -e \"require('child_process').execSync('python3 -m http.server 8180 -d dist', {stdio:'inherit'})\""
+  }
+}
