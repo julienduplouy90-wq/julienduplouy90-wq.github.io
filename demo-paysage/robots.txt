@@ -1,0 +1,3 @@
+# Site de démonstration : non indexé.
+User-agent: *
+Disallow: /

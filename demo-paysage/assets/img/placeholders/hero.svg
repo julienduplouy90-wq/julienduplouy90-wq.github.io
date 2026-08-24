@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Photo d'ambiance jardin (image de demonstration a remplacer)">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#3d4f41"/><stop offset="0.55" stop-color="#2e4034"/><stop offset="1" stop-color="#23342a"/>
+</linearGradient>
+<linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#39584500"/><stop offset="1" stop-color="#395845"/></linearGradient>
+<radialGradient id="glow" cx="0.72" cy="0.3" r="0.5">
+  <stop offset="0" stop-color="#e8d5a3" stop-opacity="0.5"/><stop offset="1" stop-color="#e8d5a3" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#sky)"/>
+<rect width="1600" height="900" fill="url(#glow)"/>
+<circle cx="1150" cy="265" r="46" fill="#efe2bc" opacity="0.75"/>
+<path d="M0 480 Q300 430 640 470 T1600 445 V900 H0 Z" fill="#2f4d3b" opacity="0.9"/>
+<path d="M0 560 Q400 505 820 550 T1600 530 V900 H0 Z" fill="#26402f"/>
+<path d="M0 660 Q450 615 900 650 T1600 640 V900 H0 Z" fill="#1c3124"/>
+<path d="M0 780 Q500 740 1000 770 T1600 760 V900 H0 Z" fill="#152619"/>
+<ellipse cx="360" cy="565" rx="180" ry="60" fill="#31543f" opacity="0.7"/>
+<ellipse cx="1240" cy="520" rx="150" ry="52" fill="#31543f" opacity="0.6"/>
+<ellipse cx="760" cy="640" rx="220" ry="60" fill="#213a2a" opacity="0.8"/>
+<rect x="620" y="705" width="360" height="12" rx="6" fill="#b9a37c" opacity="0.5"/>
+<rect x="650" y="726" width="300" height="10" rx="5" fill="#a08a66" opacity="0.45"/>
+<text x="24" y="878" font-family="Arial, sans-serif" font-size="17" fill="#ffffff" opacity="0.28">Image de démonstration — remplacer par une photo du client</text>
+</svg>
