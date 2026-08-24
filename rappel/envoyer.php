@@ -33,20 +33,20 @@ $quand = date('d/m/Y H:i');
 $ligne = implode(';', [$quand, $nom, $tel, $moment, $message]) . "\n";
 @file_put_contents(__DIR__ . '/demandes.csv', $ligne, FILE_APPEND | LOCK_EX);
 
-$corps = "Nouvelle demande de rappel depuis le site Tamboulou\n\n"
+$corps = "Nouvelle demande de rappel depuis le site Tambouloup\n\n"
        . "Nom : $nom\n"
        . "Téléphone : $tel\n"
        . ($moment !== '' ? "Moment souhaité : $moment\n" : '')
        . ($message !== '' ? "Message : $message\n" : '')
        . "\nReçue le $quand.";
 
-$hote = preg_replace('/[^a-z0-9.\-]/i', '', (string)($_SERVER['HTTP_HOST'] ?? 'tamboulou.site'));
-$entetes = "From: Tamboulou <rappel@$hote>\r\n"
+$hote = preg_replace('/[^a-z0-9.\-]/i', '', (string)($_SERVER['HTTP_HOST'] ?? 'tambouloup.site'));
+$entetes = "From: Tambouloup <rappel@$hote>\r\n"
          . "Content-Type: text/plain; charset=UTF-8\r\n";
 
 @mail(
     'alexandregodgenger@gmail.com',
-    '=?UTF-8?B?' . base64_encode("Tamboulou — demande de rappel de $nom") . '?=',
+    '=?UTF-8?B?' . base64_encode("Tambouloup — demande de rappel de $nom") . '?=',
     $corps,
     $entetes
 );
