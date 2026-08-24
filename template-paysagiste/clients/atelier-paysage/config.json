@@ -1,0 +1,163 @@
+{
+  "slug": "atelier-paysage",
+  "demoMode": true,
+
+  "name": "Atelier Paysage",
+  "legalName": "Atelier Paysage — entreprise fictive de démonstration",
+  "tagline": "Création de jardins & aménagements extérieurs",
+  "logoText": "Atelier Paysage",
+
+  "phone": "05 59 00 00 00",
+  "email": "contact@atelier-paysage.exemple",
+  "address": "12 rue des Demonstrations",
+  "city": "Pau",
+  "postalCode": "64000",
+  "department": "Pyrénées-Atlantiques",
+
+  "domain": "https://demo-atelier-paysage.exemple",
+
+  "interventionAreas": ["Pau", "Lescar", "Billère", "Jurançon", "Lons", "Idron", "Bizanos", "Gan", "Morlaàs", "Serres-Castet"],
+
+  "googleBusinessUrl": "",
+  "googleReviewUrl": "",
+  "socialLinks": {},
+
+  "primaryColor": "#1e4230",
+  "secondaryColor": "#b06f3a",
+
+  "yearsExperience": 12,
+  "trust": {
+    "insurancePro": true,
+    "decennale": true,
+    "qualipaysage": false,
+    "unep": false,
+    "sap": false
+  },
+
+  "services": [
+    { "id": "jardin", "title": "Création complète de jardin", "description": "Conception et réalisation de votre jardin, de l'esquisse aux plantations : terrassement, structure, végétaux, finitions.", "icon": "garden" },
+    { "id": "terrasse", "title": "Terrasses", "description": "Terrasses en bois, composite ou pierre naturelle, pensées comme une vraie pièce à vivre extérieure.", "icon": "terrace" },
+    { "id": "allee", "title": "Allées et accès", "description": "Allées carrossables ou piétonnes : pavés, gravier stabilisé, béton désactivé, bordures propres et durables.", "icon": "path" },
+    { "id": "cloture", "title": "Clôtures", "description": "Clôtures, portails et occultations : intimité, sécurité et esthétique alignées sur votre maison.", "icon": "fence" },
+    { "id": "plantation", "title": "Plantations", "description": "Haies, massifs, arbres et vivaces choisis pour votre sol et votre climat, plantés dans les règles de l'art.", "icon": "plant" },
+    { "id": "engazonnement", "title": "Engazonnement", "description": "Gazon semé ou en rouleau, préparation soignée du sol pour une pelouse dense et durable.", "icon": "lawn" },
+    { "id": "arrosage", "title": "Arrosage automatique", "description": "Systèmes d'arrosage intégrés et programmés : un jardin en pleine santé, sans corvée.", "icon": "water" },
+    { "id": "entretien", "title": "Entretien de jardins", "description": "Tonte, taille, débroussaillage et soins réguliers pour garder votre extérieur impeccable toute l'année.", "icon": "maintain" }
+  ],
+
+  "projects": [
+    {
+      "title": "Jardin contemporain avec terrasse",
+      "category": "jardin",
+      "city": "Pau",
+      "surface": "220 m²",
+      "beforeImage": "assets/img/placeholders/avant-1.svg",
+      "afterImage": "assets/img/placeholders/apres-1.svg",
+      "description": "Refonte complète : terrasse en pierre, massifs structurés, éclairage discret et pelouse en rouleau."
+    },
+    {
+      "title": "Terrasse bois exotique",
+      "category": "terrasse",
+      "city": "Jurançon",
+      "surface": "45 m²",
+      "beforeImage": "assets/img/placeholders/avant-2.svg",
+      "afterImage": "assets/img/placeholders/apres-2.svg",
+      "description": "Terrasse sur plots avec garde-corps inox, prolongée par un escalier paysager."
+    },
+    {
+      "title": "Allée carrossable en pavés",
+      "category": "allee",
+      "city": "Lescar",
+      "surface": "80 m²",
+      "beforeImage": "assets/img/placeholders/avant-3.svg",
+      "afterImage": "assets/img/placeholders/apres-3.svg",
+      "description": "Allée en pavés granit avec bordures, drainage intégré et plantations latérales."
+    },
+    {
+      "title": "Clôture et occultation composite",
+      "category": "cloture",
+      "city": "Billère",
+      "surface": "35 ml",
+      "beforeImage": "assets/img/placeholders/avant-4.svg",
+      "afterImage": "assets/img/placeholders/apres-4.svg",
+      "description": "Clôture composite gris anthracite sur muret, portillon assorti, haie de charmes en doublage."
+    },
+    {
+      "title": "Massifs et plantations d'ombre",
+      "category": "plantation",
+      "city": "Lons",
+      "surface": "60 m²",
+      "beforeImage": "assets/img/placeholders/avant-5.svg",
+      "afterImage": "assets/img/placeholders/apres-5.svg",
+      "description": "Massifs de vivaces et fougères sous arbres existants, paillage minéral et bordures acier."
+    },
+    {
+      "title": "Pelouse et arrosage intégré",
+      "category": "engazonnement",
+      "city": "Idron",
+      "surface": "300 m²",
+      "beforeImage": "assets/img/placeholders/avant-6.svg",
+      "afterImage": "assets/img/placeholders/apres-6.svg",
+      "description": "Préparation du terrain, arrosage automatique enterré et gazon en rouleau posé en deux jours."
+    }
+  ],
+
+  "projectCategories": [
+    { "id": "all", "label": "Tout" },
+    { "id": "jardin", "label": "Jardins" },
+    { "id": "terrasse", "label": "Terrasses" },
+    { "id": "allee", "label": "Allées" },
+    { "id": "cloture", "label": "Clôtures" },
+    { "id": "plantation", "label": "Plantations" },
+    { "id": "engazonnement", "label": "Gazon" }
+  ],
+
+  "reviews": {
+    "mode": "example",
+    "items": [
+      { "author": "C. — exemple d'avis", "rating": 5, "text": "Exemple : « Travail soigné du début à la fin, des conseils précieux sur le choix des végétaux. Le jardin est magnifique. »" },
+      { "author": "M. — exemple d'avis", "rating": 5, "text": "Exemple : « Chantier propre, délais tenus, équipe agréable. La terrasse a transformé notre façon de vivre dehors. »" },
+      { "author": "L. — exemple d'avis", "rating": 5, "text": "Exemple : « Très bonne écoute de nos envies et un résultat au-delà de nos attentes. Nous recommandons. »" }
+    ]
+  },
+
+  "form": {
+    "projectTypes": [
+      { "id": "jardin", "label": "Création complète d'un jardin", "emoji": "🌿" },
+      { "id": "terrasse", "label": "Terrasse", "emoji": "🪵" },
+      { "id": "cloture", "label": "Clôture", "emoji": "🚧" },
+      { "id": "allee", "label": "Allée", "emoji": "🛤️" },
+      { "id": "plantation", "label": "Plantations", "emoji": "🌱" },
+      { "id": "engazonnement", "label": "Engazonnement", "emoji": "🍃" },
+      { "id": "entretien", "label": "Entretien", "emoji": "✂️" },
+      { "id": "autre", "label": "Autre projet", "emoji": "💬" }
+    ],
+    "surfaceRanges": ["Moins de 50 m²", "50 – 150 m²", "150 – 300 m²", "300 – 1 000 m²", "Plus de 1 000 m²", "Je ne sais pas"],
+    "budgetRanges": ["Moins de 2 000 €", "2 000 – 5 000 €", "5 000 – 10 000 €", "10 000 – 20 000 €", "20 000 € et plus", "Je ne sais pas encore"],
+    "timeframes": ["Dès que possible", "Dans moins de 3 mois", "Dans 3 à 6 mois", "Dans plus de 6 mois", "Je ne sais pas"]
+  },
+
+  "faq": [
+    { "q": "Dans quelle zone intervenez-vous ?", "a": "Nous intervenons à Pau et dans un rayon d'environ 30 km : Lescar, Billère, Jurançon, Lons, Idron, Gan… Pour un projet un peu plus éloigné, le plus simple est de nous demander." },
+    { "q": "Les devis sont-ils gratuits ?", "a": "Oui. Après votre demande, nous étudions votre projet et, si nécessaire, nous nous déplaçons pour prendre les mesures. Le devis est gratuit et sans engagement." },
+    { "q": "Faites-vous uniquement la création, ou aussi l'entretien ?", "a": "Les deux. Notre cœur de métier est la création et l'aménagement, et nous proposons également l'entretien régulier des jardins que nous réalisons." },
+    { "q": "Combien coûte un aménagement extérieur ?", "a": "Tout dépend de la surface, des matériaux et de la complexité du terrain. C'est précisément pour cela que notre formulaire vous demande quelques détails : il nous permet de vous répondre avec des ordres de grandeur réalistes plutôt qu'un prix au hasard." },
+    { "q": "Combien de temps faut-il prévoir ?", "a": "Comptez le temps de l'étude et du devis, puis la planification du chantier selon la saison. Nous vous annonçons un calendrier réaliste dès la proposition." },
+    { "q": "Puis-je envoyer des photos de mon jardin ?", "a": "Oui, et c'est même recommandé : quelques photos de l'existant nous permettent de préparer un premier avis beaucoup plus précis avant la visite." },
+    { "q": "Intervenez-vous pour les petits projets ?", "a": "Oui : une haie, quelques plantations ou une petite allée sont des projets bienvenus, selon notre planning du moment." },
+    { "q": "Travaillez-vous avec les professionnels et les copropriétés ?", "a": "Notre activité principale concerne les particuliers, mais nous étudions les demandes de professionnels et de copropriétés au cas par cas." }
+  ],
+
+  "legal": {
+    "status": "TODO_STATUT_JURIDIQUE",
+    "siret": "TODO_SIRET",
+    "director": "TODO_DIRECTEUR_PUBLICATION",
+    "hostName": "TODO_HEBERGEUR",
+    "hostAddress": "TODO_ADRESSE_HEBERGEUR"
+  },
+
+  "integrations": {
+    "leadEndpoint": "api/lead.php",
+    "analyticsProvider": null
+  }
+}
