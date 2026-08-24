@@ -1,6 +1,6 @@
-# Tamboulou — site multi-pages pour Hostinger
+# Tambouloup — site multi-pages pour Hostinger
 
-Site statique de Tamboulou (l'école du chaman), généré par `build.py`, déployé
+Site statique de Tambouloup (l'école du chaman), généré par `build.py`, déployé
 automatiquement sur Hostinger via la branche Git connectée dans hPanel.
 
 ## Structure
@@ -25,7 +25,7 @@ données structurées, sitemap). Pour modifier : éditer `build.py` puis
 `python3 build.py`. Ne pas éditer les `index.html` à la main (écrasés au
 prochain build).
 
-## Changer de domaine (tamboulou.fr)
+## Changer de domaine (tambouloup.fr)
 
 Quand le vrai domaine est connecté dans hPanel : changer la constante `BASE`
 en tête de `build.py`, relancer le build, pousser. Canoniques, Open Graph,
