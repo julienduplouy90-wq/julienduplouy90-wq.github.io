@@ -46,6 +46,8 @@ em{font-style:italic;font-weight:400}
 .button-primary{background:var(--amber);color:var(--night);border-color:var(--amber)}
 .button-primary:hover{background:#f4b877}
 .button-quiet:hover{border-color:var(--amber);color:var(--amber)}
+.button-accent{border:1.5px solid var(--amber);color:var(--amber);background:#eea35a14}
+.button-accent:hover{background:var(--amber);color:var(--night)}
 .hero-meta{letter-spacing:.07em;color:#f7efde94;text-transform:uppercase;margin-top:3rem;font-size:.76rem}
 .hero-art{z-index:0;align-self:stretch;min-height:450px;position:relative}
 .sun-disc{aspect-ratio:1;background:var(--amber);opacity:.96;border-radius:50%;width:clamp(300px,29vw,500px);position:absolute;top:7%;right:1%;box-shadow:0 0 0 2px #eea35a29,0 0 0 38px #eea35a0a}

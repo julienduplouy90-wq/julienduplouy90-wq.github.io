@@ -6,13 +6,21 @@ Usage : python3 build.py
 Le domaine canonique est défini dans BASE — le changer ici (puis rebuilder)
 quand tamboulou.fr sera connecté.
 """
-import os, textwrap
+import hashlib, os, textwrap
 
 BASE = "https://mediumslateblue-shark-215584.hostingersite.com"
 LASTMOD = "2026-08-24"
 TEL = "+33664977749"
 TEL_AFF = "06 64 97 77 49"
 OUT = os.path.dirname(os.path.abspath(__file__))
+
+
+def _version(rel):
+    with open(os.path.join(OUT, rel), "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()[:8]
+
+CSS_V = _version("styles.css")
+FONTS_V = _version("fonts/fonts.css")
 
 NAV = """<nav class="main-nav" id="menu" aria-label="Navigation principale">
 <a href="/formation-chamanisme/">La formation</a>
@@ -135,8 +143,8 @@ def page(path, title, description, main, extra_ld=None, og_type="website"):
 <meta property="og:image" content="{BASE}/tamboulou-loup.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/fonts/fonts.css">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/fonts/fonts.css?v={FONTS_V}">
+<link rel="stylesheet" href="/styles.css?v={CSS_V}">
 {ld_html}
 </head>
 <body>
@@ -164,7 +172,7 @@ def content_page(path, crumb_name, h1, lede, body, title, description, extra_ld=
 <p>Deux jours d'initiation au voyage chamanique, dans les Pyrénées, ouverts à toute la France.</p>
 <div class="cta-actions">
 <a class="button button-primary" href="/formation-chamanisme/">Découvrir la formation <span aria-hidden="true">→</span></a>
-<a class="button button-quiet" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
+<a class="button button-accent" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
 </div>
 </div>""" if cta else ""
     main = f"""<section class="page-head">
@@ -192,7 +200,7 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 <p class="hero-intro">Je vous invite à écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent. Un stage d'initiation au chamanisme dans les Pyrénées, ouvert aux débutants de toute la France.</p>
 <div class="hero-actions">
 <a class="button button-primary" href="/formation-chamanisme/">Découvrir la formation <span aria-hidden="true">→</span></a>
-<a class="button button-quiet" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
+<a class="button button-accent" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
 </div>
 <p class="hero-meta">Samedi et dimanche · 12h — 18h · Gerde, Hautes-Pyrénées</p>
 </div>
@@ -583,7 +591,7 @@ rappel_main = f"""<section class="page-head">
 <label for="f-msg">Ce qui vous amène <em>facultatif</em></label>
 <textarea id="f-msg" name="message" rows="3" maxlength="1000" placeholder="Vos questions, ce qui vous attire dans le stage…"></textarea>
 </div>
-<p class="trap-field" aria-hidden="true"><label>Ne pas remplir ce champ<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label></p>
+<p class="trap-field" aria-hidden="true" style="position:absolute;left:-9999px;top:auto;height:1px;width:1px;overflow:hidden"><label>Ne pas remplir ce champ<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label></p>
 <button class="button button-primary form-submit" type="submit">Être rappelé <span aria-hidden="true">→</span></button>
 <p class="form-note"><a href="/mentions-legales/">Vos données restent entre nous</a></p>
 </form>
