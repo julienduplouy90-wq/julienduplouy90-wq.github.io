@@ -164,9 +164,8 @@ def content_page(path, crumb_name, h1, lede, body, title, description, extra_ld=
 <p>Deux jours d'initiation au voyage chamanique, dans les Pyrénées, ouverts à toute la France.</p>
 <div class="cta-actions">
 <a class="button button-primary" href="/formation-chamanisme/">Découvrir la formation <span aria-hidden="true">→</span></a>
-<a class="button button-quiet" href="tel:{TEL}">{TEL_AFF} <span aria-hidden="true">↗</span></a>
+<a class="button button-quiet" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
 </div>
-<p class="cta-rappel"><a href="/rappel/">Ou demandez à être rappelé</a></p>
 </div>""" if cta else ""
     main = f"""<section class="page-head">
 {breadcrumb_html(crumbs)}
@@ -193,7 +192,7 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 <p class="hero-intro">Je vous invite à écouter le tambour, ouvrir le passage et partir à la rencontre des mondes qui nous entourent. Un stage d'initiation au chamanisme dans les Pyrénées, ouvert aux débutants de toute la France.</p>
 <div class="hero-actions">
 <a class="button button-primary" href="/formation-chamanisme/">Découvrir la formation <span aria-hidden="true">→</span></a>
-<a class="button button-quiet" href="tel:{TEL}">Échanger avec moi <span aria-hidden="true">↗</span></a>
+<a class="button button-quiet" href="/rappel/">Être rappelé <span aria-hidden="true">☎</span></a>
 </div>
 <p class="hero-meta">Samedi et dimanche · 12h — 18h · Gerde, Hautes-Pyrénées</p>
 </div>
@@ -291,11 +290,13 @@ landing_main = f"""<section class="hero" id="accueil" aria-labelledby="hero-titl
 
 <section class="contact" aria-labelledby="contact-title">
 <div class="contact-moon" aria-hidden="true"></div>
-<p class="eyebrow"><span></span> UNE QUESTION, UNE INSCRIPTION ?</p>
+<p class="eyebrow"><span></span> UNE QUESTION, UNE PRÉINSCRIPTION ?</p>
 <h2 id="contact-title">Le voyage commence<br>par <em>un échange.</em></h2>
 <p>Je vous réponds directement pour vous renseigner sur le stage et les prochaines dates, où que vous soyez en France.</p>
+<div class="contact-actions">
 <a class="phone-link" href="tel:{TEL}"><span>{TEL_AFF}</span><span class="phone-arrow" aria-hidden="true">↗</span></a>
-<p class="contact-rappel">Vous préférez qu'on vous rappelle ? <a href="/rappel/">Laissez vos coordonnées</a></p>
+<a class="phone-link phone-link-outline" href="/rappel/"><span>Être rappelé</span><span class="phone-arrow" aria-hidden="true">→</span></a>
+</div>
 <p class="contact-name"><a href="/alexandre/">Alexandre Godgenger</a></p>
 </section>"""
 
@@ -551,36 +552,43 @@ rappel_main = f"""<section class="page-head">
 <h1>Laissez-nous <em>vos coordonnées</em></h1>
 <p class="lede">Vous préférez qu'Alexandre vous appelle ? Indiquez votre numéro et le moment qui vous arrange — il vous rappelle pour répondre à vos questions ou prendre votre préinscription.</p>
 </section>
-<article class="prose rappel-prose">
+<div class="rappel-wrap">
 <p id="form-erreur" class="form-banner" hidden>Le formulaire n'a pas pu être envoyé : vérifiez votre nom et votre numéro de téléphone, puis réessayez.</p>
 <div class="form-shell">
-<p class="form-kicker"><span></span> DEMANDE DE RAPPEL</p>
-<form class="form-grid" method="post" action="/rappel/envoyer.php">
-<div class="form-row form-row-2">
+<div class="form-intro">
+<div class="form-intro-moon" aria-hidden="true"></div>
+<p class="eyebrow"><span></span> DEMANDE DE RAPPEL</p>
+<h2>Le voyage commence par <em>un échange.</em></h2>
+<ul class="form-points">
+<li>Alexandre vous rappelle personnellement</li>
+<li>Sans engagement — juste vos questions</li>
+<li>Coordonnées jamais partagées</li>
+</ul>
+<p class="form-intro-tel">Ou appelez directement<br><a href="tel:{TEL}">{TEL_AFF} <span aria-hidden="true">↗</span></a></p>
+</div>
+<form class="form-fields" method="post" action="/rappel/envoyer.php">
 <div class="form-field">
-<label for="f-nom">Prénom et nom <span class="requis" aria-hidden="true">*</span></label>
+<label for="f-nom">Prénom et nom</label>
 <input id="f-nom" name="nom" type="text" required autocomplete="name" maxlength="100" placeholder="Camille Dupont">
 </div>
 <div class="form-field">
-<label for="f-tel">Téléphone <span class="requis" aria-hidden="true">*</span></label>
+<label for="f-tel">Téléphone</label>
 <input id="f-tel" name="telephone" type="tel" required autocomplete="tel" maxlength="30" placeholder="06 12 34 56 78">
 </div>
+<div class="form-field">
+<label for="f-moment">Quand vous rappeler ? <em>facultatif</em></label>
+<input id="f-moment" name="moment" type="text" maxlength="120" placeholder="En semaine après 18h">
 </div>
 <div class="form-field">
-<label for="f-moment">Quand préférez-vous être rappelé ? <span class="optionnel">facultatif</span></label>
-<input id="f-moment" name="moment" type="text" maxlength="120" placeholder="Par exemple : en semaine après 18h">
-</div>
-<div class="form-field">
-<label for="f-msg">Un mot sur ce qui vous amène ? <span class="optionnel">facultatif</span></label>
-<textarea id="f-msg" name="message" rows="4" maxlength="1000" placeholder="Vos questions, votre situation, ce qui vous attire dans le stage…"></textarea>
+<label for="f-msg">Ce qui vous amène <em>facultatif</em></label>
+<textarea id="f-msg" name="message" rows="3" maxlength="1000" placeholder="Vos questions, ce qui vous attire dans le stage…"></textarea>
 </div>
 <p class="trap-field" aria-hidden="true"><label>Ne pas remplir ce champ<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label></p>
-<button class="button button-primary form-submit" type="submit">Demander à être rappelé <span aria-hidden="true">→</span></button>
-<p class="form-note">Vos coordonnées servent uniquement à vous rappeler — jamais partagées, jamais utilisées autrement. <a href="/mentions-legales/">Mentions légales</a></p>
+<button class="button button-primary form-submit" type="submit">Être rappelé <span aria-hidden="true">→</span></button>
+<p class="form-note"><a href="/mentions-legales/">Vos données restent entre nous</a></p>
 </form>
 </div>
-<p class="form-alt">Vous préférez appeler directement ? <a class="form-alt-tel" href="tel:{TEL}">{TEL_AFF} <span aria-hidden="true">↗</span></a></p>
-</article>
+</div>
 <script>if(new URLSearchParams(location.search).has('erreur')){{document.getElementById('form-erreur').hidden=false;}}</script>"""
 
 pages.append(page(
