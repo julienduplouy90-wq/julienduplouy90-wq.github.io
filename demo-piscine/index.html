@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E5E63">
+<title>Suivi Client Piscine</title>
+<meta name="description" content="Démonstration : le système de suivi client pour piscinistes — chaque demande suivie, chaque devis relancé, chaque entretien rappelé.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#E7EDEC; --ground-2:#D6E2E1;
+  --surface:#FFFFFF; --surface-2:#F3F7F6; --surface-sunk:#E9F0EF;
+  --ink:#0F2427; --ink-2:#3B5457; --muted:#67807F; --line:#DCE6E4;
+  --brand:#0E5E63; --brand-soft:#D8EAE8; --brand-ink:#0B4A4E;
+  --good:#2F7A4F; --good-soft:#DCEEE2;
+  --warn:#B0721C; --warn-soft:#F7E9D2;
+  --crit:#B03A3A; --crit-soft:#F6DEDC;
+  --shadow:0 24px 60px -20px rgba(15,36,39,.45);
+  --radius:16px;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0A1416; --ground-2:#060E10;
+    --surface:#12211F; --surface-2:#182B29; --surface-sunk:#0E1B1B;
+    --ink:#E8F1EF; --ink-2:#B3C7C4; --muted:#8AA3A0; --line:#223735;
+    --brand:#4FB5B0; --brand-soft:#123734; --brand-ink:#8ED6CF;
+    --good:#63C78C; --good-soft:#123024;
+    --warn:#E0A64B; --warn-soft:#33270F;
+    --crit:#E07A76; --crit-soft:#361A19;
+    --shadow:0 24px 60px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0A1416; --ground-2:#060E10;
+  --surface:#12211F; --surface-2:#182B29; --surface-sunk:#0E1B1B;
+  --ink:#E8F1EF; --ink-2:#B3C7C4; --muted:#8AA3A0; --line:#223735;
+  --brand:#4FB5B0; --brand-soft:#123734; --brand-ink:#8ED6CF;
+  --good:#63C78C; --good-soft:#123024;
+  --warn:#E0A64B; --warn-soft:#33270F;
+  --crit:#E07A76; --crit-soft:#361A19;
+  --shadow:0 24px 60px -20px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ground);
+  background-image:radial-gradient(120% 80% at 50% 0%, var(--ground) 0%, var(--ground-2) 100%);
+  color:var(--ink);
+  font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.num{font-family:"Bricolage Grotesque","Public Sans",sans-serif;text-wrap:balance}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
+
+/* ---------- stage + phone ---------- */
+.stage{min-height:100dvh;display:grid;grid-template-rows:1fr;place-items:center;padding:24px 16px}
+.phone{
+  position:relative;width:min(430px,100%);height:min(880px,calc(100dvh - 48px));
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);
+}
+@media (max-width:520px){
+  .stage{padding:0}
+  .phone{height:100dvh;border-radius:0;border:0}
+}
+.appbar{
+  flex:none;display:flex;align-items:center;gap:10px;
+  padding:14px 16px 12px;background:var(--brand);color:#EAF6F4;
+  padding-top:max(14px,env(safe-area-inset-top));
+}
+:root[data-theme="dark"] .appbar,
+:root:not([data-theme="light"]) .appbar{color:#EAF6F4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .appbar{background:#0B3A3C}}
+:root[data-theme="dark"] .appbar{background:#0B3A3C}
+.appbar .logo{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.appbar .logo svg{width:18px;height:18px}
+.appbar h1{margin:0;font-size:15px;font-weight:600;letter-spacing:.01em}
+.appbar .sub{font-size:11.5px;opacity:.78;letter-spacing:.06em;text-transform:uppercase}
+.tag-demo{margin-left:auto;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 8px;opacity:.9}
+
+.screen{flex:1;overflow-y:auto;overscroll-behavior:contain;background:var(--surface-2);
+  padding:16px 14px calc(20px + env(safe-area-inset-bottom))}
+.view[hidden]{display:none}
+.view{display:flex;flex-direction:column;gap:14px;animation:rise .28s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- tabbar ---------- */
+.tabbar{
+  flex:none;display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 10px;
+  color:var(--muted);font-size:11px;font-weight:600;position:relative}
+.tabbar button svg{width:21px;height:21px}
+.tabbar button[aria-selected="true"]{color:var(--brand)}
+.tabbar button[aria-selected="true"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--brand);border-radius:0 0 3px 3px}
+.tabbar .dot{position:absolute;top:6px;right:calc(50% - 20px);min-width:16px;height:16px;border-radius:9px;
+  background:var(--crit);color:#fff;font-size:10px;line-height:16px;text-align:center;padding:0 4px}
+
+/* ---------- building blocks ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:0 2px}
+.section-head h2{margin:0;font-size:16px;font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.row{display:flex;align-items:center;gap:10px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 9px;
+  font-size:11.5px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.pill.auto{background:var(--brand-soft);color:var(--brand-ink)}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.pill.flat{background:var(--surface-sunk);color:var(--ink-2)}
+
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;
+  display:flex;flex-direction:column;gap:12px}
+.hero .amount{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:38px;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--brand)}
+.hero .legend{font-size:12.5px;color:var(--muted)}
+.spark{width:100%;height:46px;display:block}
+
+.action{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--line);
+  border-radius:12px;padding:12px 12px 12px 13px;display:flex;flex-direction:column;gap:9px;
+  transition:opacity .3s ease,transform .3s ease}
+.action.is-crit{border-left-color:var(--crit)}
+.action.is-warn{border-left-color:var(--warn)}
+.action.is-info{border-left-color:var(--brand)}
+.action .title{font-weight:600;font-size:14.5px}
+.action .meta{font-size:12.5px;color:var(--muted)}
+.action .cta{align-self:flex-start;background:var(--brand);color:#fff;border-radius:9px;
+  padding:8px 14px;font-size:13px;font-weight:600}
+:root[data-theme="dark"] .action .cta{color:#06211F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .action .cta{color:#06211F}}
+.action.done{opacity:.45}
+.action.done .cta{background:var(--surface-sunk);color:var(--muted)}
+
+.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.feed li{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.feed li:last-child{border-bottom:0;padding-bottom:0}
+.feed .when{flex:none;width:52px;color:var(--muted);font-size:12px;padding-top:1px}
+.feed .what strong{font-weight:600}
+.feed .what div{color:var(--muted);font-size:12.5px}
+
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--surface-sunk);
+  border-radius:12px;padding:4px}
+.seg button{border-radius:9px;padding:8px 4px;font-size:12.5px;font-weight:600;color:var(--muted);
+  display:flex;flex-direction:column;gap:1px;align-items:center}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(15,36,39,.12)}
+.seg .n{font-family:"Bricolage Grotesque",sans-serif;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+
+.lead{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px;display:flex;flex-direction:column;gap:8px}
+.lead:active{transform:scale(.99)}
+.lead .top{display:flex;align-items:flex-start;gap:8px}
+.lead .name{font-weight:600;font-size:14.5px}
+.lead .where{font-size:12.5px;color:var(--muted)}
+.lead .amt{margin-left:auto;text-align:right;font-family:"IBM Plex Mono",monospace;font-weight:600;
+  font-variant-numeric:tabular-nums;font-size:14px}
+.lead .job{font-size:13px;color:var(--ink-2)}
+.lead .amt.todo{font-family:"Public Sans",sans-serif;font-weight:500;font-size:12.5px;color:var(--muted)}
+.more{font-size:12.5px;color:var(--muted);text-align:center;padding:2px 0 4px}
+.lead .tags{display:flex;flex-wrap:wrap;gap:6px}
+.chev{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:5px}
+
+.deadline{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:11px 12px}
+.deadline .date{flex:none;width:46px;text-align:center;border-radius:10px;background:var(--surface-sunk);padding:5px 0}
+.deadline .date .d,.deadline .date .m{display:block}
+.deadline .date .d{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:17px;line-height:1}
+.deadline .date .m{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.deadline .who{font-weight:600;font-size:14px}
+.deadline .what{font-size:12.5px;color:var(--muted)}
+
+.funnel{display:flex;flex-direction:column;gap:9px}
+.funnel .step{display:flex;flex-direction:column;gap:4px}
+.funnel .lab{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2)}
+.funnel .lab b{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.funnel .bar{height:10px;border-radius:6px;background:var(--surface-sunk);overflow:hidden}
+.funnel .bar i{display:block;height:100%;border-radius:6px;background:var(--brand);
+  transform-origin:left;animation:grow .7s cubic-bezier(.2,.8,.3,1) both}
+@keyframes grow{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
+
+.attrib{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.attrib li{display:flex;flex-direction:column;gap:5px}
+.attrib .lab{display:flex;justify-content:space-between;gap:10px;font-size:13px}
+.attrib .lab b{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums}
+.attrib .bar{height:7px;border-radius:5px;background:var(--surface-sunk);overflow:hidden}
+.attrib .bar i{display:block;height:100%;border-radius:5px;animation:grow .7s cubic-bezier(.2,.8,.3,1) both}
+
+.verdict{border-radius:var(--radius);padding:14px;background:var(--brand);color:#EAF6F4;
+  display:flex;flex-direction:column;gap:6px}
+:root[data-theme="dark"] .verdict{background:#0B3A3C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict{background:#0B3A3C}}
+.verdict .big{font-family:"Bricolage Grotesque",sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em}
+.verdict .fine{font-size:12.5px;opacity:.85}
+
+/* ---------- sheet ---------- */
+.sheet{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+  pointer-events:none;z-index:20}
+.sheet .scrim{position:absolute;inset:0;background:rgba(9,24,26,.5);opacity:0;transition:opacity .25s ease}
+.sheet .panel{position:relative;max-height:88%;overflow-y:auto;background:var(--surface);
+  border-radius:22px 22px 0 0;padding:14px 16px calc(20px + env(safe-area-inset-bottom));
+  transform:translateY(101%);transition:transform .32s cubic-bezier(.2,.85,.3,1);
+  display:flex;flex-direction:column;gap:14px;box-shadow:0 -12px 40px -18px rgba(9,24,26,.6)}
+.sheet[data-open="true"]{pointer-events:auto}
+.sheet[data-open="true"] .scrim{opacity:1}
+.sheet[data-open="true"] .panel{transform:none}
+.grab{width:38px;height:4px;border-radius:3px;background:var(--line);margin:0 auto}
+.sheet h3{margin:0;font-size:19px;font-weight:600}
+.sheet .close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;
+  background:var(--surface-sunk);color:var(--ink-2);font-size:16px;line-height:1}
+
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;position:relative;display:flex;flex-direction:column;gap:14px}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.timeline li{position:relative;display:flex;flex-direction:column;gap:3px}
+.timeline li::before{content:"";position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--line)}
+.timeline li.auto::before{border-color:var(--brand);background:var(--brand)}
+.timeline li.human::before{border-color:var(--warn);background:var(--warn)}
+.timeline li.win::before{border-color:var(--good);background:var(--good)}
+.timeline .when{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.timeline .head{font-weight:600;font-size:14px}
+.timeline .body{font-size:13px;color:var(--ink-2)}
+.timeline .msg{background:var(--surface-sunk);border-radius:12px;border-top-left-radius:4px;
+  padding:9px 11px;font-size:13px;color:var(--ink);margin-top:3px;white-space:pre-line}
+.timeline li{opacity:0;transform:translateY(6px);animation:rise .35s ease forwards}
+
+.replay{align-self:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 13px;
+  font-size:13px;font-weight:600;color:var(--brand);display:flex;align-items:center;gap:7px}
+.foot{padding:2px 4px 6px;text-align:center;font-size:11.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.05s !important}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="phone">
+
+  <header class="appbar">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M2 17c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"></path>
+        <path d="M2 21c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"></path>
+        <path d="M7 15V5a2 2 0 0 1 4 0M17 15V5a2 2 0 0 0-4 0"></path>
+      </svg>
+    </span>
+    <span>
+      <h1>Piscines Aqualia</h1>
+      <span class="sub">Suivi client</span>
+    </span>
+    <span class="tag-demo">Démo</span>
+  </header>
+
+  <main class="screen" id="screen">
+
+    <!-- ============ AUJOURD'HUI ============ -->
+    <section class="view" id="view-today" role="tabpanel" aria-label="Aujourd'hui">
+      <div class="hero">
+        <span class="eyebrow">Chiffre d'affaires récupéré — août</span>
+        <span class="amount mono" id="heroAmount">12 480 €</span>
+        <span class="legend">Prestations signées grâce à une relance, un rappel d'entretien ou une réactivation du système.</span>
+        <svg class="spark" viewBox="0 0 300 46" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--brand)" stop-opacity=".28"></stop>
+            <stop offset="1" stop-color="var(--brand)" stop-opacity="0"></stop>
+          </linearGradient></defs>
+          <path d="M0 40 L30 38 L60 33 L90 34 L120 27 L150 25 L180 19 L210 20 L240 12 L270 9 L300 4 L300 46 L0 46 Z" fill="url(#sg)"></path>
+          <path d="M0 40 L30 38 L60 33 L90 34 L120 27 L150 25 L180 19 L210 20 L240 12 L270 9 L300 4"
+                fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"></path>
+          <circle cx="300" cy="4" r="3.5" fill="var(--brand)"></circle>
+        </svg>
+      </div>
+
+      <div class="section-head">
+        <h2>Ce qui vous attend</h2>
+        <span class="small muted" id="actionsLeft">3 actions</span>
+      </div>
+      <div class="stack" id="actionList"></div>
+
+      <div class="card stack">
+        <div class="section-head" style="padding:0">
+          <h2 style="font-size:15px">Fait sans vous aujourd'hui</h2>
+          <span class="pill auto">9 automatismes</span>
+        </div>
+        <ul class="feed" id="autoFeed"></ul>
+      </div>
+    </section>
+
+    <!-- ============ SUIVI ============ -->
+    <section class="view" id="view-pipeline" role="tabpanel" aria-label="Suivi" hidden>
+      <div class="seg" id="seg" role="tablist" aria-label="Étape">
+        <button role="tab" data-stage="demande" aria-selected="true"><span class="n" id="nDemande">6</span>Demandes</button>
+        <button role="tab" data-stage="devis" aria-selected="false"><span class="n" id="nDevis">9</span>Devis</button>
+        <button role="tab" data-stage="gagne" aria-selected="false"><span class="n" id="nGagne">8</span>Gagnés</button>
+      </div>
+      <p class="small muted" style="margin:0 4px">Touchez une fiche pour voir tout ce que le système a fait — message par message.</p>
+      <div class="stack" id="leadList"></div>
+    </section>
+
+    <!-- ============ ÉCHÉANCES ============ -->
+    <section class="view" id="view-clients" role="tabpanel" aria-label="Échéances" hidden>
+      <div class="card stack">
+        <span class="eyebrow">Saison en cours</span>
+        <div class="row" style="align-items:flex-start;gap:14px">
+          <div>
+            <div class="num" style="font-size:30px;font-weight:700;line-height:1">64</div>
+            <div class="small muted">clients suivis</div>
+          </div>
+          <div>
+            <div class="num" style="font-size:30px;font-weight:700;line-height:1;color:var(--warn)">41</div>
+            <div class="small muted">hivernages à caler avant le 15 novembre</div>
+          </div>
+        </div>
+        <p class="small muted" style="margin:0">Chaque client reçoit sa proposition 3 semaines avant l'échéance. Ceux qui ne répondent pas remontent dans vos actions du jour.</p>
+      </div>
+
+      <div class="section-head"><h2>Prochaines échéances</h2><span class="small muted">automatique</span></div>
+      <div class="stack" id="deadlineList"></div>
+
+      <div class="card stack">
+        <span class="eyebrow">Clients dormants</span>
+        <p class="small" style="margin:0">11 clients n'ont rien fait faire depuis plus de 14 mois. Le système leur propose une remise en route en mars — sans que vous y pensiez.</p>
+        <span class="pill auto">Réactivation programmée · 2 mars</span>
+      </div>
+    </section>
+
+    <!-- ============ RÉSULTATS ============ -->
+    <section class="view" id="view-results" role="tabpanel" aria-label="Résultats" hidden>
+      <div class="verdict">
+        <span class="eyebrow" style="color:inherit;opacity:.8">Août 2026</span>
+        <span class="big">12 480 € récupérés</span>
+        <span class="fine">pour 299 € d'abonnement — soit 41 € de chiffre d'affaires par euro dépensé.</span>
+      </div>
+
+      <div class="card stack">
+        <div class="section-head" style="padding:0"><h2 style="font-size:15px">Du contact à la signature</h2></div>
+        <div class="funnel" id="funnel"></div>
+        <p class="small muted" style="margin:0">Le mois dernier, avant le système : 11 demandes sur 23 étaient restées sans devis.</p>
+      </div>
+
+      <div class="card stack">
+        <div class="section-head" style="padding:0"><h2 style="font-size:15px">D'où vient ce chiffre d'affaires</h2></div>
+        <ul class="attrib" id="attrib"></ul>
+        <p class="small muted" style="margin:0">Seules les prestations déclenchées par une action du système sont comptées ici. Vos ventes en direct ne sont pas incluses.</p>
+      </div>
+
+      <div class="card stack">
+        <div class="section-head" style="padding:0"><h2 style="font-size:15px">Temps rendu</h2></div>
+        <div class="row" style="gap:18px;align-items:flex-start">
+          <div><div class="num" style="font-size:26px;font-weight:700;line-height:1">6 h 20</div><div class="small muted">de relances et de rappels ce mois-ci</div></div>
+          <div><div class="num" style="font-size:26px;font-weight:700;line-height:1">4 min</div><div class="small muted">de délai moyen de première réponse</div></div>
+        </div>
+      </div>
+      <p class="foot">Données de démonstration — entreprise fictive.</p>
+    </section>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="Navigation">
+    <button role="tab" data-view="today" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"></path></svg>
+      Aujourd'hui<span class="dot" id="tabDot">3</span>
+    </button>
+    <button role="tab" data-view="pipeline" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16M6 12h12M9 19h6"></path></svg>
+      Suivi
+    </button>
+    <button role="tab" data-view="clients" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path></svg>
+      Échéances
+    </button>
+    <button role="tab" data-view="results" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V10M12 19V5M19 19v-6"></path></svg>
+      Résultats
+    </button>
+  </nav>
+
+  <div class="sheet" id="sheet" data-open="false" aria-hidden="true">
+    <div class="scrim" id="scrim"></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <span class="grab"></span>
+      <button class="close" id="sheetClose" aria-label="Fermer">✕</button>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var euro = function (n) { return n.toLocaleString("fr-FR") + " €"; };
+
+  /* ------------------------------------------------ données de démonstration */
+  var actions = [
+    { id: "a1", level: "crit", title: "Devis de 2 340 € sans réponse depuis 8 jours",
+      meta: "M. Bourdette, Lons — pompe à chaleur 9 kW. Deux relances envoyées, devis ouvert 3 fois. Un appel de 5 minutes suffirait.",
+      cta: "J'ai appelé" },
+    { id: "a2", level: "warn", title: "Rappeler Mme Sarrazin au 06 •• •• •• 42",
+      meta: "Son numéro n'accepte pas les messages. Le système vous passe la main : liner 8 × 4, devis à 4 700 € envoyé lundi.",
+      cta: "C'est fait" },
+    { id: "a3", level: "info", title: "Nouvelle demande — Mme Laurent, Jurançon",
+      meta: "Reçue il y a 4 minutes. Réponse déjà partie, deux créneaux proposés. Il vous reste à confirmer celui de jeudi 9 h.",
+      cta: "Confirmer jeudi 9 h" }
+  ];
+
+  var autoFeed = [
+    { when: "07:12", head: "Réponse immédiate à Mme Laurent", body: "Demande reçue via le site — accusé de réception et créneaux proposés." },
+    { when: "08:03", head: "Relance n° 1 du devis de M. Casamayou", body: "Bâche à barres, 1 180 € — envoyée 3 jours après le devis." },
+    { when: "09:41", head: "Avis Google demandé à la famille Peyré", body: "Intervention terminée hier. Avis 5 étoiles reçu à 11 h 08." },
+    { when: "11:20", head: "Rappel d'hivernage envoyé à 7 clients", body: "Échéances d'octobre — 3 ont déjà répondu oui." },
+    { when: "14:05", head: "Devis de Mme Ducasse ouvert", body: "Relance programmée pour vendredi si pas de réponse." },
+    { when: "16:30", head: "Fiche client mise à jour", body: "Intervention de Kévin chez M. Lartigue clôturée." },
+    { when: "18:00", head: "Récapitulatif du jour", body: "Envoyé sur votre téléphone à la fermeture." }
+  ];
+
+  var leads = [
+    { id: "l1", stage: "demande", name: "Mme Laurent", city: "Jurançon", job: "Remise en route + filtre à sable",
+      amount: null, tags: [["auto", "Répondu en 40 s"], ["flat", "Site web"]],
+      timeline: [
+        { k: "auto", when: "Aujourd'hui · 07:12", head: "Demande reçue", body: "Formulaire « Devis remise en route » du site." },
+        { k: "auto", when: "07:12", head: "Réponse envoyée automatiquement",
+          msg: "Bonjour Mme Laurent, merci pour votre demande de remise en route.\nJe peux passer voir le bassin jeudi 9 h ou vendredi 14 h — quel créneau vous arrange ?\nJulien, Piscines Aqualia." },
+        { k: "auto", when: "07:13", head: "Fiche créée et notification envoyée", body: "Demande ajoutée au suivi, alerte sur votre téléphone." },
+        { k: "human", when: "En attente", head: "À vous : confirmer le créneau", body: "Si rien n'est fait avant 18 h, le système vous le rappelle." }
+      ] },
+    { id: "l2", stage: "demande", name: "M. Etchebarne", city: "Billère", job: "Fuite suspectée sous le liner",
+      amount: null, tags: [["crit", "Urgent"], ["auto", "Répondu en 2 min"]],
+      timeline: [
+        { k: "auto", when: "Hier · 18:44", head: "Demande reçue", body: "Appel manqué + message vocal, transcrit dans la fiche." },
+        { k: "auto", when: "18:46", head: "Réponse envoyée", msg: "Bonjour, bien reçu pour la fuite. Coupez la filtration et notez le niveau d'eau ce soir puis demain matin — je vous rappelle avant 9 h." },
+        { k: "human", when: "Aujourd'hui · 08:30", head: "Diagnostic prévu", body: "Créneau posé, client prévenu automatiquement." }
+      ] },
+    { id: "l3", stage: "demande", name: "Camping Les Berges", city: "Lescar", job: "Contrat d'entretien saison 2027",
+      amount: null, tags: [["flat", "Professionnel"], ["auto", "Suivi actif"]],
+      timeline: [
+        { k: "auto", when: "Lundi · 10:02", head: "Demande reçue", body: "Recommandation d'un client existant." },
+        { k: "auto", when: "10:03", head: "Réponse envoyée", msg: "Bonjour, merci pour votre demande de contrat d'entretien. Je vous propose un passage sur site pour chiffrer les deux bassins — mardi ou jeudi prochain ?" },
+        { k: "auto", when: "Jeudi", head: "Rappel programmé", body: "Sans réponse d'ici jeudi, une relance part automatiquement." }
+      ] },
+    { id: "l4", stage: "devis", name: "M. Bourdette", city: "Lons", job: "Pompe à chaleur 9 kW",
+      amount: 2340, tags: [["crit", "8 jours sans réponse"], ["auto", "2 relances"]],
+      timeline: [
+        { k: "auto", when: "J + 0", head: "Devis envoyé et suivi", body: "2 340 € — installation comprise." },
+        { k: "auto", when: "J + 3", head: "Relance n° 1", msg: "Bonjour M. Bourdette, avez-vous pu regarder le devis pour la pompe à chaleur ? Je reste disponible si une question bloque." },
+        { k: "auto", when: "J + 7", head: "Relance n° 2", msg: "Bonjour, je maintiens le tarif jusqu'à fin août. Souhaitez-vous que je vous appelle 5 minutes pour en parler ?" },
+        { k: "auto", when: "J + 8", head: "Devis ouvert 3 fois", body: "Signal d'intérêt : la fiche remonte en tête de vos actions." },
+        { k: "human", when: "Maintenant", head: "À vous : un appel", body: "Le système a fait ce qu'il pouvait par écrit." }
+      ] },
+    { id: "l5", stage: "devis", name: "M. Casamayou", city: "Idron", job: "Bâche à barres sur mesure",
+      amount: 1180, tags: [["warn", "Relance envoyée ce matin"]],
+      timeline: [
+        { k: "auto", when: "J + 0", head: "Devis envoyé", body: "1 180 € — pose comprise." },
+        { k: "auto", when: "J + 3 · 08:03", head: "Relance n° 1 partie automatiquement", msg: "Bonjour M. Casamayou, un doute sur les dimensions ou sur le délai ? Je peux ajuster le devis si besoin." },
+        { k: "auto", when: "J + 7", head: "Relance n° 2 programmée", body: "Puis passage en tâche d'appel si toujours rien." }
+      ] },
+    { id: "l6", stage: "devis", name: "Mme Sarrazin", city: "Pau", job: "Changement de liner 8 × 4",
+      amount: 4700, tags: [["warn", "À rappeler"], ["flat", "Pas de messagerie"]],
+      timeline: [
+        { k: "auto", when: "Lundi", head: "Devis envoyé par e-mail", body: "4 700 € — liner armé, pose sous 3 semaines." },
+        { k: "human", when: "Aujourd'hui", head: "Tâche d'appel créée", body: "Son numéro n'accepte pas les messages : le système ne force rien, il vous prévient." }
+      ] },
+    { id: "l7", stage: "gagne", name: "M. Lartigue", city: "Bizanos", job: "Contrat d'entretien annuel",
+      amount: 1560, tags: [["good", "Gagné après 2 relances"], ["auto", "Avis 5 ★"]],
+      timeline: [
+        { k: "auto", when: "J + 0 · 09:12", head: "Demande reçue", body: "Formulaire « contrat d'entretien » du site." },
+        { k: "auto", when: "09:12", head: "Réponse immédiate", msg: "Bonjour M. Lartigue, merci pour votre demande de contrat d'entretien. Je passe volontiers voir le bassin — mercredi 10 h vous convient ?" },
+        { k: "human", when: "J + 1", head: "Visite sur place", body: "Bassin 9 × 4, local technique à reprendre." },
+        { k: "auto", when: "J + 1 · 17:05", head: "Devis envoyé — 1 560 €", body: "Suivi d'ouverture activé." },
+        { k: "auto", when: "J + 4", head: "Relance n° 1", msg: "Bonjour, le devis du contrat d'entretien vous convient-il ? Je peux démarrer dès le 1er du mois." },
+        { k: "auto", when: "J + 8", head: "Relance n° 2 + proposition d'appel", body: "Sans réponse, la fiche passe en tâche d'appel." },
+        { k: "human", when: "J + 9 · 10:20", head: "Appel de 6 minutes", body: "Deux questions sur le calendrier de passage." },
+        { k: "win", when: "J + 9 · 11:04", head: "Devis signé — 1 560 €", body: "Sans les deux relances, ce devis dormait encore." },
+        { k: "auto", when: "J + 16", head: "Avis Google demandé", body: "Intervention terminée → message envoyé. Avis 5 étoiles reçu." },
+        { k: "auto", when: "J + 16", head: "Échéance programmée", body: "Contrôle avant hivernage : 14 septembre." }
+      ] },
+    { id: "l8", stage: "gagne", name: "Mme Vignau", city: "Jurançon", job: "Remise en route",
+      amount: 480, tags: [["good", "Client réactivé"], ["auto", "16 mois sans contact"]],
+      timeline: [
+        { k: "auto", when: "Mars", head: "Message de réactivation", msg: "Bonjour Mme Vignau, la saison approche — souhaitez-vous que je programme la remise en route de votre bassin comme les années précédentes ?" },
+        { k: "auto", when: "Mars + 2 j", head: "Réponse : « oui, avec plaisir »", body: "Créneau proposé automatiquement." },
+        { k: "win", when: "Avril", head: "Prestation réalisée — 480 €", body: "Cliente perdue de vue depuis 16 mois." }
+      ] },
+    { id: "l9", stage: "gagne", name: "Résidence Le Hameau", city: "Lescar", job: "Hivernage de 2 bassins",
+      amount: 890, tags: [["good", "Rappel d'échéance"]],
+      timeline: [
+        { k: "auto", when: "Il y a 3 semaines", head: "Rappel d'hivernage envoyé", body: "Échéance calculée d'après l'hivernage 2025." },
+        { k: "auto", when: "Le lendemain", head: "Date confirmée par le syndic", body: "Créneau bloqué dans votre agenda." },
+        { k: "win", when: "18 octobre", head: "Intervention programmée — 890 €", body: "Facturée d'avance, sans relance de votre part." }
+      ] }
+  ];
+
+  var deadlines = [
+    { d: "02", m: "sep", who: "Camping Les Berges", what: "Entretien hebdomadaire — contrat", pill: ["auto", "Planifié"] },
+    { d: "14", m: "sep", who: "M. Lartigue", what: "Contrôle avant hivernage", pill: ["auto", "Proposition envoyée le 24/08"] },
+    { d: "28", m: "sep", who: "Mme Vignau", what: "Hivernage passif", pill: ["auto", "Message parti automatiquement"] },
+    { d: "06", m: "oct", who: "Famille Peyré", what: "Hivernage + traitement", pill: ["flat", "Rappel prévu le 15/09"] },
+    { d: "18", m: "oct", who: "Résidence Le Hameau", what: "Hivernage de 2 bassins", pill: ["good", "Confirmé"] }
+  ];
+
+  var funnel = [
+    { lab: "Demandes reçues", n: 24, pct: 100 },
+    { lab: "Répondues en moins de 15 min", n: 24, pct: 100 },
+    { lab: "Devis envoyés", n: 19, pct: 79 },
+    { lab: "Prestations gagnées", n: 8, pct: 33 }
+  ];
+
+  var attrib = [
+    { lab: "Relances de devis", v: 4900, color: "var(--brand)" },
+    { lab: "Rappels d'entretien et d'hivernage", v: 3210, color: "var(--good)" },
+    { lab: "Réactivation d'anciens clients", v: 2480, color: "var(--warn)" },
+    { lab: "Demandes traitées en moins de 15 min", v: 1890, color: "var(--ink-2)" }
+  ];
+
+  /* ------------------------------------------------ rendu */
+  var $ = function (s) { return document.querySelector(s); };
+  var el = function (tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  };
+  var esc = function (s) { return String(s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); };
+
+  function renderActions() {
+    var host = $("#actionList");
+    host.innerHTML = "";
+    actions.forEach(function (a) {
+      var card = el("div", "action is-" + a.level + (a.done ? " done" : ""));
+      card.appendChild(el("div", "title", esc(a.title)));
+      card.appendChild(el("div", "meta", esc(a.meta)));
+      var btn = el("button", "cta", a.done ? "Traité ✓" : esc(a.cta));
+      btn.addEventListener("click", function () { a.done = !a.done; renderActions(); });
+      card.appendChild(btn);
+      host.appendChild(card);
+    });
+    var left = actions.filter(function (a) { return !a.done; }).length;
+    $("#actionsLeft").textContent = left === 0 ? "Tout est traité" : (left + (left > 1 ? " actions" : " action"));
+    var dot = $("#tabDot");
+    dot.textContent = left;
+    dot.style.display = left ? "" : "none";
+    if (left === 0 && !$("#allClear")) {
+      var ok = el("div", "action is-info", '<div class="title" id="allClear">Rien ne traîne.</div><div class="meta">Aucune demande sans réponse, aucun devis oublié. Le système reprend la main à 18 h avec votre récapitulatif.</div>');
+      host.appendChild(ok);
+    }
+  }
+
+  function renderFeed() {
+    var host = $("#autoFeed");
+    autoFeed.forEach(function (f) {
+      var li = el("li");
+      li.appendChild(el("span", "when mono", f.when));
+      li.appendChild(el("span", "what", "<strong>" + esc(f.head) + "</strong><div>" + esc(f.body) + "</div>"));
+      host.appendChild(li);
+    });
+  }
+
+  var stage = "demande";
+  var stageTotals = { demande: 6, devis: 9, gagne: 8 };
+  function renderLeads() {
+    var host = $("#leadList");
+    host.innerHTML = "";
+    leads.filter(function (l) { return l.stage === stage; }).forEach(function (l) {
+      var b = el("button", "lead");
+      var tags = l.tags.map(function (t) { return '<span class="pill ' + t[0] + '">' + esc(t[1]) + "</span>"; }).join("");
+      b.innerHTML =
+        '<span class="top"><span><span class="name">' + esc(l.name) + '</span><br><span class="where">' + esc(l.city) + "</span></span>" +
+        (l.amount ? '<span class="amt">' + euro(l.amount) + "</span>" : '<span class="amt todo">à chiffrer</span>') + "</span>" +
+        '<span class="job">' + esc(l.job) + "</span>" +
+        '<span class="tags">' + tags + "</span>" +
+        '<span class="chev">Voir le suivi complet →</span>';
+      b.addEventListener("click", function () { openLead(l); });
+      host.appendChild(b);
+    });
+    var shown = host.children.length, rest = stageTotals[stage] - shown;
+    if (rest > 0) host.appendChild(el("p", "more", rest + " autres fiches suivies dans cette étape."));
+  }
+
+  function renderDeadlines() {
+    var host = $("#deadlineList");
+    deadlines.forEach(function (x) {
+      var n = el("div", "deadline");
+      n.innerHTML =
+        '<span class="date"><span class="d">' + x.d + '</span><span class="m">' + x.m + "</span></span>" +
+        '<span><span class="who">' + esc(x.who) + '</span><br><span class="what">' + esc(x.what) + '</span><br>' +
+        '<span class="pill ' + x.pill[0] + '" style="margin-top:6px">' + esc(x.pill[1]) + "</span></span>";
+      host.appendChild(n);
+    });
+  }
+
+  function renderResults() {
+    var host = $("#funnel");
+    funnel.forEach(function (f, i) {
+      var s = el("div", "step");
+      s.innerHTML = '<span class="lab">' + esc(f.lab) + "<b>" + f.n + "</b></span>" +
+        '<span class="bar"><i style="width:' + f.pct + "%;animation-delay:" + (i * 90) + 'ms"></i></span>';
+      host.appendChild(s);
+    });
+    var max = Math.max.apply(null, attrib.map(function (a) { return a.v; }));
+    var ah = $("#attrib");
+    attrib.forEach(function (a, i) {
+      var li = el("li");
+      li.innerHTML = '<span class="lab">' + esc(a.lab) + "<b>" + euro(a.v) + "</b></span>" +
+        '<span class="bar"><i style="width:' + Math.round(a.v / max * 100) + "%;background:" + a.color + ";animation-delay:" + (i * 90) + 'ms"></i></span>';
+      ah.appendChild(li);
+    });
+  }
+
+  /* ------------------------------------------------ feuille de détail */
+  var sheet = $("#sheet"), sheetBody = $("#sheetBody"), current = null;
+
+  function timelineHTML(l) {
+    return l.timeline.map(function (s, i) {
+      return '<li class="' + s.k + '" style="animation-delay:' + (i * 110) + 'ms">' +
+        '<span class="when">' + esc(s.when) + "</span>" +
+        '<span class="head">' + esc(s.head) + "</span>" +
+        (s.body ? '<span class="body">' + esc(s.body) + "</span>" : "") +
+        (s.msg ? '<span class="msg">' + esc(s.msg) + "</span>" : "") + "</li>";
+    }).join("");
+  }
+
+  function openLead(l) {
+    current = l;
+    var badge = l.stage === "gagne" ? '<span class="pill good">Gagné</span>'
+      : l.stage === "devis" ? '<span class="pill warn">Devis en attente</span>'
+      : '<span class="pill auto">Demande en cours</span>';
+    sheetBody.innerHTML =
+      '<h3 id="sheetTitle">' + esc(l.name) + "</h3>" +
+      '<p class="small muted" style="margin:-8px 0 0">' + esc(l.job) + " · " + esc(l.city) +
+      (l.amount ? " · <span class=\"mono\">" + euro(l.amount) + "</span>" : "") + "</p>" +
+      '<p style="margin:10px 0 0">' + badge + "</p>" +
+      '<ul class="timeline" id="tl" style="margin-top:14px">' + timelineHTML(l) + "</ul>" +
+      '<button class="replay" id="replay">▶ Rejouer le suivi</button>' +
+      '<p class="small muted" style="margin:0">Points pleins bleus : le système. Points ambrés : ce qui vous revient.</p>';
+    $("#replay").addEventListener("click", function () {
+      $("#tl").innerHTML = timelineHTML(current);
+    });
+    sheet.setAttribute("data-open", "true");
+    sheet.setAttribute("aria-hidden", "false");
+    $("#sheetClose").focus();
+  }
+  function closeSheet() {
+    sheet.setAttribute("data-open", "false");
+    sheet.setAttribute("aria-hidden", "true");
+  }
+  $("#scrim").addEventListener("click", closeSheet);
+  $("#sheetClose").addEventListener("click", closeSheet);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });
+
+  /* ------------------------------------------------ navigation */
+  var tabs = document.querySelectorAll(".tabbar button");
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (o) { o.setAttribute("aria-selected", String(o === t)); });
+      ["today", "pipeline", "clients", "results"].forEach(function (v) {
+        var sec = document.getElementById("view-" + v);
+        sec.hidden = v !== t.dataset.view;
+      });
+      $("#screen").scrollTop = 0;
+      closeSheet();
+    });
+  });
+
+  var segs = document.querySelectorAll("#seg button");
+  segs.forEach(function (s) {
+    s.addEventListener("click", function () {
+      segs.forEach(function (o) { o.setAttribute("aria-selected", String(o === s)); });
+      stage = s.dataset.stage;
+      renderLeads();
+    });
+  });
+
+  renderActions();
+  renderFeed();
+  renderLeads();
+  renderDeadlines();
+  renderResults();
+})();
+</script>
+</body>
+</html>
