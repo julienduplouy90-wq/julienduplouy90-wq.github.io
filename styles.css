@@ -162,6 +162,10 @@ h2{font-size:clamp(2.55rem,4.8vw,5.4rem);line-height:.99}
 .breadcrumb a:hover{color:var(--amber)}
 .breadcrumb span[aria-current]{color:var(--amber)}
 
+.guide-portrait{width:min(100% - 2.5rem,730px);margin:clamp(2.2rem,5vw,4rem) auto 0;text-align:center}
+.guide-portrait img{aspect-ratio:1;object-fit:cover;object-position:center 18%;width:min(100%,320px);border:1px solid var(--line);border-radius:50%;box-shadow:0 16px 34px #10212424;display:block;margin:0 auto}
+.guide-portrait figcaption{letter-spacing:.1em;text-transform:uppercase;color:#182321a8;margin-top:1rem;font-size:.68rem;font-weight:600}
+
 .prose{max-width:730px;margin:0 auto;padding:clamp(2.6rem,6vw,4.5rem) 1.25rem;font-size:1.03rem;line-height:1.75}
 .prose h2{font-size:clamp(1.75rem,4vw,2.5rem);line-height:1.08;margin:2.6rem 0 1rem}
 .prose h2:first-child{margin-top:0}
