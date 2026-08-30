@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Aperçu visuel du template premium ElyoStudio pour paysagistes créateurs. Atelier Canopée est une entreprise fictive de démonstration.">
+<title>Atelier Canopée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300;1,6..72,300&display=swap">
+<style>
+  :root{
+    --foret:#18352C;
+    --foret-clair:#22483C;
+    --charbon:#141A17;
+    --ivoire:#F5F1E8;
+    --ivoire-chaud:#EFEADC;
+    --sable:#DDD2C0;
+    --sable-clair:#E9E1D2;
+    --terre:#A96343;
+    --terre-vive:#BE7351;
+    --encre:#1F2C26;
+    --encre-douce:#5C6C64;
+    --sur-foret:#EAE7DC;
+    --sur-foret-douce:#9FB3A7;
+    --trait:rgba(31,44,38,.15);
+    --trait-fort:rgba(31,44,38,.32);
+    --trait-clair:rgba(233,225,210,.20);
+
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+
+    --pas:clamp(4.5rem,9vw,8.5rem);
+    --conteneur:1180px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--ivoire);
+    color:var(--encre);
+    font-family:var(--sans);
+    font-size:1.0625rem;
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg,canvas{display:block;max-width:100%}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--terre);outline-offset:3px;border-radius:2px}
+
+  .conteneur{width:min(var(--conteneur),100% - 2.5rem);margin-inline:auto}
+  @media (max-width:600px){.conteneur{width:min(var(--conteneur),100% - 1.75rem)}}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.012em}
+  h1{font-size:clamp(2.55rem,6.4vw,4.9rem);line-height:1.02}
+  h2{font-size:clamp(1.95rem,4vw,3.05rem);line-height:1.1}
+  h3{font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2}
+  p{margin:0}
+  .lead{font-size:clamp(1.08rem,1.6vw,1.28rem);line-height:1.55;color:var(--encre-douce)}
+  .mesure{max-width:62ch}
+
+  .etiquette{
+    font-size:.6875rem;letter-spacing:.185em;text-transform:uppercase;
+    font-weight:600;color:var(--encre-douce);font-variant-numeric:tabular-nums;
+  }
+  .sur-sombre .etiquette{color:var(--sur-foret-douce)}
+
+  /* --- Bandeau démonstration --- */
+  .bandeau{
+    background:var(--charbon);color:var(--sur-foret-douce);
+    font-size:.72rem;letter-spacing:.08em;
+    padding:.6rem 0;
+  }
+  .bandeau .conteneur{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+  .pastille{
+    width:6px;height:6px;border-radius:50%;background:var(--terre-vive);flex:none;
+  }
+
+  /* --- En-tête --- */
+  .entete{
+    position:sticky;top:0;z-index:40;
+    background:color-mix(in srgb,var(--ivoire) 88%,transparent);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--trait);
+  }
+  @supports not (backdrop-filter:blur(1px)){.entete{background:var(--ivoire)}}
+  .entete .conteneur{display:flex;align-items:center;gap:1.5rem;min-height:68px}
+  .marque{
+    font-family:var(--serif);font-size:1.32rem;letter-spacing:.01em;
+    text-decoration:none;display:flex;align-items:center;gap:.6rem;
+  }
+  .marque .sigle{
+    width:26px;height:26px;flex:none;
+  }
+  .nav{margin-left:auto;display:flex;align-items:center;gap:1.65rem}
+  .nav a{
+    text-decoration:none;font-size:.86rem;color:var(--encre-douce);
+    padding-block:.35rem;border-bottom:1px solid transparent;
+  }
+  .nav a:hover{color:var(--encre);border-bottom-color:var(--trait-fort)}
+  .nav a[aria-current="page"]{color:var(--encre);border-bottom-color:var(--terre)}
+
+  .bouton{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-family:var(--sans);font-size:.88rem;font-weight:600;letter-spacing:.01em;
+    padding:.78rem 1.3rem;border-radius:2px;text-decoration:none;border:1px solid transparent;
+    min-height:44px;cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease;
+  }
+  .bouton--plein{background:var(--terre);color:#FFF8F2}
+  .bouton--plein:hover{background:var(--terre-vive)}
+  .bouton--foret{background:var(--foret);color:var(--sur-foret)}
+  .bouton--foret:hover{background:var(--foret-clair)}
+  .bouton--fantome{border-color:var(--trait-clair);color:var(--sur-foret)}
+  .bouton--fantome:hover{border-color:var(--sable);background:rgba(233,225,210,.07)}
+  .bouton--ligne{border-color:var(--trait-fort);color:var(--encre)}
+  .bouton--ligne:hover{background:var(--sable-clair)}
+  .bouton .fleche{transition:transform .18s ease}
+  .bouton:hover .fleche{transform:translateX(3px)}
+
+  .entete .bouton{padding-block:.6rem;min-height:40px}
+  .bascule{
+    display:none;margin-left:auto;background:none;border:1px solid var(--trait-fort);
+    border-radius:2px;padding:.55rem .85rem;font:inherit;font-size:.8rem;font-weight:600;
+    min-height:44px;align-items:center;gap:.5rem;cursor:pointer;color:var(--encre);
+  }
+  .bascule .barres{display:grid;gap:4px}
+  .bascule .barres span{display:block;width:16px;height:1.5px;background:var(--encre)}
+  .volet{display:none}
+
+  @media (max-width:900px){
+    .nav,.entete .bouton{display:none}
+    .bascule{display:inline-flex}
+    .volet[data-ouvert="true"]{
+      display:block;border-top:1px solid var(--trait);background:var(--ivoire);
+    }
+    .volet .conteneur{display:grid;gap:.2rem;padding-block:1rem 1.4rem}
+    .volet a{
+      text-decoration:none;padding:.85rem .2rem;border-bottom:1px solid var(--trait);
+      font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;
+    }
+    .volet .bouton{margin-top:1rem;justify-content:center}
+  }
+
+  /* --- Héros --- */
+  .heros{
+    position:relative;background:var(--foret);color:var(--sur-foret);
+    overflow:hidden;isolation:isolate;
+  }
+  .heros__toile{
+    position:absolute;inset:0;width:100%;height:100%;z-index:0;
+    opacity:.9;
+    -webkit-mask-image:linear-gradient(100deg,transparent 6%,#000 46%,#000 100%);
+    mask-image:linear-gradient(100deg,transparent 6%,#000 46%,#000 100%);
+  }
+  .heros__voile{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(94deg,var(--foret) 22%,rgba(24,53,44,.72) 52%,rgba(24,53,44,.25) 100%);
+  }
+  .heros .conteneur{position:relative;z-index:2}
+  .heros__grille{
+    display:grid;gap:2.2rem;
+    padding-block:clamp(3.5rem,9vw,6.5rem) clamp(3rem,7vw,5rem);
+    min-height:min(84svh,760px);align-content:center;
+  }
+  .heros h1{color:var(--sur-foret);max-width:15ch}
+  .heros h1 em{font-style:italic;color:var(--sable)}
+  .heros .lead{color:var(--sur-foret-douce);max-width:46ch}
+  .heros__actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.4rem}
+  .heros__pied{
+    display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;margin-top:clamp(2rem,5vw,3.6rem);
+    padding-top:1.1rem;border-top:1px solid var(--trait-clair);
+    font-size:.82rem;color:var(--sur-foret-douce);
+  }
+  .heros__pied span{display:flex;align-items:center;gap:.55rem}
+  .heros__pied span::before{content:"";width:5px;height:5px;background:var(--terre-vive);flex:none}
+
+  /* --- Sections --- */
+  section{padding-block:var(--pas)}
+  .sable{background:var(--ivoire-chaud)}
+  .foret{background:var(--foret);color:var(--sur-foret)}
+  .foret h2{color:var(--sur-foret)}
+  .foret .lead{color:var(--sur-foret-douce)}
+
+  .titre-section{display:grid;gap:1.1rem;margin-bottom:clamp(2.4rem,5vw,3.6rem)}
+  .titre-section .etiquette{display:flex;align-items:center;gap:.9rem}
+  .titre-section .etiquette::after{content:"";height:1px;flex:1;background:var(--trait);max-width:180px}
+  .foret .titre-section .etiquette::after{background:var(--trait-clair)}
+
+  /* Cadrage */
+  .cadrage{padding-block:clamp(3.2rem,7vw,5.2rem)}
+  .cadrage p{
+    font-family:var(--serif);font-size:clamp(1.4rem,2.9vw,2.15rem);line-height:1.34;
+    max-width:26ch;
+  }
+  .cadrage .note{
+    font-family:var(--sans);font-size:.9rem;color:var(--encre-douce);max-width:44ch;margin-top:1.2rem;line-height:1.6;
+  }
+  .cadrage .conteneur{display:grid;gap:2rem;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:end}
+  @media (max-width:820px){.cadrage .conteneur{grid-template-columns:1fr;align-items:start}}
+
+  /* Index des prestations */
+  .index{border-top:1px solid var(--trait)}
+  .index__ligne{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) auto;
+    gap:1.5rem;align-items:baseline;
+    padding:1.5rem .6rem;border-bottom:1px solid var(--trait);
+    text-decoration:none;transition:background .2s ease,padding-left .2s ease;
+  }
+  .index__ligne:hover,.index__ligne:focus-visible{background:var(--sable-clair);padding-left:1.1rem}
+  .index__nom{font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.15}
+  .index__desc{color:var(--encre-douce);font-size:.95rem;line-height:1.55}
+  .index__meta{
+    font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+    color:var(--encre-douce);display:flex;align-items:center;gap:.9rem;white-space:nowrap;
+  }
+  .index__ligne .fleche{transition:transform .2s ease;color:var(--terre)}
+  .index__ligne:hover .fleche{transform:translateX(4px)}
+  @media (max-width:820px){
+    .index__ligne{grid-template-columns:1fr auto;gap:.45rem 1rem;padding-block:1.25rem}
+    .index__nom{grid-column:1}
+    .index__meta{grid-column:2;grid-row:1;align-self:center}
+    .index__desc{grid-column:1 / -1}
+  }
+
+  /* Editorial deux colonnes */
+  .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(2rem,5vw,4.5rem);align-items:center}
+  .duo--inverse .duo__media{order:-1}
+  @media (max-width:900px){
+    .duo{grid-template-columns:1fr;gap:2.4rem}
+    .duo--inverse .duo__media{order:0}
+  }
+  .duo__texte{display:grid;gap:1.4rem}
+  .duo__texte p{max-width:52ch;color:var(--encre-douce)}
+  .foret .duo__texte p{color:var(--sur-foret-douce)}
+
+  .plaque{position:relative;background:var(--sable);overflow:hidden}
+  .plaque svg{width:100%;height:100%;display:block}
+  .plaque__legende{
+    position:absolute;left:0;bottom:0;
+    background:var(--charbon);color:var(--sur-foret-douce);
+    font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+    padding:.42rem .8rem;
+  }
+
+  /* Matières */
+  .matieres{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--trait-clair);border:1px solid var(--trait-clair)}
+  @media (max-width:720px){.matieres{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .matiere{background:var(--foret);padding:1.15rem 1.15rem 1.3rem;display:grid;gap:.8rem}
+  .matiere__echantillon{height:56px;border-radius:1px}
+  .m-pierre{background:
+    radial-gradient(circle at 22% 30%,rgba(255,255,255,.30) 0 1.5px,transparent 2px),
+    radial-gradient(circle at 68% 62%,rgba(0,0,0,.16) 0 2px,transparent 2.5px),
+    linear-gradient(160deg,#CFC6B6,#B7AC9A)}
+  .m-bois{background:repeating-linear-gradient(96deg,#8A6440 0 5px,#7A5735 5px 7px,#96704A 7px 13px)}
+  .m-vegetal{background:linear-gradient(150deg,#3E6B4C,#22483C 62%,#1A3A2E)}
+  .m-gravier{background:
+    radial-gradient(circle at 18% 28%,rgba(0,0,0,.2) 0 1.6px,transparent 2px),
+    radial-gradient(circle at 55% 70%,rgba(0,0,0,.18) 0 1.8px,transparent 2.2px),
+    radial-gradient(circle at 82% 36%,rgba(255,255,255,.35) 0 1.4px,transparent 1.9px),
+    linear-gradient(180deg,#C9BFAB,#AFA490)}
+  .m-eau{background:linear-gradient(180deg,#7FA3A0,#456F72 70%,#33565C)}
+  .matiere__nom{font-size:.8rem;font-weight:600;color:var(--sur-foret)}
+  .matiere__note{font-size:.75rem;color:var(--sur-foret-douce);line-height:1.45}
+
+  /* Processus */
+  .etapes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--trait);border-top:1px solid var(--trait-fort)}
+  @media (max-width:900px){.etapes{grid-template-columns:1fr}}
+  .etape{background:var(--ivoire);padding:1.6rem 1.4rem 2rem;display:grid;gap:.85rem;align-content:start;position:relative}
+  .sable .etape{background:var(--ivoire-chaud)}
+  .etape__num{
+    font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.16em;
+    color:var(--terre);font-variant-numeric:tabular-nums;
+  }
+  .etape::before{content:"";position:absolute;top:-1px;left:0;width:34px;height:2px;background:var(--terre)}
+  .etape h3{font-size:1.22rem}
+  .etape p{font-size:.92rem;color:var(--encre-douce);line-height:1.6}
+
+  /* Réalisations */
+  .projets{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(1rem,2.2vw,1.75rem)}
+  .projet{grid-column:span 12;display:grid;gap:1rem;align-content:start}
+  @media (min-width:860px){
+    .projet--large{grid-column:span 7}
+    .projet--haut{grid-column:span 5}
+    .projet--bas{grid-column:6 / span 7;margin-top:1rem}
+  }
+  .projet__cadre{position:relative;overflow:hidden;background:var(--sable)}
+  .projet__marque{
+    position:absolute;top:0;right:0;background:var(--ivoire);color:var(--encre-douce);
+    font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:.4rem .7rem;
+  }
+  .projet h3{font-size:1.3rem}
+  .projet p{font-size:.92rem;color:var(--encre-douce);max-width:46ch;line-height:1.6}
+  .projet .etiquette{font-size:.66rem}
+
+  /* Zone */
+  .zone{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+  @media (max-width:860px){.zone{grid-template-columns:1fr}}
+
+  /* Emplacement avis */
+  .emplacement{
+    border:1px dashed var(--trait-fort);padding:clamp(1.6rem,4vw,2.6rem);
+    display:grid;gap:.8rem;background:
+      repeating-linear-gradient(135deg,transparent 0 9px,rgba(31,44,38,.035) 9px 10px);
+  }
+  .emplacement h3{font-size:1.28rem}
+  .emplacement p{color:var(--encre-douce);font-size:.93rem;max-width:56ch}
+
+  /* Appel final */
+  .final{background:var(--charbon);color:var(--sur-foret);padding-block:clamp(4rem,9vw,7rem)}
+  .final h2{color:var(--sur-foret);max-width:18ch}
+  .final p{color:var(--sur-foret-douce);max-width:50ch}
+  .final .conteneur{display:grid;gap:1.7rem;justify-items:start}
+
+  /* Pied */
+  .pied{background:var(--foret);color:var(--sur-foret-douce);padding-block:3.5rem 2.5rem;font-size:.87rem}
+  .pied__haut{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:2.2rem;padding-bottom:2.2rem;border-bottom:1px solid var(--trait-clair)}
+  @media (max-width:760px){.pied__haut{grid-template-columns:1fr 1fr}.pied__marque{grid-column:1 / -1}}
+  .pied h4{font-family:var(--sans);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sur-foret);margin:0 0 .9rem}
+  .pied ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+  .pied a{text-decoration:none}
+  .pied a:hover{color:var(--sable);text-decoration:underline;text-underline-offset:3px}
+  .pied__marque .marque{color:var(--sur-foret);margin-bottom:.9rem}
+  .pied__bas{display:flex;flex-wrap:wrap;gap:.7rem 1.6rem;padding-top:1.6rem;font-size:.78rem}
+  .pied__bas .placeholder{color:rgba(159,179,167,.55)}
+
+  .lien-evitement{
+    position:absolute;left:-9999px;top:0;background:var(--terre);color:#fff;
+    padding:.7rem 1.1rem;z-index:100;
+  }
+  .lien-evitement:focus{left:.75rem;top:.75rem;position:fixed}
+
+  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+  .js .reveal.vu{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .js .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto!important}
+  }
+</style>
+
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+<div class="bandeau">
+  <div class="conteneur">
+    <span class="pastille" aria-hidden="true"></span>
+    <span>Démonstration ElyoStudio, Atelier Canopée est une entreprise fictive. Textes, projets et coordonnées sont des exemples.</span>
+  </div>
+</div>
+
+<header class="entete">
+  <div class="conteneur">
+    <a class="marque" href="#">
+      <svg class="sigle" viewBox="0 0 32 32" aria-hidden="true" fill="none">
+        <circle cx="16" cy="16" r="15" stroke="#A96343" stroke-width="1"/>
+        <path d="M16 27V13" stroke="#18352C" stroke-width="1.2"/>
+        <path d="M16 14c0-5 3.6-8.4 8-9 .6 4.7-2.6 9-8 9Z" fill="#18352C"/>
+        <path d="M16 19c-4.4 0-7.4-2.8-8-6.6 4 .2 7.4 2.6 8 6.6Z" fill="#22483C"/>
+      </svg>
+      Atelier Canopée
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#" aria-current="page">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#realisations">Réalisations</a>
+      <a href="#approche">Notre approche</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="bouton bouton--plein" href="#contact">Décrire mon projet</a>
+    <button class="bascule" type="button" aria-expanded="false" aria-controls="volet-nav">
+      <span class="barres" aria-hidden="true"><span></span><span></span></span>
+      Menu
+    </button>
+  </div>
+  <div class="volet" id="volet-nav" data-ouvert="false">
+    <div class="conteneur">
+      <a href="#" aria-current="page">Accueil <span aria-hidden="true">&#8250;</span></a>
+      <a href="#services">Services <span aria-hidden="true">&#8250;</span></a>
+      <a href="#realisations">Réalisations <span aria-hidden="true">&#8250;</span></a>
+      <a href="#approche">Notre approche <span aria-hidden="true">&#8250;</span></a>
+      <a href="#contact">Contact <span aria-hidden="true">&#8250;</span></a>
+      <a class="bouton bouton--plein" href="#contact">Décrire mon projet</a>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <section class="heros sur-sombre" style="padding-block:0">
+    <canvas class="heros__toile" aria-hidden="true"></canvas>
+    <div class="heros__voile" aria-hidden="true"></div>
+    <div class="conteneur">
+      <div class="heros__grille">
+        <p class="etiquette">Conception et réalisation d'extérieurs &nbsp;·&nbsp; Tarbes et Hautes-Pyrénées</p>
+        <h1>Un extérieur se dessine <em>avant</em> de se construire.</h1>
+        <p class="lead">Relevé du terrain, plan d'aménagement, choix des matières et des végétaux. Le projet se décide sur le papier, quand les corrections ne coûtent encore rien.</p>
+        <div class="heros__actions">
+          <a class="bouton bouton--plein" href="#contact">Décrire mon projet <span class="fleche" aria-hidden="true">&#8594;</span></a>
+          <a class="bouton bouton--fantome" href="#realisations">Voir les réalisations</a>
+        </div>
+        <div class="heros__pied">
+          <span>Création et réaménagement</span>
+          <span>Jardins, terrasses, abords</span>
+          <span>Étude puis chantier</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cadrage">
+    <div class="conteneur reveal">
+      <p>Nous intervenons sur des projets de création et de réaménagement, pas sur l'entretien courant.</p>
+      <p class="note">Un jardin à redessiner, une terrasse à créer, des abords de piscine à reprendre : ce sont des projets qui commencent par une visite et un plan, pas par un devis au mètre carré.</p>
+    </div>
+  </section>
+
+  <section id="services" class="sable">
+    <div class="conteneur">
+      <div class="titre-section reveal">
+        <p class="etiquette">Prestations</p>
+        <h2>Ce que nous concevons et réalisons</h2>
+      </div>
+      <div class="index reveal">
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Conception de jardins</span>
+          <span class="index__desc">Relevé du terrain, plan d'aménagement, palette végétale adaptée à l'exposition et au sol.</span>
+          <span class="index__meta">Étude <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Terrasses</span>
+          <span class="index__desc">Bois, pierre ou béton, choisis selon l'usage réel de l'espace et son ensoleillement.</span>
+          <span class="index__meta">Réalisation <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Pergolas</span>
+          <span class="index__desc">Des structures d'ombrage intégrées à la maison plutôt que posées devant.</span>
+          <span class="index__meta">Réalisation <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Clôtures et portails</span>
+          <span class="index__desc">Délimiter sans fermer : hauteurs, matières et transparences étudiées avec le voisinage.</span>
+          <span class="index__meta">Réalisation <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Allées et accès</span>
+          <span class="index__desc">Circulation des véhicules, des piétons et de l'eau de pluie traitée dans le même dessin.</span>
+          <span class="index__meta">Réalisation <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+        <a class="index__ligne" href="#services">
+          <span class="index__nom">Abords de piscine</span>
+          <span class="index__desc">Plages, écrans végétaux et transition avec le reste du jardin.</span>
+          <span class="index__meta">Création <span class="fleche" aria-hidden="true">&#8594;</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="approche">
+    <div class="conteneur">
+      <div class="duo reveal">
+        <div class="duo__texte">
+          <p class="etiquette">Notre approche</p>
+          <h2>Un jardin réussi commence par ce qu'on ne voit pas.</h2>
+          <p>Le niveau du terrain, l'écoulement de l'eau, la nature du sol et le trajet que l'on fait chaque jour entre la porte et le portail décident de presque tout le reste.</p>
+          <p>Nous dessinons donc l'ensemble avant de découper le projet en étapes, même lorsque la réalisation s'étale sur plusieurs saisons.</p>
+        </div>
+        <div class="duo__media">
+          <div class="plaque" style="aspect-ratio:4/3">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration : coupe schématique d'un terrain en pente avec terrasses successives et plantations.">
+              <rect width="400" height="300" fill="#E9E1D2"/>
+              <path d="M0 196h400v104H0z" fill="#CFC6B6"/>
+              <path d="M0 196h400v10H0z" fill="#BDB19C"/>
+              <path d="M0 156h150v40H0z" fill="#DDD2C0"/>
+              <path d="M150 156h6v40h-6z" fill="#B29F86"/>
+              <path d="M0 120h96v36H0z" fill="#E4DACA"/>
+              <path d="M96 120h6v36h-6z" fill="#B29F86"/>
+              <path d="M228 196c0-26 18-44 44-44s44 18 44 44z" fill="#22483C"/>
+              <path d="M272 196v-52" stroke="#18352C" stroke-width="3"/>
+              <circle cx="196" cy="182" r="15" fill="#3E6B4C"/>
+              <circle cx="222" cy="186" r="11" fill="#2E5A42"/>
+              <circle cx="52" cy="108" r="13" fill="#3E6B4C"/>
+              <circle cx="78" cy="112" r="9" fill="#2E5A42"/>
+              <path d="M0 92h400" stroke="#A96343" stroke-width="1" stroke-dasharray="4 6"/>
+              <path d="M330 196V150h48v46z" fill="#8A6440"/>
+              <path d="M326 150h56v5h-56z" fill="#7A5735"/>
+              <path d="M0 250h400" stroke="rgba(31,44,38,.12)" stroke-width="1"/>
+              <path d="M0 276h400" stroke="rgba(31,44,38,.12)" stroke-width="1"/>
+            </svg>
+            <span class="plaque__legende">Illustration de démonstration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="foret sur-sombre">
+    <div class="conteneur">
+      <div class="titre-section reveal" style="max-width:44ch">
+        <p class="etiquette">Matières</p>
+        <h2>Cinq familles de matières, choisies pour le lieu</h2>
+        <p class="lead">Le mélange se décide devant la maison, pas dans un catalogue. Voici celles que nous employons le plus souvent.</p>
+      </div>
+      <div class="matieres reveal">
+        <div class="matiere"><span class="matiere__echantillon m-pierre" aria-hidden="true"></span><span class="matiere__nom">Pierre</span><span class="matiere__note">Dallages, murets, seuils.</span></div>
+        <div class="matiere"><span class="matiere__echantillon m-bois" aria-hidden="true"></span><span class="matiere__nom">Bois</span><span class="matiere__note">Terrasses, pergolas, écrans.</span></div>
+        <div class="matiere"><span class="matiere__echantillon m-vegetal" aria-hidden="true"></span><span class="matiere__nom">Végétal</span><span class="matiere__note">Masses persistantes et floraisons.</span></div>
+        <div class="matiere"><span class="matiere__echantillon m-gravier" aria-hidden="true"></span><span class="matiere__nom">Gravier</span><span class="matiere__note">Allées, accès, sols drainants.</span></div>
+        <div class="matiere"><span class="matiere__echantillon m-eau" aria-hidden="true"></span><span class="matiere__nom">Eau</span><span class="matiere__note">Bassins, abords, récupération.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sable">
+    <div class="conteneur">
+      <div class="titre-section reveal">
+        <p class="etiquette">Déroulement</p>
+        <h2>Quatre étapes, dans cet ordre</h2>
+      </div>
+      <div class="etapes reveal">
+        <article class="etape">
+          <span class="etape__num">01</span>
+          <h3>Échange</h3>
+          <p>Un rendez-vous sur place pour comprendre le terrain, vos usages et l'ordre de budget envisagé.</p>
+        </article>
+        <article class="etape">
+          <span class="etape__num">02</span>
+          <h3>Conception</h3>
+          <p>Plan d'aménagement, coupes et palette de matières. Vous voyez le projet avant de le financer.</p>
+        </article>
+        <article class="etape">
+          <span class="etape__num">03</span>
+          <h3>Préparation</h3>
+          <p>Terrassement, réseaux, drainage et calendrier. Les étapes invisibles conditionnent tout le reste.</p>
+        </article>
+        <article class="etape">
+          <span class="etape__num">04</span>
+          <h3>Réalisation</h3>
+          <p>Maçonnerie, menuiserie, plantations et finitions, dans l'ordre qui protège le travail déjà fait.</p>
+        </article>
+      </div>
+      <p class="etiquette reveal" style="margin-top:1.4rem;letter-spacing:.09em;text-transform:none;font-weight:400;font-size:.82rem">Parcours donné à titre d'exemple, adapté à chaque projet.</p>
+    </div>
+  </section>
+
+  <section id="realisations">
+    <div class="conteneur">
+      <div class="titre-section reveal">
+        <p class="etiquette">Réalisations</p>
+        <h2>Trois intentions de projet</h2>
+        <p class="lead mesure">Ces planches illustrent des types d'aménagement. Elles ne représentent aucun chantier réel : sur un site client, elles laissent la place aux photos de l'entreprise.</p>
+      </div>
+      <div class="projets reveal">
+        <article class="projet projet--large">
+          <div class="projet__cadre" style="aspect-ratio:16/11">
+            <svg viewBox="0 0 640 440" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration : jardin contemporain organisé en bandes végétales avec une allée traversante.">
+              <rect width="640" height="440" fill="#D8E0D4"/>
+              <path d="M0 0h640v150H0z" fill="#C6D2C6"/>
+              <path d="M0 150 120 96l90 34 108-52 132 48 96-38 94 42v20H0z" fill="#9FB09F"/>
+              <path d="M0 170h640v56H0z" fill="#3E6B4C"/>
+              <path d="M0 226h640v40H0z" fill="#2E5A42"/>
+              <path d="M0 266h640v40H0z" fill="#CFC6B6"/>
+              <path d="M0 306h640v134H0z" fill="#22483C"/>
+              <path d="M262 440l38-174h44l-38 174z" fill="#DDD2C0"/>
+              <path d="M300 266h44l-6 28h-44z" fill="#C9BFAB"/>
+              <circle cx="96" cy="196" r="30" fill="#22483C"/>
+              <circle cx="140" cy="206" r="20" fill="#1A3A2E"/>
+              <circle cx="524" cy="192" r="34" fill="#22483C"/>
+              <circle cx="480" cy="204" r="22" fill="#1A3A2E"/>
+              <path d="M60 306h150v134H60z" fill="#2E5A42"/>
+              <path d="M430 306h150v134H430z" fill="#2E5A42"/>
+              <path d="M0 386h640" stroke="rgba(245,241,232,.14)" stroke-width="1" stroke-dasharray="3 9"/>
+              <path d="M0 344h640" stroke="rgba(245,241,232,.14)" stroke-width="1" stroke-dasharray="3 9"/>
+            </svg>
+            <span class="projet__marque">Projet de démonstration</span>
+          </div>
+          <p class="etiquette">Jardin contemporain</p>
+          <h3>Terrain en pente restructuré</h3>
+          <p>Bandes plantées parallèles à la maison, allée traversante et masse persistante pour tenir le jardin en hiver.</p>
+        </article>
+
+        <article class="projet projet--haut">
+          <div class="projet__cadre" style="aspect-ratio:4/5">
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration : terrasse en bois abritée par une pergola, prolongeant la pièce de vie.">
+              <rect width="400" height="500" fill="#E4DACA"/>
+              <path d="M0 0h400v180H0z" fill="#EFEADC"/>
+              <path d="M40 60h60v6H40zM40 90h320v6H40zM40 120h320v6H40z" fill="#8A6440"/>
+              <path d="M56 60v300h10V60zM334 60v300h10V60z" fill="#7A5735"/>
+              <path d="M120 60h60v6h-60zM200 60h60v6h-60zM280 60h60v6h-60z" fill="#8A6440"/>
+              <path d="M0 300h400v200H0z" fill="#96704A"/>
+              <path d="M0 300h400v6H0zM0 336h400v6H0zM0 372h400v6H0zM0 408h400v6H0zM0 444h400v6H0zM0 480h400v6H0z" fill="#7A5735"/>
+              <path d="M0 180h400v120H0z" fill="#DDD2C0"/>
+              <circle cx="330" cy="240" r="42" fill="#2E5A42"/>
+              <circle cx="286" cy="256" r="26" fill="#22483C"/>
+              <path d="M100 210h120v90H100z" fill="#C9BFAB"/>
+              <path d="M100 210h120v8H100z" fill="#B29F86"/>
+              <path d="M0 268h400" stroke="#A96343" stroke-width="1.5" stroke-dasharray="5 7"/>
+            </svg>
+            <span class="projet__marque">Projet de démonstration</span>
+          </div>
+          <p class="etiquette">Terrasse conviviale</p>
+          <h3>Prolongement de la pièce de vie</h3>
+          <p>Sol continu entre intérieur et extérieur, ombrage bois orienté sur la course du soleil.</p>
+        </article>
+
+        <article class="projet projet--bas">
+          <div class="projet__cadre" style="aspect-ratio:16/9">
+            <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration : abords de piscine avec plage minérale et écran végétal en arrière-plan.">
+              <rect width="640" height="360" fill="#DDD2C0"/>
+              <path d="M0 0h640v96H0z" fill="#22483C"/>
+              <circle cx="90" cy="96" r="46" fill="#2E5A42"/>
+              <circle cx="180" cy="96" r="34" fill="#3E6B4C"/>
+              <circle cx="470" cy="96" r="52" fill="#2E5A42"/>
+              <circle cx="556" cy="96" r="36" fill="#3E6B4C"/>
+              <path d="M0 96h640v40H0z" fill="#C9BFAB"/>
+              <path d="M80 150h480v170H80z" fill="#5D8A8C"/>
+              <path d="M80 150h480v14H80z" fill="#7FA3A0"/>
+              <path d="M110 190h420M110 224h420M110 258h420M110 292h420" stroke="rgba(245,241,232,.28)" stroke-width="2"/>
+              <path d="M60 136h520v14H60z" fill="#E9E1D2"/>
+              <path d="M0 320h640v40H0z" fill="#CFC6B6"/>
+              <path d="M20 200h34v88H20z" fill="#EFEADC"/>
+              <path d="M586 200h34v88h-34z" fill="#EFEADC"/>
+            </svg>
+            <span class="projet__marque">Projet de démonstration</span>
+          </div>
+          <p class="etiquette">Abords de piscine</p>
+          <h3>Plage minérale et écran végétal</h3>
+          <p>Une transition franche entre la plage et le jardin existant, sans rupture de niveau.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sable">
+    <div class="conteneur">
+      <div class="zone reveal">
+        <div class="duo__texte">
+          <p class="etiquette">Zone d'intervention</p>
+          <h2>Tarbes et les Hautes-Pyrénées</h2>
+          <p>Zone illustrative pour cette démonstration. Sur un site client, elle reprend les communes réellement desservies.</p>
+          <p>La faisabilité dépend de l'accès au terrain, de la nature du chantier et de la saison. Elle se confirme lors de la visite.</p>
+        </div>
+        <div>
+          <svg viewBox="0 0 420 300" role="img" aria-label="Schéma : cercles concentriques autour d'un point central figurant la zone d'intervention." style="width:100%;height:auto">
+            <rect width="420" height="300" fill="none"/>
+            <g fill="none" stroke="rgba(31,44,38,.22)">
+              <ellipse cx="200" cy="150" rx="185" ry="118"/>
+              <ellipse cx="200" cy="150" rx="140" ry="90"/>
+              <ellipse cx="200" cy="150" rx="95" ry="61"/>
+              <ellipse cx="200" cy="150" rx="52" ry="33"/>
+            </g>
+            <path d="M200 26v248M15 150h370" stroke="rgba(31,44,38,.13)" stroke-dasharray="4 8"/>
+            <circle cx="200" cy="150" r="6" fill="#A96343"/>
+            <text x="214" y="146" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="#1F2C26">Tarbes</text>
+            <text x="214" y="164" font-family="Archivo, sans-serif" font-size="11" fill="#5C6C64">Point de référence</text>
+            <text x="24" y="272" font-family="Archivo, sans-serif" font-size="10" letter-spacing="1.6" fill="#5C6C64">SCHÉMA INDICATIF</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-block:clamp(3rem,6vw,4.5rem)">
+    <div class="conteneur">
+      <div class="emplacement reveal">
+        <p class="etiquette">Emplacement réservé</p>
+        <h3>Les avis clients apparaîtront ici</h3>
+        <p>Cette zone accueille les avis vérifiés de l'entreprise, avec leur source. Aucun avis n'est affiché en mode démonstration, car aucun n'existe.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="final">
+    <div class="conteneur">
+      <p class="etiquette" style="color:var(--sur-foret-douce)">Contact</p>
+      <h2>Décrivez votre projet en quelques lignes.</h2>
+      <p>Le lieu, l'usage souhaité, l'état actuel du terrain et l'ordre de budget envisagé suffisent pour savoir si le projet nous correspond et pour préparer la visite.</p>
+      <a class="bouton bouton--plein" href="#contact">Décrire mon projet <span class="fleche" aria-hidden="true">&#8594;</span></a>
+      <p style="font-size:.8rem;color:rgba(159,179,167,.75);max-width:52ch">En démonstration, le formulaire n'envoie et n'enregistre aucune donnée.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__haut">
+      <div class="pied__marque">
+        <span class="marque">
+          <svg class="sigle" viewBox="0 0 32 32" aria-hidden="true" fill="none">
+            <circle cx="16" cy="16" r="15" stroke="#A96343" stroke-width="1"/>
+            <path d="M16 27V13" stroke="#DDD2C0" stroke-width="1.2"/>
+            <path d="M16 14c0-5 3.6-8.4 8-9 .6 4.7-2.6 9-8 9Z" fill="#DDD2C0"/>
+            <path d="M16 19c-4.4 0-7.4-2.8-8-6.6 4 .2 7.4 2.6 8 6.6Z" fill="#9FB3A7"/>
+          </svg>
+          Atelier Canopée
+        </span>
+        <p style="max-width:34ch;line-height:1.6">Conception et réalisation d'extérieurs. Zone illustrative : Tarbes et Hautes-Pyrénées.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+          <li><a href="#approche">Notre approche</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Coordonnées</h4>
+        <ul>
+          <li class="placeholder">Téléphone à renseigner</li>
+          <li class="placeholder">Adresse e-mail à renseigner</li>
+          <li class="placeholder">Adresse postale à renseigner</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <span>Mentions légales</span>
+      <span>Politique de confidentialité</span>
+      <span style="margin-left:auto">Site de démonstration créé par ElyoStudio</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+
+  /* Menu mobile */
+  var bascule = document.querySelector('.bascule');
+  var volet = document.getElementById('volet-nav');
+  function fermer(){ volet.setAttribute('data-ouvert','false'); bascule.setAttribute('aria-expanded','false'); }
+  bascule.addEventListener('click', function(){
+    var ouvert = volet.getAttribute('data-ouvert') === 'true';
+    volet.setAttribute('data-ouvert', ouvert ? 'false' : 'true');
+    bascule.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
+  });
+  volet.addEventListener('click', function(e){ if(e.target.tagName === 'A') fermer(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && volet.getAttribute('data-ouvert') === 'true'){ fermer(); bascule.focus(); }
+  });
+
+  /* Révélations au défilement */
+  var doux = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cibles = document.querySelectorAll('.reveal');
+  if(doux || !('IntersectionObserver' in window)){
+    cibles.forEach(function(el){ el.classList.add('vu'); });
+  } else {
+    var obs = new IntersectionObserver(function(entrees){
+      entrees.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vu'); obs.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -12% 0px', threshold:0.06});
+    cibles.forEach(function(el){ obs.observe(el); });
+  }
+
+  /* Courbes de niveau du héros */
+  var toile = document.querySelector('.heros__toile');
+  var ctx = toile.getContext('2d');
+  var l = 0, h = 0, depart = null, duree = doux ? 0 : 1500;
+
+  function dimensionner(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    l = toile.clientWidth; h = toile.clientHeight;
+    toile.width = Math.round(l * dpr); toile.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function tracer(p){
+    ctx.clearRect(0, 0, l, h);
+    var cx = l * (l < 700 ? 0.62 : 0.70);
+    var cy = h * 0.50;
+    var rmax = Math.max(l, h) * 0.78;
+    var anneaux = 28;
+    for(var i = 0; i < anneaux; i++){
+      var t = i / (anneaux - 1);
+      var alpha = Math.max(0, Math.min(1, (p - t * 0.62) / 0.34));
+      if(alpha <= 0) continue;
+      var base = rmax * (0.07 + 0.93 * Math.pow(t, 1.28));
+      ctx.beginPath();
+      for(var a = 0; a <= 360; a += 2){
+        var th = a * Math.PI / 180;
+        var r = base * (1
+          + 0.088 * Math.sin(3 * th + 1.1 + i * 0.10)
+          + 0.052 * Math.sin(5 * th - 0.6 - i * 0.065)
+          + 0.028 * Math.sin(8 * th + 2.2 + i * 0.04));
+        var x = cx + r * Math.cos(th);
+        var y = cy + r * Math.sin(th) * 0.60;
+        if(a === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      var maitre = (i % 5 === 0);
+      ctx.lineWidth = maitre ? 1.2 : 0.7;
+      ctx.strokeStyle = 'rgba(221,210,192,' + ((maitre ? 0.34 : 0.16) * alpha).toFixed(3) + ')';
+      ctx.stroke();
+    }
+    /* Limite de parcelle */
+    var q = Math.max(0, Math.min(1, (p - 0.55) / 0.45));
+    if(q > 0){
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(-0.13);
+      ctx.strokeStyle = 'rgba(190,115,81,' + (0.55 * q).toFixed(3) + ')';
+      ctx.lineWidth = 1.1;
+      ctx.setLineDash([7, 7]);
+      var pl = Math.min(l, 760) * 0.52, ph = Math.min(h, 620) * 0.44;
+      ctx.strokeRect(-pl / 2, -ph / 2, pl, ph);
+      ctx.restore();
+    }
+  }
+
+  function animer(ts){
+    if(depart === null) depart = ts;
+    var p = duree === 0 ? 1 : Math.min(1, (ts - depart) / duree);
+    tracer(p * p * (3 - 2 * p));
+    if(p < 1) requestAnimationFrame(animer);
+  }
+
+  dimensionner();
+  if(duree === 0) tracer(1); else requestAnimationFrame(animer);
+
+  var minuteur;
+  window.addEventListener('resize', function(){
+    clearTimeout(minuteur);
+    minuteur = setTimeout(function(){ dimensionner(); tracer(1); }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>
