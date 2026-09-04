@@ -1,5 +1,14 @@
 ErrorDocument 404 /404.html
 
+# Une seule adresse canonique : tout autre hôte (www, domaine temporaire
+# Hostinger…) est redirigé en 301 vers https://tambouloup.fr
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} !^tambouloup\.fr$ [NC]
+  RewriteCond %{HTTP_HOST} !^$
+  RewriteRule ^(.*)$ https://tambouloup.fr/$1 [R=301,L]
+</IfModule>
+
 <Files "demandes.csv">
   Require all denied
 </Files>
