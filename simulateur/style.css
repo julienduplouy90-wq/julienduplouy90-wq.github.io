@@ -153,4 +153,11 @@ label { display: block; margin-bottom: 12px; }
 .interrupteur input[type="checkbox"] { width: 19px; height: 19px; margin-top: 3px; accent-color: var(--marque); }
 .interrupteur .grandir { flex: 1; }
 
+/* Bandeau « votre simulateur est prêt » (mode aperçu artisan) */
+.banniere {
+  background: color-mix(in srgb, var(--marque) 8%, white);
+  border: 1px solid color-mix(in srgb, var(--marque) 30%, white);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 14px;
+}
+
 .pied { text-align: center; font-size: 11px; color: #c9c4bf; margin-top: 32px; }

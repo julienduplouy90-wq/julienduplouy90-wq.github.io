@@ -83,4 +83,26 @@ $entetes = 'From: noreply@' . ($_SERVER['HTTP_HOST'] ?? 'paysagedigital.fr') . "
          . 'Content-Type: text/plain; charset=utf-8';
 @mail(EMAIL_PAYSAGE_DIGITAL, '=?UTF-8?B?' . base64_encode($sujet) . '?=', $corps, $entetes);
 
+/* ---------- 3. Email de bienvenue à l'artisan (son lien + le code) ---------- */
+$iframe = '<iframe src="' . $fiche['lien'] . '" style="width:100%;min-height:700px;border:0;border-radius:12px" title="Estimer mon projet" loading="lazy"></iframe>';
+$sujetArtisan = 'Votre simulateur de prix est prêt';
+$corpsArtisan = implode("\n", [
+  'Bonjour ' . $fiche['entreprise'] . ',',
+  '',
+  'Votre simulateur de prix est prêt. Les demandes de vos clients arriveront directement sur cet email.',
+  '',
+  'VOTRE LIEN (à garder précieusement, il contient toute votre configuration) :',
+  $fiche['lien'],
+  '',
+  'POUR L\'AJOUTER À VOTRE SITE, collez ce code à l\'endroit voulu',
+  '(WordPress : bloc HTML personnalisé - Wix/Hostinger : élément "Code d\'intégration" - Webflow : Embed) :',
+  '',
+  $iframe,
+  '',
+  'Une question ? Répondez simplement à cet email.',
+  '',
+  '— Paysage Digital',
+]);
+@mail($fiche['email'], '=?UTF-8?B?' . base64_encode($sujetArtisan) . '?=', $corpsArtisan, $entetes);
+
 echo json_encode(['ok' => true]);
