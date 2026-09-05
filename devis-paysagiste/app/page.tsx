@@ -1,79 +1,55 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { formatDate, formatEuros } from "@/lib/format";
 
-// Page lue en base à chaque requête (pas de cache statique).
-export const dynamic = "force-dynamic";
-
-export default async function Accueil() {
-  // Premier lancement : pas de profil → on passe par le questionnaire.
-  const profil = await prisma.profil.findFirst();
-  if (!profil?.onboardingTermine) {
-    redirect("/onboarding");
-  }
-
-  const derniersDevis = await prisma.devis.findMany({
-    orderBy: { dateCreation: "desc" },
-    take: 3,
-  });
-
+// Landing du SaaS : une promesse, un CTA.
+export default function Landing() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">
-          Bonjour{profil.nomEntreprise ? ` ${profil.nomEntreprise}` : ""} 👋
-        </h1>
-        <p className="text-stone-600">
-          {profil.ville} ({profil.codePostal})
+    <div className="flex min-h-screen flex-col">
+      <header className="px-4 py-4">
+        <p className="mx-auto max-w-3xl text-lg font-bold text-green-800">
+          🌿 Paysage Digital
         </p>
-      </div>
+      </header>
 
-      {/* Gros boutons, faciles à viser sur chantier */}
-      <div className="grid gap-3">
-        <Link
-          href="/nouveau-devis"
-          className="block rounded-xl bg-green-700 px-5 py-4 text-center text-lg font-semibold text-white shadow hover:bg-green-800"
-        >
-          ➕ Créer un devis
-        </Link>
-        <Link
-          href="/devis"
-          className="block rounded-xl bg-white px-5 py-4 text-center text-lg font-semibold shadow ring-1 ring-stone-200 hover:bg-stone-100"
-        >
-          📋 Mes devis
-        </Link>
-        <Link
-          href="/prestations"
-          className="block rounded-xl bg-white px-5 py-4 text-center text-lg font-semibold shadow ring-1 ring-stone-200 hover:bg-stone-100"
-        >
-          🏷️ Mes tarifs
-        </Link>
-      </div>
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-4 py-12 text-center">
+        <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
+          Ajoutez un simulateur de prix à votre site
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-stone-600">
+          Vos visiteurs estiment leur projet en 2 minutes, vous recevez des
+          demandes <strong>déjà qualifiées</strong> — avec budget, surface et
+          coordonnées.
+        </p>
 
-      {derniersDevis.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-lg font-semibold">Derniers devis</h2>
-          <ul className="divide-y divide-stone-200 rounded-xl bg-white shadow ring-1 ring-stone-200">
-            {derniersDevis.map((d) => (
-              <li key={d.id}>
-                <Link
-                  href={`/devis/${d.id}`}
-                  className="flex items-center justify-between px-4 py-3 hover:bg-stone-50"
-                >
-                  <span>
-                    <span className="font-medium">{d.nomClient}</span>
-                    <span className="block text-sm text-stone-500">
-                      {formatDate(d.dateCreation)}
-                    </span>
-                  </span>
-                  <span className="font-semibold">{formatEuros(d.totalHT)}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+        <div className="mx-auto mt-8 w-full max-w-sm">
+          <Link
+            href="/onboarding"
+            className="block rounded-xl bg-green-700 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:bg-green-800"
+          >
+            Créer mon simulateur gratuitement
+          </Link>
+          <p className="mt-3 text-sm text-stone-500">
+            Prêt en moins de 10 minutes. Aucune carte bancaire.
+          </p>
+        </div>
+
+        <div className="mt-16 grid gap-4 text-left sm:grid-cols-3">
+          {[
+            ["⚙️", "Configurez vos tarifs", "Vos prix, vos coefficients. Le simulateur calcule une fourchette, jamais un devis."],
+            ["🔗", "Collez le widget", "Une ligne de code sur WordPress, Wix, Webflow ou Hostinger — ou un simple lien."],
+            ["📥", "Recevez des prospects", "Chaque simulation terminée devient une fiche prospect qualifiée."],
+          ].map(([emoji, titre, texte]) => (
+            <div key={titre} className="rounded-xl bg-white p-5 shadow ring-1 ring-stone-200">
+              <p className="text-2xl">{emoji}</p>
+              <p className="mt-2 font-semibold">{titre}</p>
+              <p className="mt-1 text-sm text-stone-600">{texte}</p>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <footer className="px-4 py-6 text-center text-sm text-stone-400">
+        Paysage Digital — simulateur d&apos;estimation pour entreprises de paysage
+      </footer>
     </div>
   );
 }

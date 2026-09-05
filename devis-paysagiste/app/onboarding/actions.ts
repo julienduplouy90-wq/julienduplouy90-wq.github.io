@@ -1,80 +1,85 @@
 "use server";
 
-// Enregistrement du questionnaire de démarrage :
-// - le profil (entreprise, localisation)
-// - le prix exact choisi pour chaque prestation
-import { revalidatePath } from "next/cache";
+// Création d'une entreprise depuis le wizard d'onboarding :
+// infos + branding + prestations activées avec leurs règles par défaut,
+// éventuellement ajustées (prix de base min/max saisis).
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { CATALOGUE, reglesDefaut } from "@/lib/catalogue";
 
-export type EtatOnboarding = { erreur?: string };
+export type DonneesOnboarding = {
+  nom: string;
+  telephone: string;
+  email: string;
+  ville: string;
+  codePostal: string;
+  zone: string;
+  couleur: string;
+  logo: string | null; // data-URL compressée côté client, ou null
+  prestations: {
+    typeProjet: string;
+    base: { min: number; max: number };
+  }[];
+};
 
-export async function enregistrerOnboarding(
-  _etatPrecedent: EtatOnboarding,
-  formData: FormData
-): Promise<EtatOnboarding> {
-  const nomEntreprise = String(formData.get("nomEntreprise") ?? "").trim();
-  const ville = String(formData.get("ville") ?? "").trim();
-  const codePostal = String(formData.get("codePostal") ?? "").trim();
-  // Questions découverte (optionnelles, pour l'étude de marché).
-  const logicielActuel = String(formData.get("logicielActuel") ?? "").trim();
-  const estimationPublique = String(formData.get("estimationPublique") ?? "").trim();
+export type ResultatOnboarding = { erreur?: string };
 
-  if (!ville || !codePostal) {
-    return { erreur: "Merci d'indiquer votre ville et votre code postal." };
+// Slug lisible + suffixe aléatoire : sert d'URL publique du simulateur
+// et de « clé » du dashboard (pas d'authentification en phase de test).
+function genererSlug(nom: string): string {
+  const base = nom
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 30) || "entreprise";
+  const suffixe = Math.random().toString(36).slice(2, 7);
+  return `${base}-${suffixe}`;
+}
+
+export async function creerEntreprise(
+  donnees: DonneesOnboarding
+): Promise<ResultatOnboarding> {
+  const nom = donnees.nom.trim();
+  if (!nom) return { erreur: "Merci d'indiquer le nom de votre entreprise." };
+  if (donnees.prestations.length === 0) {
+    return { erreur: "Activez au moins un type de projet." };
   }
-  if (!/^\d{5}$/.test(codePostal)) {
-    return { erreur: "Le code postal doit comporter 5 chiffres." };
-  }
 
-  // Récupère les prix saisis : un champ "prix-<id>" par prestation.
-  const prestations = await prisma.prestationType.findMany();
-  const prix: { id: number; valeur: number }[] = [];
-  for (const p of prestations) {
-    const brut = String(formData.get(`prix-${p.id}`) ?? "").replace(",", ".");
-    if (brut.trim() === "") continue; // prestation non proposée : prix laissé vide
-    const valeur = Number(brut);
-    if (!Number.isFinite(valeur) || valeur <= 0) {
-      return { erreur: `Prix invalide pour « ${p.nom} ».` };
+  // Valide les prestations et construit leurs règles.
+  const prestations = [];
+  for (const p of donnees.prestations) {
+    const type = CATALOGUE.find((t) => t.id === p.typeProjet);
+    if (!type) continue;
+    const regles = reglesDefaut(type);
+    if (type.estimable) {
+      const { min, max } = p.base;
+      if (!Number.isFinite(min) || !Number.isFinite(max) || min <= 0 || max < min) {
+        return { erreur: `Fourchette de prix invalide pour « ${type.libelle} » (min > 0 et max ≥ min).` };
+      }
+      regles.base = { min, max };
     }
-    prix.push({ id: p.id, valeur });
+    prestations.push({ typeProjet: type.id, active: true, regles });
   }
 
-  if (prix.length === 0) {
-    return { erreur: "Merci de renseigner au moins un prix." };
-  }
+  // Logo : on limite la taille pour ne pas gonfler la base.
+  const logo = donnees.logo && donnees.logo.length < 200_000 ? donnees.logo : null;
 
-  // Tout est valide : on enregistre profil + prix d'un coup.
-  await prisma.$transaction([
-    prisma.profil.upsert({
-      where: { id: 1 },
-      create: {
-        id: 1,
-        nomEntreprise: nomEntreprise || null,
-        ville,
-        codePostal,
-        logicielActuel: logicielActuel || null,
-        estimationPublique: estimationPublique || null,
-        onboardingTermine: true,
-      },
-      update: {
-        nomEntreprise: nomEntreprise || null,
-        ville,
-        codePostal,
-        logicielActuel: logicielActuel || null,
-        estimationPublique: estimationPublique || null,
-        onboardingTermine: true,
-      },
-    }),
-    ...prix.map(({ id, valeur }) =>
-      prisma.prestationType.update({
-        where: { id },
-        data: { prixUnitaire: valeur },
-      })
-    ),
-  ]);
+  const entreprise = await prisma.entreprise.create({
+    data: {
+      slug: genererSlug(nom),
+      nom,
+      telephone: donnees.telephone.trim() || null,
+      email: donnees.email.trim() || null,
+      ville: donnees.ville.trim() || null,
+      codePostal: donnees.codePostal.trim() || null,
+      zone: donnees.zone.trim() || null,
+      couleur: /^#[0-9a-fA-F]{6}$/.test(donnees.couleur) ? donnees.couleur : "#166534",
+      logo,
+      prestations: { create: prestations },
+    },
+  });
 
-  revalidatePath("/");
-  revalidatePath("/prestations");
-  redirect("/");
+  redirect(`/e/${entreprise.slug}/installer?bienvenue=1`);
 }

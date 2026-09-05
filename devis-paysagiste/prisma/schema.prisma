@@ -1,5 +1,5 @@
-// Schéma de la base de données (SQLite via Prisma).
-// Voir https://pris.ly/d/prisma-schema
+// Schéma de la base (PostgreSQL via Prisma).
+// SaaS : simulateur d'estimation intégrable pour paysagistes.
 
 generator client {
   provider = "prisma-client"
@@ -11,60 +11,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Profil du paysagiste (mono-utilisateur pour cette V1).
-// Rempli par le questionnaire de démarrage (onboarding).
-model Profil {
-  id                Int      @id @default(1)
-  nomEntreprise     String?
-  ville             String
-  codePostal        String
-  // Questions découverte (étude de marché) posées à l'onboarding :
-  logicielActuel    String? // logiciel déjà utilisé pour les devis (vide = aucun)
-  estimationPublique String? // "oui" / "non" / "peut-etre" — fourchette visible par les prospects ?
-  onboardingTermine Boolean  @default(false)
-  creeLe            DateTime @default(now())
-  modifieLe         DateTime @updatedAt
+// Une entreprise de paysage cliente du SaaS.
+// Le slug sert d'identifiant public (simulateur + lien dashboard).
+model Entreprise {
+  id         Int    @id @default(autoincrement())
+  slug       String @unique
+  nom        String
+  telephone  String?
+  email      String?
+  ville      String?
+  codePostal String?
+  zone       String? // zone d'intervention affichée aux particuliers
+
+  // Personnalisation white-label du simulateur
+  couleur String  @default("#166534") // couleur principale (hex)
+  logo    String? // logo en data-URL (petite image), optionnel
+
+  // Seuils de qualification des leads (sur l'estimation haute, en €)
+  seuilPetit Int @default(2000)  // en dessous : PETIT PROJET
+  seuilFort  Int @default(10000) // au dessus : PROJET À FORTE VALEUR
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  prestations EntreprisePrestation[]
+  simulations Simulation[]
+  leads       Lead[]
 }
 
-// Bibliothèque de prix : une prestation type avec sa fourchette
-// indicative (France) et le prix exact choisi par le paysagiste.
-model PrestationType {
-  id           Int     @id @default(autoincrement())
-  nom          String
-  unite        String // "m²", "ml", "unité", "forfait"
-  categorie    String // "Engazonnement", "Clôture", "Terrasse", "Taille/Entretien", "Plantation"
-  prixMin      Float // bas de la fourchette indicative
-  prixMax      Float // haut de la fourchette indicative
-  prixUnitaire Float? // prix exact du paysagiste, défini à l'onboarding
+// Un type de projet activé par l'entreprise, avec SES règles tarifaires.
+// Les règles sont du JSON : { base: {min,max}, coefficients: {question: {option: coef}} }
+// — structure souple pour ajouter des variables sans migration.
+model EntreprisePrestation {
+  id           Int        @id @default(autoincrement())
+  entreprise   Entreprise @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  entrepriseId Int
+  typeProjet   String // id du catalogue : "terrasse", "cloture", …
+  active       Boolean    @default(true)
+  regles       Json
 
-  lignes LigneDevis[]
+  @@unique([entrepriseId, typeProjet])
 }
 
-// Un devis pour un client.
-model Devis {
-  id              Int      @id @default(autoincrement())
-  nomClient       String
-  adresseChantier String
-  dateCreation    DateTime @default(now())
-  statut          String   @default("brouillon") // "brouillon" ou "envoyé"
-  totalHT         Float    @default(0)
-  notes           String?
+// Une simulation faite par un particulier sur le simulateur public.
+// Devient un lead si le particulier laisse ses coordonnées.
+model Simulation {
+  id           Int        @id @default(autoincrement())
+  entreprise   Entreprise @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  entrepriseId Int
+  typeProjet   String
+  reponses     Json // { questionId: valeur } tel que saisi
+  photos       Json // tableau de data-URLs (images compressées côté client)
 
-  lignes LigneDevis[]
+  // Fourchette calculée côté serveur au moment de la simulation
+  estimationMin Float?
+  estimationMax Float?
+
+  creeLe DateTime @default(now())
+  lead   Lead?
 }
 
-// Une ligne de devis. Le nom, l'unité et le prix sont COPIÉS au moment
-// de la création (pas juste référencés) pour garder l'historique intact
-// même si la bibliothèque de prix change plus tard.
-model LigneDevis {
-  id               Int            @id @default(autoincrement())
-  devis            Devis          @relation(fields: [devisId], references: [id], onDelete: Cascade)
-  devisId          Int
-  prestation       PrestationType @relation(fields: [prestationTypeId], references: [id])
-  prestationTypeId Int
-  nomPrestation    String // copie du nom au moment de la création
-  unite            String // copie de l'unité
-  quantite         Float
-  prixUnitaire     Float // copie du prix au moment de la création
-  sousTotal        Float
+// Coordonnées laissées à la fin d'une simulation : le prospect qualifié.
+model Lead {
+  id           Int        @id @default(autoincrement())
+  simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  simulationId Int        @unique
+  entreprise   Entreprise @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  entrepriseId Int
+
+  prenom     String
+  nom        String
+  email      String
+  telephone  String
+  codePostal String
+  commune    String?
+  delai      String // "des-que-possible" | "1-3-mois" | "3-6-mois" | "plus-tard"
+  budgetMax  Float? // budget maximum envisagé par le client (optionnel)
+
+  creeLe DateTime @default(now())
 }

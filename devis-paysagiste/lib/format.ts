@@ -16,8 +16,3 @@ export function formatDate(date: Date): string {
     year: "numeric",
   });
 }
-
-// Fourchette indicative, ex : "15 € – 25 € / m²"
-export function formatFourchette(min: number, max: number, unite: string): string {
-  return `${euros.format(min)} – ${euros.format(max)} / ${unite}`;
-}
