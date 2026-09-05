@@ -1,121 +1,156 @@
 /* Simulateur paysagiste — version statique. Mobile d'abord.
+   Typographie : Fraunces (titres) + Inter (texte), comme le site Paysage Digital.
    La couleur de marque du paysagiste est injectée via --marque. */
 
 :root {
   --marque: #166534;
-  --fond: #fafaf9;
+  --fond: #fafaf8;
   --carte: #ffffff;
   --texte: #1c1917;
-  --texte-doux: #57534e;
-  --bord: #d6d3d1;
+  --texte-doux: #6b6560;
+  --bord: #d9d5d0;
+  --trait: #edeae6;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--fond);
   color: var(--texte);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
 
-.contenu { max-width: 560px; margin: 0 auto; padding: 20px 16px 40px; }
+.contenu { max-width: 560px; margin: 0 auto; padding: 24px 18px 48px; }
 
-h1 { font-size: 24px; margin: 0 0 4px; }
-h2 { font-size: 17px; margin: 0 0 8px; }
-.sous-titre { color: var(--texte-doux); margin: 0 0 16px; }
+h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600; font-size: 27px; line-height: 1.2;
+  margin: 0 0 6px; letter-spacing: -0.01em;
+}
+h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600; font-size: 18px; margin: 0 0 10px;
+}
+.sous-titre { color: var(--texte-doux); margin: 0 0 20px; font-size: 15px; }
+
+/* Icônes vectorielles */
+.icone { display: inline-block; width: 26px; height: 26px; color: var(--marque); flex-shrink: 0; }
+.icone svg { display: block; width: 100%; height: 100%; }
+.carte-type .icone { width: 30px; height: 30px; }
 
 /* En-tête white-label */
-.entete-marque { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-.entete-marque img { height: 44px; max-width: 130px; object-fit: contain; }
-.entete-marque .nom { font-weight: 700; line-height: 1.2; }
-.entete-marque .zone { font-size: 12px; color: var(--texte-doux); }
+.entete-marque {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+  padding-bottom: 16px; border-bottom: 1px solid var(--trait);
+}
+.entete-marque .nom { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.2; }
+.entete-marque .zone { font-size: 12.5px; color: var(--texte-doux); }
 
 .carte {
-  background: var(--carte); border-radius: 12px; padding: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid #e7e5e4;
-  margin-bottom: 14px;
+  background: var(--carte); border-radius: 14px; padding: 20px;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, .05), 0 4px 16px rgba(28, 25, 23, .04);
+  border: 1px solid var(--trait);
+  margin-bottom: 16px;
 }
 
 /* Cartes de types de projets */
 .grille-types { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .carte-type {
-  background: var(--carte); border: 2px solid #e7e5e4; border-radius: 12px;
-  padding: 14px; text-align: left; cursor: pointer; font-family: inherit; font-size: 15px;
+  background: var(--carte); border: 1.5px solid var(--trait); border-radius: 14px;
+  padding: 16px 14px; text-align: left; cursor: pointer; font-family: inherit; font-size: 15px;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, .04);
+  transition: border-color .15s, transform .15s, box-shadow .15s;
 }
-.carte-type:hover { border-color: var(--marque); }
-.carte-type .emoji { font-size: 26px; display: block; }
-.carte-type .titre { font-weight: 600; display: block; margin-top: 4px; }
-.carte-type .desc { font-size: 12px; color: var(--texte-doux); display: block; }
+.carte-type:hover {
+  border-color: var(--marque); transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(28, 25, 23, .08);
+}
+.carte-type .titre { font-weight: 600; display: block; margin-top: 10px; }
+.carte-type .desc { font-size: 12.5px; color: var(--texte-doux); display: block; margin-top: 2px; }
 
 /* Questions */
-.question { margin-bottom: 18px; }
-.question .libelle { font-weight: 600; display: block; margin-bottom: 8px; }
+.question { margin-bottom: 22px; }
+.question .libelle { font-weight: 600; display: block; margin-bottom: 10px; }
 .grille-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .option {
-  border: 2px solid #e7e5e4; background: var(--carte); border-radius: 10px;
-  padding: 12px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
+  border: 1.5px solid var(--bord); background: var(--carte); border-radius: 10px;
+  padding: 13px 12px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
+  transition: border-color .12s, background .12s;
 }
-.option.choisie { border-color: var(--marque); background: color-mix(in srgb, var(--marque) 7%, white); }
+.option.choisie {
+  border-color: var(--marque);
+  background: color-mix(in srgb, var(--marque) 7%, white);
+  font-weight: 600;
+}
 
-.rangee-nombre { display: flex; align-items: center; gap: 10px; }
+.rangee-nombre { display: flex; align-items: center; gap: 12px; }
 .rangee-nombre input[type="range"] { flex: 1; accent-color: var(--marque); }
-.rangee-nombre input[type="number"] { width: 84px; }
+.rangee-nombre input[type="number"] { width: 88px; }
 
 input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
-  width: 100%; padding: 12px; font-size: 16px;
-  border: 1px solid var(--bord); border-radius: 8px; background: #fff; font-family: inherit;
+  width: 100%; padding: 12px 13px; font-size: 16px;
+  border: 1px solid var(--bord); border-radius: 10px; background: #fff; font-family: inherit;
+  color: var(--texte);
 }
-input:focus, select:focus, textarea:focus { outline: 2px solid var(--marque); border-color: var(--marque); }
-label { display: block; margin-bottom: 10px; }
-.etiquette { display: block; font-size: 13px; color: var(--texte-doux); margin-bottom: 3px; }
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--marque) 55%, white);
+  border-color: var(--marque);
+}
+label { display: block; margin-bottom: 12px; }
+.etiquette { display: block; font-size: 13px; color: var(--texte-doux); margin-bottom: 4px; font-weight: 500; }
 .deux-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .bouton {
-  display: block; width: 100%; padding: 15px; font-size: 17px; font-weight: 600;
+  display: block; width: 100%; padding: 15px; font-size: 16px; font-weight: 600;
   border: none; border-radius: 12px; cursor: pointer; text-align: center;
   font-family: inherit; color: #fff; background: var(--marque);
-  text-decoration: none; margin-top: 16px;
+  text-decoration: none; margin-top: 16px; letter-spacing: .01em;
+  transition: filter .12s, transform .12s;
 }
 .bouton:hover { filter: brightness(1.08); }
+.bouton:active { transform: scale(.99); }
 .bouton:disabled { opacity: .5; cursor: default; }
-.bouton-secondaire {
-  background: var(--carte); color: var(--texte); border: 1px solid #e7e5e4;
-}
+.bouton-secondaire { background: var(--carte); color: var(--texte); border: 1px solid var(--bord); }
 .lien-retour {
   background: none; border: none; color: var(--texte-doux); font-size: 14px;
-  cursor: pointer; padding: 0; margin-bottom: 10px; font-family: inherit;
+  cursor: pointer; padding: 0; margin-bottom: 12px; font-family: inherit;
 }
 .lien-retour:hover { text-decoration: underline; }
 
 /* Estimation */
-.bloc-estimation { text-align: center; padding: 24px 0; }
-.fourchette { font-size: 34px; font-weight: 800; color: var(--marque); margin: 12px 0; }
-.fourchette .et { color: #a8a29e; font-weight: 400; font-size: 22px; }
+.bloc-estimation { text-align: center; padding: 28px 0 8px; }
+.fourchette {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 38px; font-weight: 600; color: var(--marque);
+  margin: 14px 0; letter-spacing: -0.01em; line-height: 1.15;
+}
+.fourchette .et { color: #b8b2ac; font-weight: 500; font-size: 22px; }
 .avertissement {
-  background: #f5f5f4; border-radius: 10px; padding: 12px 14px;
-  font-size: 12px; color: var(--texte-doux); margin-top: 16px; text-align: left;
+  background: #f5f4f2; border-radius: 10px; padding: 13px 15px;
+  font-size: 12.5px; color: var(--texte-doux); margin-top: 20px; text-align: left;
 }
 
 .erreur {
-  background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;
-  border-radius: 8px; padding: 12px 14px; margin-top: 12px;
+  background: #fdf2f2; color: #b91c1c; border: 1px solid #f5c6c6;
+  border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 14px;
 }
-.info { font-size: 13px; color: var(--texte-doux); }
+.info { font-size: 13.5px; color: var(--texte-doux); }
 
 /* Écran de configuration (paysagiste) */
-.ligne-prix { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; font-size: 14px; }
-.ligne-prix input { width: 84px; }
+.ligne-prix { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; font-size: 14px; color: var(--texte-doux); }
+.ligne-prix input { width: 86px; padding: 9px 10px; }
 .bloc-code {
-  background: #1c1917; color: #f5f5f4; border-radius: 10px; padding: 12px;
-  font-family: ui-monospace, monospace; font-size: 11px; word-break: break-all;
-  max-height: 120px; overflow: auto;
+  background: #211e1b; color: #ece9e6; border-radius: 10px; padding: 13px;
+  font-family: ui-monospace, "SF Mono", monospace; font-size: 11px; word-break: break-all;
+  max-height: 130px; overflow: auto; line-height: 1.5;
 }
-.interrupteur { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f4; }
+.interrupteur { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--trait); }
 .interrupteur:last-child { border-bottom: none; }
+.interrupteur input[type="checkbox"] { width: 19px; height: 19px; margin-top: 3px; accent-color: var(--marque); }
 .interrupteur .grandir { flex: 1; }
 
-.pied { text-align: center; font-size: 11px; color: #d6d3d1; margin-top: 28px; }
-.pied a { color: inherit; }
+.pied { text-align: center; font-size: 11px; color: #c9c4bf; margin-top: 32px; }
