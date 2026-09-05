@@ -336,8 +336,9 @@ function vueConfigurateur() {
     </section>
 
     <div id="zone-erreur"></div>
-    <button class="bouton" id="btn-generer">Générer mon lien</button>
-    <div id="zone-resultat"></div>
+    <button class="bouton" id="btn-generer">Voir mon simulateur</button>
+    <p class="info" style="text-align:center;margin-top:10px">Votre simulateur s'ouvre
+      immédiatement, et votre lien vous est envoyé par email.</p>
     <p class="pied">Propulsé par Paysage Digital</p>
   `;
 
@@ -374,10 +375,8 @@ function vueConfigurateur() {
       types,
     };
     const lien = `${location.origin}${location.pathname}#c=${encoderConfig(config)}`;
-    const iframe = `<iframe src="${lien}" style="width:100%;min-height:700px;border:0;border-radius:12px" title="Estimer mon projet" loading="lazy"></iframe>`;
 
-    // Fiche envoyée à Paysage Digital : toutes les infos + le lien, par
-    // email prérempli (récupérées ensuite dans un Google Sheet via #outil).
+    // Fiche de secours par email prérempli (si le PHP est indisponible).
     const fiche = [
       `Nouvelle configuration simulateur`,
       ``,
@@ -397,55 +396,65 @@ function vueConfigurateur() {
       `?subject=${encodeURIComponent(`Configuration simulateur — ${nom}`)}` +
       `&body=${encodeURIComponent(fiche)}`;
 
-    document.getElementById("zone-resultat").innerHTML = `
-      <section class="carte" style="border-color:var(--marque)">
-        <h2>Votre simulateur est prêt</h2>
-        <div id="zone-fiche"><p class="info">Transmission de votre fiche à Paysage Digital…</p></div>
-        <p class="info" style="margin-top:16px"><strong>Testez :</strong> voici votre lien unique
-          (gardez-le précieusement — il contient toute votre configuration) :</p>
-        <div class="bloc-code">${esc(lien)}</div>
-        <a class="bouton bouton-secondaire" href="${esc(lien)}" target="_blank">Tester mon simulateur</a>
-        <button class="bouton bouton-secondaire" id="btn-copier-lien">Copier le lien</button>
-        <p class="info" style="margin-top:16px"><strong>Pour l'intégrer sur votre site</strong>
-          (WordPress : bloc HTML personnalisé · Wix/Hostinger : élément « Code d'intégration » · Webflow : Embed) :</p>
-        <div class="bloc-code">${esc(iframe)}</div>
-        <button class="bouton bouton-secondaire" id="btn-copier-iframe">Copier le code</button>
-      </section>`;
-
-    // Envoi automatique de la fiche (fiche.php, dispo sur l'hébergement
-    // PHP). Si indisponible (ex : GitHub Pages), on retombe sur l'email.
-    envoyerFiche(config, lien, mailtoPD);
-    document.getElementById("btn-copier-lien").addEventListener("click", (e) =>
-      copier(lien, e.target, "Copier le lien"));
-    document.getElementById("btn-copier-iframe").addEventListener("click", (e) =>
-      copier(iframe, e.target, "Copier le code"));
-    document.getElementById("zone-resultat").scrollIntoView({ behavior: "smooth" });
+    // Fiche envoyée automatiquement en arrière-plan, et bascule
+    // IMMÉDIATE dans le simulateur : l'artisan teste tout de suite.
+    APERCU = { email: config.email, statut: "envoi", lien, mailtoPD };
+    envoyerFiche(config, lien);
+    location.hash = `#c=${encoderConfig(config)}`;
   });
 }
 
-// Adresse où les fiches de configuration des artisans sont envoyées.
-const EMAIL_PAYSAGE_DIGITAL = "julien.duplouy90@gmail.com";
+/* ---- Mode aperçu : bandeau affiché à l'artisan qui vient de créer
+        son simulateur (fiche en cours d'envoi / envoyée / en échec) ---- */
+let APERCU = null;
 
-// Tente l'envoi automatique de la fiche ; sinon propose l'email prérempli.
-async function envoyerFiche(config, lien, mailtoPD) {
-  const zone = () => document.getElementById("zone-fiche");
+function contenuBanniere() {
+  if (!APERCU) return "";
+  const statuts = {
+    envoi: `Envoi de votre lien par email…`,
+    ok: `Votre lien et le code pour votre site viennent d'être envoyés à <strong>${esc(APERCU.email)}</strong>.`,
+    echec: `L'envoi automatique n'a pas fonctionné —
+      <a href="${esc(APERCU.mailtoPD)}" style="color:var(--marque);font-weight:600">cliquez ici pour finaliser par email</a>.`,
+  };
+  return `
+    <p style="margin:0"><strong>Votre simulateur est prêt — testez-le ci-dessous.</strong></p>
+    <p style="margin:4px 0 8px" class="info">${statuts[APERCU.statut]}</p>
+    <button class="bouton bouton-secondaire" id="btn-copier-lien-apercu"
+      style="margin:0;padding:9px;font-size:14px;width:auto;padding-left:16px;padding-right:16px">Copier mon lien</button>`;
+}
+
+function majBanniere() {
+  const el = document.getElementById("banniere-apercu");
+  if (el) el.innerHTML = contenuBanniere();
+}
+
+// Envoi silencieux de la fiche via fiche.php (PHP de l'hébergement).
+async function envoyerFiche(config, lien) {
   try {
     const reponse = await fetch("fiche.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nom: config.nom, email: config.email, tel: config.tel, zone: config.zone, lien }),
+      signal: AbortSignal.timeout(8000), // ne jamais rester bloqué sur « Envoi… »
     });
     const resultat = await reponse.json();
     if (!resultat.ok) throw new Error("refus");
-    if (zone()) zone().innerHTML = `<p class="info" style="color:var(--marque);font-weight:600">
-      ✓ Votre fiche a été transmise à Paysage Digital — votre essai est activé.</p>`;
+    APERCU.statut = "ok";
   } catch {
-    if (zone()) zone().innerHTML = `
-      <p class="info"><strong>Activez votre essai :</strong> envoyez votre fiche à
-        Paysage Digital (un email prérempli s'ouvre, appuyez juste sur Envoyer) :</p>
-      <a class="bouton" href="${esc(mailtoPD)}" id="btn-envoyer-fiche">Envoyer ma fiche à Paysage Digital</a>`;
+    APERCU.statut = "echec";
   }
+  majBanniere();
 }
+
+// Bouton « Copier mon lien » du bandeau (délégation : le bandeau est re-rendu)
+document.addEventListener("click", (e) => {
+  if (e.target.id === "btn-copier-lien-apercu" && APERCU) {
+    copier(APERCU.lien, e.target, "Copier mon lien");
+  }
+});
+
+// Adresse où les fiches de configuration des artisans sont envoyées.
+const EMAIL_PAYSAGE_DIGITAL = "julien.duplouy90@gmail.com";
 
 async function copier(texte, bouton, libelle) {
   try {
@@ -482,6 +491,7 @@ function vueSimulateur(config) {
   function dessiner() {
     if (etat.ecran === "type") {
       app.innerHTML = `${entete}
+        ${APERCU ? `<div class="banniere" id="banniere-apercu">${contenuBanniere()}</div>` : ""}
         <h1>Quel projet souhaitez-vous réaliser ?</h1>
         <p class="sous-titre">Obtenez une estimation de budget en 2 minutes.</p>
         <div class="grille-types">
