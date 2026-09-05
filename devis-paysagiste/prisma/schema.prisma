@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -18,6 +18,9 @@ model Profil {
   nomEntreprise     String?
   ville             String
   codePostal        String
+  // Questions découverte (étude de marché) posées à l'onboarding :
+  logicielActuel    String? // logiciel déjà utilisé pour les devis (vide = aucun)
+  estimationPublique String? // "oui" / "non" / "peut-etre" — fourchette visible par les prospects ?
   onboardingTermine Boolean  @default(false)
   creeLe            DateTime @default(now())
   modifieLe         DateTime @updatedAt

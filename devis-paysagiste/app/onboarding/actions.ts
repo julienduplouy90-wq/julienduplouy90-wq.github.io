@@ -16,6 +16,9 @@ export async function enregistrerOnboarding(
   const nomEntreprise = String(formData.get("nomEntreprise") ?? "").trim();
   const ville = String(formData.get("ville") ?? "").trim();
   const codePostal = String(formData.get("codePostal") ?? "").trim();
+  // Questions découverte (optionnelles, pour l'étude de marché).
+  const logicielActuel = String(formData.get("logicielActuel") ?? "").trim();
+  const estimationPublique = String(formData.get("estimationPublique") ?? "").trim();
 
   if (!ville || !codePostal) {
     return { erreur: "Merci d'indiquer votre ville et votre code postal." };
@@ -50,12 +53,16 @@ export async function enregistrerOnboarding(
         nomEntreprise: nomEntreprise || null,
         ville,
         codePostal,
+        logicielActuel: logicielActuel || null,
+        estimationPublique: estimationPublique || null,
         onboardingTermine: true,
       },
       update: {
         nomEntreprise: nomEntreprise || null,
         ville,
         codePostal,
+        logicielActuel: logicielActuel || null,
+        estimationPublique: estimationPublique || null,
         onboardingTermine: true,
       },
     }),

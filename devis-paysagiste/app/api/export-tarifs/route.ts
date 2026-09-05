@@ -19,12 +19,14 @@ export async function GET() {
 
   const lignes = [
     // Séparateur ";" : c'est ce qu'Excel/Sheets attendent en locale française.
-    ["ville", "code_postal", "entreprise", "categorie", "prestation", "unite", "prix_unitaire_ht", "fourchette_min", "fourchette_max"].join(";"),
+    ["ville", "code_postal", "entreprise", "logiciel_actuel", "estimation_publique", "categorie", "prestation", "unite", "prix_unitaire_ht", "fourchette_min", "fourchette_max"].join(";"),
     ...prestations.map((p) =>
       [
         csv(profil?.ville ?? ""),
         csv(profil?.codePostal ?? ""),
         csv(profil?.nomEntreprise ?? ""),
+        csv(profil?.logicielActuel ?? ""),
+        csv(profil?.estimationPublique ?? ""),
         csv(p.categorie),
         csv(p.nom),
         csv(p.unite),

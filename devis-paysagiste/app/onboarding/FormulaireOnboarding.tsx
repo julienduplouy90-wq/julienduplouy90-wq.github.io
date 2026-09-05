@@ -18,7 +18,13 @@ type Prestation = {
 };
 
 type Props = {
-  profil: { nomEntreprise: string; ville: string; codePostal: string } | null;
+  profil: {
+    nomEntreprise: string;
+    ville: string;
+    codePostal: string;
+    logicielActuel: string;
+    estimationPublique: string;
+  } | null;
   prestations: Prestation[];
 };
 
@@ -85,6 +91,52 @@ export function FormulaireOnboarding({ profil, prestations }: Props) {
             />
           </label>
         </div>
+      </section>
+
+      {/* Questions découverte : deux questions courtes pour comprendre
+          les habitudes du paysagiste (optionnelles) */}
+      <section className="space-y-4 rounded-xl bg-white p-4 shadow ring-1 ring-stone-200">
+        <h2 className="font-semibold">Deux questions rapides</h2>
+        <label className="block">
+          <span className="text-sm text-stone-600">
+            Utilisez-vous déjà un logiciel pour générer ou chiffrer vos devis ?
+            Si oui, lequel ?
+          </span>
+          <input
+            type="text"
+            name="logicielActuel"
+            defaultValue={profil?.logicielActuel ?? ""}
+            placeholder="Ex : Excel, Obat, Tolteck… (vide = aucun)"
+            className="mt-1 w-full rounded-lg border border-stone-300 px-3 py-3 text-base"
+          />
+        </label>
+        <fieldset>
+          <legend className="text-sm text-stone-600">
+            Laisseriez-vous un prospect obtenir une fourchette de prix
+            directement depuis votre site, avant même de vous contacter ?
+          </legend>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {[
+              { valeur: "oui", texte: "Oui" },
+              { valeur: "peut-etre", texte: "Peut-être" },
+              { valeur: "non", texte: "Non" },
+            ].map((choix) => (
+              <label
+                key={choix.valeur}
+                className="flex cursor-pointer items-center gap-2 rounded-lg border border-stone-300 px-4 py-3 has-[:checked]:border-green-700 has-[:checked]:bg-green-50"
+              >
+                <input
+                  type="radio"
+                  name="estimationPublique"
+                  value={choix.valeur}
+                  defaultChecked={profil?.estimationPublique === choix.valeur}
+                  className="accent-green-700"
+                />
+                {choix.texte}
+              </label>
+            ))}
+          </div>
+        </fieldset>
       </section>
 
       {/* Prix par catégorie */}
