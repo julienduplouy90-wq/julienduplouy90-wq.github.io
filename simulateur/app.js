@@ -312,8 +312,6 @@ function vueConfigurateur() {
         <input type="tel" id="cfg-tel" placeholder="06 12 34 56 78"></label>
       <label><span class="etiquette">Zone d'intervention</span>
         <input type="text" id="cfg-zone" placeholder="Ex : Pau et 30 km alentour"></label>
-      <label><span class="etiquette">Couleur principale</span>
-        <input type="color" id="cfg-couleur" value="#166534" style="width:80px;height:44px;padding:4px"></label>
     </section>
 
     <section class="carte">
@@ -373,7 +371,6 @@ function vueConfigurateur() {
       v: 1, nom, email,
       tel: document.getElementById("cfg-tel").value.trim(),
       zone: document.getElementById("cfg-zone").value.trim(),
-      couleur: document.getElementById("cfg-couleur").value,
       types,
     };
     const lien = `${location.origin}${location.pathname}#c=${encoderConfig(config)}`;
