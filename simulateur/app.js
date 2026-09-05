@@ -400,20 +400,21 @@ function vueConfigurateur() {
     document.getElementById("zone-resultat").innerHTML = `
       <section class="carte" style="border-color:var(--marque)">
         <h2>Votre simulateur est prêt</h2>
-        <p class="info"><strong>1 — Activez votre essai :</strong> envoyez votre
-          fiche à Paysage Digital (un email prérempli s'ouvre, vous n'avez qu'à
-          appuyer sur Envoyer) :</p>
-        <a class="bouton" href="${esc(mailtoPD)}" id="btn-envoyer-fiche">Envoyer ma fiche à Paysage Digital</a>
-        <p class="info" style="margin-top:16px"><strong>2 — Testez :</strong> voici votre lien unique
+        <div id="zone-fiche"><p class="info">Transmission de votre fiche à Paysage Digital…</p></div>
+        <p class="info" style="margin-top:16px"><strong>Testez :</strong> voici votre lien unique
           (gardez-le précieusement — il contient toute votre configuration) :</p>
         <div class="bloc-code">${esc(lien)}</div>
         <a class="bouton bouton-secondaire" href="${esc(lien)}" target="_blank">Tester mon simulateur</a>
         <button class="bouton bouton-secondaire" id="btn-copier-lien">Copier le lien</button>
-        <p class="info" style="margin-top:16px"><strong>3 — Intégrez-le sur votre site</strong>
+        <p class="info" style="margin-top:16px"><strong>Pour l'intégrer sur votre site</strong>
           (WordPress : bloc HTML personnalisé · Wix/Hostinger : élément « Code d'intégration » · Webflow : Embed) :</p>
         <div class="bloc-code">${esc(iframe)}</div>
         <button class="bouton bouton-secondaire" id="btn-copier-iframe">Copier le code</button>
       </section>`;
+
+    // Envoi automatique de la fiche (fiche.php, dispo sur l'hébergement
+    // PHP). Si indisponible (ex : GitHub Pages), on retombe sur l'email.
+    envoyerFiche(config, lien, mailtoPD);
     document.getElementById("btn-copier-lien").addEventListener("click", (e) =>
       copier(lien, e.target, "Copier le lien"));
     document.getElementById("btn-copier-iframe").addEventListener("click", (e) =>
@@ -424,6 +425,27 @@ function vueConfigurateur() {
 
 // Adresse où les fiches de configuration des artisans sont envoyées.
 const EMAIL_PAYSAGE_DIGITAL = "julien.duplouy90@gmail.com";
+
+// Tente l'envoi automatique de la fiche ; sinon propose l'email prérempli.
+async function envoyerFiche(config, lien, mailtoPD) {
+  const zone = () => document.getElementById("zone-fiche");
+  try {
+    const reponse = await fetch("fiche.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nom: config.nom, email: config.email, tel: config.tel, zone: config.zone, lien }),
+    });
+    const resultat = await reponse.json();
+    if (!resultat.ok) throw new Error("refus");
+    if (zone()) zone().innerHTML = `<p class="info" style="color:var(--marque);font-weight:600">
+      ✓ Votre fiche a été transmise à Paysage Digital — votre essai est activé.</p>`;
+  } catch {
+    if (zone()) zone().innerHTML = `
+      <p class="info"><strong>Activez votre essai :</strong> envoyez votre fiche à
+        Paysage Digital (un email prérempli s'ouvre, appuyez juste sur Envoyer) :</p>
+      <a class="bouton" href="${esc(mailtoPD)}" id="btn-envoyer-fiche">Envoyer ma fiche à Paysage Digital</a>`;
+  }
+}
 
 async function copier(texte, bouton, libelle) {
   try {
