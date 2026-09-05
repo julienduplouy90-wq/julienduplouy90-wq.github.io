@@ -19,7 +19,17 @@ export default async function PageLeads({ params }: PageProps<"/e/[slug]/leads">
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Prospects</h1>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1 className="text-2xl font-bold">Prospects</h1>
+        {leads.length > 0 && (
+          <a
+            href={`/e/${slug}/leads/export`}
+            className="rounded-lg bg-white px-4 py-2 text-sm font-medium shadow ring-1 ring-stone-200 hover:bg-stone-100"
+          >
+            ⬇️ Export CSV (pour Google Sheets)
+          </a>
+        )}
+      </div>
       {leads.length === 0 ? (
         <div className="rounded-xl bg-white p-8 text-center text-stone-500 shadow ring-1 ring-stone-200">
           <p>Pas encore de prospect.</p>
