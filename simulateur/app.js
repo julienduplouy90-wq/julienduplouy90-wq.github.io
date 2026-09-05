@@ -13,7 +13,7 @@
    ============================================================ */
 const CATALOGUE = [
   {
-    id: "terrasse", libelle: "Terrasse", emoji: "🪵",
+    id: "terrasse", libelle: "Terrasse",
     description: "Bois, composite, pierre…", unite: "m²", base: { min: 80, max: 160 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface approximative", unite: "m²", min: 5, max: 200, defaut: 20 },
@@ -37,7 +37,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "cloture", libelle: "Clôture", emoji: "🚧",
+    id: "cloture", libelle: "Clôture",
     description: "Rigide, grillage, bois…", unite: "ml", base: { min: 70, max: 120 },
     questions: [
       { id: "longueur", type: "nombre", libelle: "Longueur approximative", unite: "ml", min: 5, max: 300, defaut: 30 },
@@ -66,7 +66,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "allee", libelle: "Allée / cour", emoji: "🛤️",
+    id: "allee", libelle: "Allée / cour",
     description: "Pavés, gravier, enrobé…", unite: "m²", base: { min: 40, max: 90 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface approximative", unite: "m²", min: 5, max: 500, defaut: 50 },
@@ -85,7 +85,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "engazonnement", libelle: "Engazonnement", emoji: "🌱",
+    id: "engazonnement", libelle: "Engazonnement",
     description: "Semis, plaque, synthétique…", unite: "m²", base: { min: 15, max: 25 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface approximative", unite: "m²", min: 10, max: 2000, defaut: 100 },
@@ -103,7 +103,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "plantation", libelle: "Plantation / massif", emoji: "🌸",
+    id: "plantation", libelle: "Plantation / massif",
     description: "Massifs, haies, arbres…", unite: "m²", base: { min: 30, max: 70 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface à planter", unite: "m²", min: 2, max: 500, defaut: 20 },
@@ -119,7 +119,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "amenagement", libelle: "Aménagement complet", emoji: "🏡",
+    id: "amenagement", libelle: "Aménagement complet",
     description: "Création ou refonte du jardin", unite: "m²", base: { min: 40, max: 90 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface du jardin", unite: "m²", min: 20, max: 5000, defaut: 300 },
@@ -135,7 +135,7 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "arrosage", libelle: "Arrosage automatique", emoji: "💧",
+    id: "arrosage", libelle: "Arrosage automatique",
     description: "Enterré ou goutte-à-goutte", unite: "m²", base: { min: 8, max: 15 },
     questions: [
       { id: "surface", type: "nombre", libelle: "Surface à arroser", unite: "m²", min: 20, max: 3000, defaut: 200 },
@@ -147,10 +147,27 @@ const CATALOGUE = [
     ],
   },
   {
-    id: "autre", libelle: "Autre projet", emoji: "✏️",
+    id: "autre", libelle: "Autre projet",
     description: "Décrivez-nous votre idée", unite: null, base: null, questions: [],
   },
 ];
+
+/* Icônes vectorielles fines (trait, couleur de la marque) */
+const SVG = (d) =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const ICONES = {
+  terrasse: SVG('<rect x="3" y="9" width="18" height="10" rx="1.5"/><path d="M3 12.5h18M3 15.5h18"/>'),
+  cloture: SVG('<path d="M6 20V8l2-3 2 3v12M14 20V8l2-3 2 3v12M4 12h16M4 17h16"/>'),
+  allee: SVG('<ellipse cx="8" cy="18" rx="3.2" ry="1.9"/><ellipse cx="13.5" cy="12.5" rx="3.2" ry="1.9"/><ellipse cx="17.5" cy="7" rx="2.8" ry="1.7"/>'),
+  engazonnement: SVG('<path d="M5 20c1-4 0-7-1-9M9 20c2-5 1-9-1-12M13 20c2-4 2-9 0-13M17 20c2-4 1-8-1-11M20.5 20c1-3 .5-6-.5-8"/>'),
+  plantation: SVG('<circle cx="12" cy="7.5" r="3.5"/><path d="M12 11v9M12 17c-3.5 0-5.5-2-5.5-4.5M12 15c3.5 0 5.5-2 5.5-4.5"/>'),
+  amenagement: SVG('<path d="M3 20h18M13.5 20v-6.5l3.5-3 3.5 3V20"/><circle cx="7" cy="9.5" r="3.8"/><path d="M7 13.5V20"/>'),
+  arrosage: SVG('<path d="M12 3.5c3.8 4.8 5.7 7.7 5.7 10.4a5.7 5.7 0 1 1-11.4 0c0-2.7 1.9-5.6 5.7-10.4z"/>'),
+  autre: SVG('<path d="M4.5 19.5l1-4L16.5 4.5l3 3L8.5 18.5l-4 1z"/><path d="M14.5 6.5l3 3"/>'),
+  feuille: SVG('<path d="M20 4C10.5 4 4.5 10 4.5 19.5 14 19.5 20 13.5 20 4z"/><path d="M4.5 19.5C9 15 13 11 17 7"/>'),
+  envoi: SVG('<path d="M21 3.5L3.5 11l6.5 2.5L12.5 20 21 3.5z"/><path d="M10 13.5L21 3.5"/>'),
+};
+const icone = (id) => `<span class="icone">${ICONES[id] ?? ""}</span>`;
 
 const DELAIS = [
   ["des-que-possible", "Dès que possible"],
@@ -206,10 +223,71 @@ const app = document.getElementById("app");
    Aiguillage : configurateur ou simulateur
    ============================================================ */
 function demarrer() {
+  if (location.hash === "#outil") return vueOutil();
   const h = location.hash.match(/^#c=(.+)$/);
   const config = h ? decoderConfig(h[1]) : null;
   if (config) vueSimulateur(config);
   else vueConfigurateur();
+}
+
+/* ============================================================
+   OUTIL PRIVÉ (Paysage Digital) : #outil
+   Colle les liens reçus des artisans → lignes prêtes à coller
+   dans un Google Sheet (colonnes séparées par des tabulations).
+   ============================================================ */
+function vueOutil() {
+  document.documentElement.style.setProperty("--marque", "#166534");
+  const typesEstimables = CATALOGUE.filter((t) => t.base);
+  app.innerHTML = `
+    <h1>Outil Paysage Digital</h1>
+    <p class="sous-titre">Collez ci-dessous les liens de simulateur reçus des artisans
+      (un par ligne) → obtenez les lignes à coller dans votre Google Sheet.</p>
+    <section class="carte">
+      <textarea id="outil-liens" rows="5" placeholder="https://…/simulateur/#c=…"></textarea>
+      <button class="bouton" id="btn-analyser">Analyser</button>
+    </section>
+    <div id="outil-resultat"></div>
+    <p class="pied">Propulsé par Paysage Digital</p>`;
+
+  document.getElementById("btn-analyser").addEventListener("click", () => {
+    const lignesTexte = document.getElementById("outil-liens").value.split("\n");
+    const enTete = ["entreprise", "email", "telephone", "zone",
+      ...typesEstimables.flatMap((t) => [`${t.id}_min`, `${t.id}_max`]), "autre", "lien"];
+    const lignes = [];
+    let invalides = 0;
+    for (const texte of lignesTexte) {
+      const m = texte.match(/#c=([A-Za-z0-9+/=]+)/);
+      const config = m ? decoderConfig(m[1]) : null;
+      if (!config) { if (texte.trim()) invalides++; continue; }
+      lignes.push([
+        config.nom, config.email, config.tel || "", config.zone || "",
+        ...typesEstimables.flatMap((t) => {
+          const p = config.types?.[t.id];
+          return p && p.min != null ? [p.min, p.max] : ["", ""];
+        }),
+        config.types?.autre ? "oui" : "non",
+        texte.trim(),
+      ]);
+    }
+
+    if (lignes.length === 0) {
+      document.getElementById("outil-resultat").innerHTML =
+        `<p class="erreur">Aucun lien valide trouvé.</p>`;
+      return;
+    }
+    // Tabulations : un collage dans Google Sheets remplit directement les colonnes.
+    const tsv = [enTete, ...lignes].map((l) => l.join("\t")).join("\n");
+    document.getElementById("outil-resultat").innerHTML = `
+      <section class="carte">
+        <h2>${lignes.length} artisan(s) analysé(s)${invalides ? ` — ${invalides} ligne(s) ignorée(s)` : ""}</h2>
+        <p class="info">Cliquez sur « Copier », puis dans votre Google Sheet :
+          clic sur une cellule → Ctrl+V. Les colonnes se remplissent toutes seules.</p>
+        <div class="bloc-code">${esc(tsv)}</div>
+        <button class="bouton" id="btn-copier-tsv">Copier pour Google Sheets</button>
+      </section>`;
+    document.getElementById("btn-copier-tsv").addEventListener("click", (e) =>
+      copier(tsv, e.target, "Copier pour Google Sheets"));
+  });
 }
 window.addEventListener("hashchange", demarrer);
 
@@ -219,7 +297,8 @@ window.addEventListener("hashchange", demarrer);
 function vueConfigurateur() {
   document.documentElement.style.setProperty("--marque", "#166534");
   app.innerHTML = `
-    <h1>🌿 Créez votre simulateur de prix</h1>
+    <div class="entete-marque">${icone("feuille")}<div class="nom">Paysage Digital</div></div>
+    <h1>Créez votre simulateur de prix</h1>
     <p class="sous-titre">Réglez vos tarifs, obtenez votre lien : vos visiteurs
       estiment leur projet et leur demande arrive directement dans votre boîte mail.</p>
 
@@ -246,7 +325,7 @@ function vueConfigurateur() {
           <div class="interrupteur">
             <input type="checkbox" id="actif-${t.id}" ${["terrasse","cloture","engazonnement"].includes(t.id) ? "checked" : ""}>
             <div class="grandir">
-              <label for="actif-${t.id}" style="margin:0;font-weight:600">${t.emoji} ${t.libelle}</label>
+              <label for="actif-${t.id}" style="margin:0;font-weight:600">${t.libelle}</label>
               ${t.base ? `
                 <div class="ligne-prix">
                   de <input type="number" min="0" step="0.5" id="min-${t.id}" value="${t.base.min}">
@@ -259,7 +338,7 @@ function vueConfigurateur() {
     </section>
 
     <div id="zone-erreur"></div>
-    <button class="bouton" id="btn-generer">Générer mon lien 🚀</button>
+    <button class="bouton" id="btn-generer">Générer mon lien</button>
     <div id="zone-resultat"></div>
     <p class="pied">Propulsé par Paysage Digital</p>
   `;
@@ -300,14 +379,40 @@ function vueConfigurateur() {
     const lien = `${location.origin}${location.pathname}#c=${encoderConfig(config)}`;
     const iframe = `<iframe src="${lien}" style="width:100%;min-height:700px;border:0;border-radius:12px" title="Estimer mon projet" loading="lazy"></iframe>`;
 
+    // Fiche envoyée à Paysage Digital : toutes les infos + le lien, par
+    // email prérempli (récupérées ensuite dans un Google Sheet via #outil).
+    const fiche = [
+      `Nouvelle configuration simulateur`,
+      ``,
+      `Entreprise : ${nom}`,
+      `Email : ${email}`,
+      `Téléphone : ${config.tel || "-"}`,
+      `Zone : ${config.zone || "-"}`,
+      ``,
+      `TARIFS (min-max € HT / unité)`,
+      ...CATALOGUE.filter((t) => types[t.id]).map((t) =>
+        t.base ? `${t.libelle} : ${types[t.id].min} - ${types[t.id].max} € / ${t.unite}` : `${t.libelle} : activé`),
+      ``,
+      `Lien du simulateur :`,
+      lien,
+    ].join("\n");
+    const mailtoPD = `mailto:${EMAIL_PAYSAGE_DIGITAL}` +
+      `?subject=${encodeURIComponent(`Configuration simulateur — ${nom}`)}` +
+      `&body=${encodeURIComponent(fiche)}`;
+
     document.getElementById("zone-resultat").innerHTML = `
       <section class="carte" style="border-color:var(--marque)">
-        <h2>✅ Votre simulateur est prêt !</h2>
-        <p class="info"><strong>Votre lien unique</strong> (gardez-le précieusement — il contient toute votre configuration) :</p>
+        <h2>Votre simulateur est prêt</h2>
+        <p class="info"><strong>1 — Activez votre essai :</strong> envoyez votre
+          fiche à Paysage Digital (un email prérempli s'ouvre, vous n'avez qu'à
+          appuyer sur Envoyer) :</p>
+        <a class="bouton" href="${esc(mailtoPD)}" id="btn-envoyer-fiche">Envoyer ma fiche à Paysage Digital</a>
+        <p class="info" style="margin-top:16px"><strong>2 — Testez :</strong> voici votre lien unique
+          (gardez-le précieusement — il contient toute votre configuration) :</p>
         <div class="bloc-code">${esc(lien)}</div>
-        <a class="bouton" href="${esc(lien)}" target="_blank">▶ Tester mon simulateur</a>
+        <a class="bouton bouton-secondaire" href="${esc(lien)}" target="_blank">Tester mon simulateur</a>
         <button class="bouton bouton-secondaire" id="btn-copier-lien">Copier le lien</button>
-        <p class="info" style="margin-top:16px"><strong>Pour l'intégrer sur votre site</strong>
+        <p class="info" style="margin-top:16px"><strong>3 — Intégrez-le sur votre site</strong>
           (WordPress : bloc HTML personnalisé · Wix/Hostinger : élément « Code d'intégration » · Webflow : Embed) :</p>
         <div class="bloc-code">${esc(iframe)}</div>
         <button class="bouton bouton-secondaire" id="btn-copier-iframe">Copier le code</button>
@@ -319,6 +424,9 @@ function vueConfigurateur() {
     document.getElementById("zone-resultat").scrollIntoView({ behavior: "smooth" });
   });
 }
+
+// Adresse où les fiches de configuration des artisans sont envoyées.
+const EMAIL_PAYSAGE_DIGITAL = "julien.duplouy90@gmail.com";
 
 async function copier(texte, bouton, libelle) {
   try {
@@ -340,7 +448,7 @@ function vueSimulateur(config) {
 
   const entete = `
     <div class="entete-marque">
-      <span style="font-size:26px">🌿</span>
+      ${icone("feuille")}
       <div>
         <div class="nom">${esc(config.nom)}</div>
         ${config.zone ? `<div class="zone">${esc(config.zone)}</div>` : ""}
@@ -360,7 +468,7 @@ function vueSimulateur(config) {
         <div class="grille-types">
           ${typesActifs.map((t) => `
             <button class="carte-type" data-type="${t.id}">
-              <span class="emoji">${t.emoji}</span>
+              ${icone(t.id)}
               <span class="titre">${t.libelle}</span>
               <span class="desc">${t.description}</span>
             </button>`).join("")}
@@ -378,7 +486,7 @@ function vueSimulateur(config) {
       const t = etat.type;
       app.innerHTML = `${entete}
         <button class="lien-retour" id="btn-retour">← Retour</button>
-        <h1>${t.emoji} ${t.libelle}</h1>
+        <h1>${t.libelle}</h1>
         <div style="margin-top:16px">
           ${t.questions.map((q) => q.type === "nombre" ? `
             <div class="question">
@@ -467,7 +575,7 @@ function vueSimulateur(config) {
         <button class="bouton" id="btn-envoyer">Recevoir une étude précise de mon projet</button>
         <p class="info" style="text-align:center;margin-top:8px">
           Votre messagerie s'ouvrira avec votre demande prête à envoyer —
-          vous pourrez y joindre des photos de votre terrain. 📷</p>${pied}`;
+          vous pourrez y joindre des photos de votre terrain.</p>${pied}`;
 
       document.getElementById("btn-retour").addEventListener("click", () => {
         etat.ecran = etat.estimation ? "estimation" : (etat.type.questions.length ? "questions" : "type");
@@ -515,11 +623,11 @@ function vueSimulateur(config) {
     } else if (etat.ecran === "merci") {
       app.innerHTML = `${entete}
         <div class="bloc-estimation">
-          <p style="font-size:44px;margin:0">📨</p>
-          <h1>Plus qu'un clic !</h1>
+          <span class="icone" style="width:44px;height:44px;display:inline-block">${ICONES.envoi}</span>
+          <h1>Plus qu'un clic</h1>
           <p class="sous-titre">Votre messagerie s'est ouverte avec votre demande prête —
             appuyez sur <strong>Envoyer</strong> pour la transmettre à ${esc(config.nom)}.
-            Pensez à y joindre des photos de votre terrain. 📷</p>
+            Pensez à y joindre des photos de votre terrain.</p>
           <button class="bouton bouton-secondaire" id="btn-copier-recap">Ma messagerie ne s'est pas ouverte — copier ma demande</button>
           ${config.tel ? `<p class="info" style="margin-top:16px">Ou appelez directement :
             <a href="tel:${esc(config.tel)}" style="color:var(--marque);font-weight:700">${esc(config.tel)}</a></p>` : ""}
