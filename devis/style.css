@@ -1,0 +1,160 @@
+/* Devis Paysagiste — styles. Pensé mobile d'abord (utilisation sur chantier). */
+
+:root {
+  --vert: #166534;
+  --vert-fonce: #14532d;
+  --vert-clair: #f0fdf4;
+  --fond: #fafaf9;
+  --carte: #ffffff;
+  --texte: #1c1917;
+  --texte-doux: #57534e;
+  --bord: #d6d3d1;
+  --rouge: #dc2626;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ---- En-tête ---- */
+.entete { background: var(--vert); color: #fff; }
+.nav {
+  max-width: 768px; margin: 0 auto; padding: 8px 12px;
+  display: flex; align-items: center; gap: 4px; overflow-x: auto;
+}
+.marque { font-weight: 700; font-size: 18px; color: #fff; text-decoration: none; white-space: nowrap; margin-right: 8px; }
+.lien-nav {
+  color: #fff; text-decoration: none; font-size: 14px; font-weight: 500;
+  padding: 8px 12px; border-radius: 8px; white-space: nowrap;
+}
+.lien-nav:hover { background: var(--vert-fonce); }
+
+/* ---- Mise en page ---- */
+.contenu { max-width: 768px; margin: 0 auto; padding: 16px 12px 120px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+.sous-titre { color: var(--texte-doux); margin: 0 0 16px; }
+
+.carte {
+  background: var(--carte); border-radius: 12px; padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid #e7e5e4;
+  margin-bottom: 16px;
+}
+
+/* ---- Formulaires ---- */
+label { display: block; margin-bottom: 12px; }
+.etiquette { display: block; font-size: 14px; color: var(--texte-doux); margin-bottom: 4px; }
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%; padding: 12px; font-size: 16px;
+  border: 1px solid var(--bord); border-radius: 8px; background: #fff;
+  font-family: inherit;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--vert); border-color: var(--vert); }
+.deux-colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .deux-colonnes { grid-template-columns: 1fr; } }
+
+.fourchette { font-size: 13px; color: var(--texte-doux); }
+.champ-prix { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.champ-prix input { width: 130px; }
+
+/* Choix radio « boutons » */
+.choix-groupe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.choix {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  border: 1px solid var(--bord); border-radius: 8px; padding: 12px 16px; margin: 0;
+}
+.choix:has(input:checked) { border-color: var(--vert); background: var(--vert-clair); }
+.choix input { accent-color: var(--vert); }
+
+/* ---- Boutons ---- */
+.bouton {
+  display: block; width: 100%; padding: 16px; font-size: 18px; font-weight: 600;
+  border: none; border-radius: 12px; cursor: pointer; text-align: center;
+  text-decoration: none; font-family: inherit;
+}
+.bouton-vert { background: var(--vert); color: #fff; }
+.bouton-vert:hover { background: var(--vert-fonce); }
+.bouton-blanc { background: var(--carte); color: var(--texte); border: 1px solid #e7e5e4; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.bouton-blanc:hover { background: #f5f5f4; }
+.bouton-rouge { background: none; color: var(--rouge); }
+.bouton-rouge:hover { background: #fef2f2; }
+.bouton:disabled { opacity: .5; cursor: default; }
+.pile-boutons { display: grid; gap: 12px; }
+
+.bouton-petit {
+  display: inline-block; padding: 8px 16px; font-size: 14px; font-weight: 500;
+  border: none; border-radius: 8px; cursor: pointer; text-decoration: none; font-family: inherit;
+}
+
+/* Ligne d'ajout en pointillés */
+.bouton-ajout {
+  width: 100%; padding: 14px; font-size: 16px; font-weight: 500;
+  background: none; border: 2px dashed var(--bord); border-radius: 12px;
+  color: var(--texte-doux); cursor: pointer; font-family: inherit;
+}
+.bouton-ajout:hover { border-color: var(--vert); color: var(--vert); }
+
+/* ---- Listes ---- */
+.liste { list-style: none; margin: 0; padding: 0; background: var(--carte); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid #e7e5e4; }
+.liste li { border-bottom: 1px solid #f5f5f4; }
+.liste li:last-child { border-bottom: none; }
+.ligne-liste {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 16px; text-decoration: none; color: inherit;
+}
+.ligne-liste:hover { background: #fafaf9; }
+.detail-doux { font-size: 14px; color: var(--texte-doux); }
+.montant { font-weight: 600; white-space: nowrap; }
+
+.badge { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.badge-brouillon { background: #fef3c7; color: #92400e; }
+.badge-envoye { background: #dbeafe; color: #1e40af; }
+
+/* ---- Tableau du détail de devis ---- */
+.conteneur-tableau { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; color: var(--texte-doux); font-weight: 500; padding: 8px; border-bottom: 1px solid #e7e5e4; }
+td { padding: 8px; border-bottom: 1px solid #f5f5f4; }
+.num { text-align: right; white-space: nowrap; }
+.total-tableau { font-weight: 700; font-size: 16px; }
+
+/* ---- Messages ---- */
+.erreur {
+  background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;
+}
+.info { font-size: 14px; color: var(--texte-doux); }
+
+/* ---- Barre fixe en bas (total + enregistrer) ---- */
+.barre-basse {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: var(--carte); border-top: 1px solid #e7e5e4; padding: 12px;
+}
+.barre-basse-interieur { max-width: 768px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.barre-basse .bouton { flex: 1; }
+.total-libelle { font-size: 13px; color: var(--texte-doux); display: block; }
+.total-valeur { font-size: 20px; font-weight: 700; white-space: nowrap; }
+
+/* Ligne de prestation dans le formulaire de devis */
+.ligne-prestation { margin-bottom: 12px; }
+.ligne-prestation .rangee { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.ligne-prestation .rangee input { width: 110px; }
+.ligne-prestation .sous-total { margin-left: auto; font-weight: 600; }
+.bouton-suppr {
+  background: none; border: none; color: var(--rouge); font-size: 18px;
+  cursor: pointer; padding: 8px 12px; border-radius: 8px;
+}
+.bouton-suppr:hover { background: #fef2f2; }
+
+.entete-page { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.entete-page h1 { margin: 0; }
+.groupe-boutons-entete { display: flex; gap: 8px; }
+.lien-retour { font-size: 14px; color: var(--texte-doux); text-decoration: none; }
+.lien-retour:hover { text-decoration: underline; }
