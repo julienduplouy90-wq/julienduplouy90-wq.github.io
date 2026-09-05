@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Devis Paysagiste 🌿</title>
+  <meta name="description" content="Générateur de devis pour paysagistes — créez un devis PDF en 2 minutes depuis votre téléphone.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+</head>
+<body>
+  <!-- En-tête de navigation -->
+  <header class="entete">
+    <nav class="nav">
+      <a href="#accueil" class="marque">🌿 Devis Paysagiste</a>
+      <a href="#nouveau" class="lien-nav">+ Nouveau devis</a>
+      <a href="#devis" class="lien-nav">Mes devis</a>
+      <a href="#tarifs" class="lien-nav">Mes tarifs</a>
+    </nav>
+  </header>
+
+  <!-- Les vues sont rendues ici par app.js -->
+  <main id="app" class="contenu"></main>
+
+  <!-- Bibliothèques PDF embarquées (pas de dépendance à un CDN externe) -->
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="vendor/jspdf.plugin.autotable.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
