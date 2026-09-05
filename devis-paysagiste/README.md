@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Devis Paysagiste 🌿
 
-## Getting Started
+Générateur de devis pour paysagistes — MVP mono-utilisateur (pas d'authentification),
+pensé pour être testé en local puis montré en démo.
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- SQLite via Prisma (base locale dans `prisma/dev.db`, aucun service externe)
+- PDF généré avec `@react-pdf/renderer`
+
+## Lancer le projet en local
 
 ```bash
+# 1. Installer les dépendances
+npm install
+
+# 2. Créer le fichier .env à la racine du projet avec cette ligne :
+#    DATABASE_URL="file:./dev.db"
+echo 'DATABASE_URL="file:./dev.db"' > .env
+
+# 3. Créer la base et la remplir avec les prestations types
+npx prisma migrate dev
+
+# 4. Démarrer
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis ouvrir [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Parcours de démo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Premier lancement** → questionnaire de démarrage : localisation + vos prix
+   exacts pour chaque prestation (des fourchettes indicatives France sont affichées).
+2. **Créer un devis** → infos client, ajout de lignes de prestations, total HT en
+   temps réel, enregistrement.
+3. **Mes devis** → liste des devis, détail, changement de statut (brouillon/envoyé).
+4. **Télécharger en PDF** depuis le détail d'un devis.
+5. **Mes tarifs** → consulter/modifier ses prix, et **Export CSV** (à coller dans un
+   Google Sheet de suivi des prix par zone).
 
-## Learn More
+## Remettre la base à zéro
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+rm prisma/dev.db && npx prisma migrate dev
+```

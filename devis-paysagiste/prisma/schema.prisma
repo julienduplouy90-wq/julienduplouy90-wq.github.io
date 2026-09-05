@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Schéma de la base de données (SQLite via Prisma).
+// Voir https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client"
@@ -9,4 +9,59 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+// Profil du paysagiste (mono-utilisateur pour cette V1).
+// Rempli par le questionnaire de démarrage (onboarding).
+model Profil {
+  id                Int      @id @default(1)
+  nomEntreprise     String?
+  ville             String
+  codePostal        String
+  onboardingTermine Boolean  @default(false)
+  creeLe            DateTime @default(now())
+  modifieLe         DateTime @updatedAt
+}
+
+// Bibliothèque de prix : une prestation type avec sa fourchette
+// indicative (France) et le prix exact choisi par le paysagiste.
+model PrestationType {
+  id           Int     @id @default(autoincrement())
+  nom          String
+  unite        String // "m²", "ml", "unité", "forfait"
+  categorie    String // "Engazonnement", "Clôture", "Terrasse", "Taille/Entretien", "Plantation"
+  prixMin      Float // bas de la fourchette indicative
+  prixMax      Float // haut de la fourchette indicative
+  prixUnitaire Float? // prix exact du paysagiste, défini à l'onboarding
+
+  lignes LigneDevis[]
+}
+
+// Un devis pour un client.
+model Devis {
+  id              Int      @id @default(autoincrement())
+  nomClient       String
+  adresseChantier String
+  dateCreation    DateTime @default(now())
+  statut          String   @default("brouillon") // "brouillon" ou "envoyé"
+  totalHT         Float    @default(0)
+  notes           String?
+
+  lignes LigneDevis[]
+}
+
+// Une ligne de devis. Le nom, l'unité et le prix sont COPIÉS au moment
+// de la création (pas juste référencés) pour garder l'historique intact
+// même si la bibliothèque de prix change plus tard.
+model LigneDevis {
+  id               Int            @id @default(autoincrement())
+  devis            Devis          @relation(fields: [devisId], references: [id], onDelete: Cascade)
+  devisId          Int
+  prestation       PrestationType @relation(fields: [prestationTypeId], references: [id])
+  prestationTypeId Int
+  nomPrestation    String // copie du nom au moment de la création
+  unite            String // copie de l'unité
+  quantite         Float
+  prixUnitaire     Float // copie du prix au moment de la création
+  sousTotal        Float
 }
