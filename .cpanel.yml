@@ -1,0 +1,9 @@
+---
+# Déploiement automatique sur o2switch (cPanel > Git Version Control).
+# Copie le contenu du dossier paysage/ dans public_html (site julienduplouy.fr).
+# Les fichiers déjà présents sur le serveur qui ne sont pas dans paysage/ sont conservés.
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/cp -R paysage/. $DEPLOYPATH
+    - /bin/rm -f ${DEPLOYPATH}README.md
