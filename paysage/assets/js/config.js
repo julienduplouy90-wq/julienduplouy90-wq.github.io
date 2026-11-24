@@ -9,7 +9,7 @@ window.SITE_CONFIG = {
   // --- Marque (provisoire : identité personnelle, en attendant
   //     une éventuelle marque dédiée) ---
   brandName: "Julien Duplouy",
-  brandTagline: "Système de demandes de devis pour paysagistes",
+  brandTagline: "Sites et demandes de devis pour artisans",
 
   // --- Coordonnées ---
   // NOTE: adresse personnelle utilisée provisoirement pour que le contact
