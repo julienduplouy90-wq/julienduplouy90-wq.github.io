@@ -23,7 +23,7 @@
   });
   if (CFG.contactEmail) {
     document.querySelectorAll("[data-mailto]").forEach(function (a) {
-      a.href = "mailto:" + CFG.contactEmail + "?subject=" + encodeURIComponent("Ma maquette");
+      a.href = "mailto:" + CFG.contactEmail + "?subject=" + encodeURIComponent("Ma version gratuite");
     });
   }
   if (CFG.bookingUrl) {
