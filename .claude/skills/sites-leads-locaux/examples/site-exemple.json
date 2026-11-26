@@ -1,0 +1,20 @@
+{
+  "domain": "devis-pompe-chaleur-exemple.fr",
+  "brand": "Devis Pompe à Chaleur",
+  "niche": "pompe-a-chaleur",
+  "minPop": 5000,
+  "depts": ["*"],
+  "leadEmail": "leads@exemple.fr",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression",
+  "publisher": {
+    "name": "",
+    "legalForm": "",
+    "siret": "",
+    "address": "",
+    "email": "",
+    "director": "",
+    "host": "Hostinger International Ltd, 61 Lordou Vironos Street, 6023 Larnaca, Chypre"
+  }
+}
