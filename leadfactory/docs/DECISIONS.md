@@ -20,3 +20,4 @@ Format : date — décision — raison — statut (✅ appliquée, ⏳ à valide
 | 14 | — | Hébergement de production | **Vercel Hobby interdit l'usage commercial** → Vercel Pro (~20 $/mois) ou alternative ; Supabase gratuit met en pause les projets inactifs | ⏳ |
 | 15 | — | Nom de marque et domaine du site pilote | « Assainissement Dordogne » est provisoire | ⏳ |
 | 16 | 2026-11-26 | Navigation simplifiée en deux espaces (Leads / Sites) ; projet et site fusionnés dans l'interface ; distribution intégrée aux étapes des prospects | Retour du propriétaire : navigation pas assez fluide ni simple | ✅ |
+| 17 | 2026-11-26 | Base vide par défaut (`SEED_DEMO=true` seulement pour tests/démo) ; build `standalone` ; base stockée hors du dossier de l'application en production | Mise en ligne Hostinger Node.js « à zéro », sans perte de données aux redéploiements | ✅ |

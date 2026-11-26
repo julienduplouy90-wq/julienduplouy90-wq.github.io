@@ -16,7 +16,7 @@ npm run dev                    # http://localhost:3000
 
 Aucun service externe n'est requis : la base PostgreSQL est **embarquée** (PGlite) et stockée dans `./.data/pglite`.
 Au premier démarrage : migrations, projet pilote réel (sans prospect ni partenaire) et **données de démonstration fictives**
-dans un projet séparé « [Démo] Assainissement Lot-et-Garonne » (bannière jaune). Supprimez-les dans **Réglages → Supprimer la démo**.
+dans un projet séparé, **uniquement si `SEED_DEMO=true`** (par défaut la base démarre vide). Purge : **Réglages → Supprimer la démo**.
 
 | URL | Contenu |
 |---|---|
@@ -50,4 +50,4 @@ La transmission d'un prospect se fait par vous (fiche à copier), puis « Marque
 ## Documentation
 
 [CLAUDE.md](CLAUDE.md) · [Produit](docs/PRODUCT.md) · [Architecture](docs/ARCHITECTURE.md) · [Base de données](docs/DATABASE.md) ·
-[Sécurité & RGPD](docs/SECURITY.md) · [Décisions](docs/DECISIONS.md) · [Roadmap](docs/ROADMAP.md) · [Tâches](TASKS.md)
+[Sécurité & RGPD](docs/SECURITY.md) · [Hostinger](docs/DEPLOY-HOSTINGER.md) · [Décisions](docs/DECISIONS.md) · [Roadmap](docs/ROADMAP.md) · [Tâches](TASKS.md)

@@ -3,8 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // PGlite (Postgres WASM) doit rester un module Node natif, non bundlé.
   serverExternalPackages: ["@electric-sql/pglite"],
-  outputFileTracingIncludes: { "/**": ["./db/migrations/*.sql"] },
+  outputFileTracingIncludes: { "/**": ["./db/migrations/*.sql", "./node_modules/@electric-sql/pglite/dist/**/*"] },
   distDir: process.env.NEXT_DIST_DIR || ".next",
+  // Serveur autonome (Hostinger Node.js, Docker…) : `node .next/standalone/server.js`.
+  output: "standalone",
   poweredByHeader: false,
   // Anciennes adresses (v0.1) → nouvelle navigation à deux espaces.
   async redirects() {

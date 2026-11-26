@@ -1,5 +1,6 @@
 import { readdir, readFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import os from "node:os";
 
 /** Interface minimale commune à PGlite (local) et postgres.js (Supabase / Postgres). */
 export interface Db {
@@ -68,7 +69,17 @@ export async function createDb(mode: DbMode = getDbMode()): Promise<Db> {
     return createPostgres(url);
   }
   if (mode === "memory") return createPglite();
-  return createPglite(path.join(process.cwd(), ".data", "pglite"));
+  return createPglite(pgliteDir());
+}
+
+/**
+ * Emplacement de la base locale. En production, hors du dossier de l'application
+ * (~/leadfactory-data/pglite) pour survivre aux redéploiements. Surchargeable par PGLITE_DIR.
+ */
+export function pgliteDir() {
+  if (process.env.PGLITE_DIR) return process.env.PGLITE_DIR;
+  if (process.env.NODE_ENV === "production") return path.join(os.homedir(), "leadfactory-data", "pglite");
+  return path.join(process.cwd(), ".data", "pglite");
 }
 
 /** Applique les migrations SQL de db/migrations dans l'ordre, une seule fois chacune. */

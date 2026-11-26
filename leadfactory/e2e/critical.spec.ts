@@ -75,3 +75,13 @@ test("le robots.txt bloque l'indexation d'un site non publié", async ({ request
   const r = await request.get("/s/assainissement-dordogne/robots.txt");
   expect(await r.text()).toContain("Disallow: /");
 });
+
+test("les pastilles de statut filtrent les partenaires", async ({ page }) => {
+  await page.goto("/partenaires");
+  await page.getByRole("link", { name: /^Contacté \(\d+\)$/ }).click();
+  await expect(page).toHaveURL(/status=contacted/);
+  await expect(page.getByRole("link", { name: /Delta Terrassement/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Alpha Assainissement/ })).toHaveCount(0);
+  await page.getByRole("link", { name: /^Partenaire actif \(\d+\)$/ }).click();
+  await expect(page.getByRole("link", { name: /Alpha Assainissement/ })).toBeVisible();
+});

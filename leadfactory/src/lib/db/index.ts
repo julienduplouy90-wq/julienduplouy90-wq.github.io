@@ -9,7 +9,8 @@ async function boot(): Promise<Db> {
   const [{ n }] = (await db.query<{ n: number }>("select count(*)::int as n from workspaces")) as [{ n: number }];
   if (n === 0) {
     const ws = await seedBase(db);
-    if (process.env.SEED_DEMO !== "false") await seedDemo(db, ws);
+    // Données fictives uniquement sur demande explicite (tests, démonstration locale).
+    if (process.env.SEED_DEMO === "true") await seedDemo(db, ws);
   }
   return db;
 }
