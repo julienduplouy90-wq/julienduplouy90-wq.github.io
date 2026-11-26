@@ -54,11 +54,11 @@ export default async function PartnerPage({ params }: { params: Promise<{ id: st
             </CardBody>
           </Card>
           <Card>
-            <CardHeader title="Projets associés" description="Prix convenu et prospects offerts par projet" />
+            <CardHeader title="Sites associés" description="Prix convenu et prospects offerts par site" />
             <CardBody className="space-y-3">
               {projects.map((pr) => (
                 <div key={pr.projectId} className="flex justify-between text-sm">
-                  <Link href={`/projets/${pr.projectId}`} className="hover:underline">{pr.name}</Link>
+                  <Link href={`/sites/${pr.projectId}`} className="hover:underline">{pr.name}</Link>
                   <span className="text-muted-foreground">{pr.agreedPriceCents != null ? formatMoney(pr.agreedPriceCents) : "prix à définir"} · {pr.freeLeadsGranted} offert(s)</span>
                 </div>
               ))}

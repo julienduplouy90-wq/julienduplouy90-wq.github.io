@@ -11,8 +11,8 @@ export function FilterBar({ period, projectId, niche, projects, showNiche = true
       <label className="flex flex-col text-xs text-muted-foreground">Période
         <Select name="period" defaultValue={period} className="mt-1 w-36" options={Object.entries(PERIODS).map(([value, label]) => ({ value, label }))} />
       </label>
-      <label className="flex flex-col text-xs text-muted-foreground">Projet
-        <Select name="project" defaultValue={projectId ?? ""} className="mt-1 w-60" options={[{ value: "", label: "Tous les projets" }, ...projects.map((p) => ({ value: p.id, label: p.name }))]} />
+      <label className="flex flex-col text-xs text-muted-foreground">Site
+        <Select name="project" defaultValue={projectId ?? ""} className="mt-1 w-60" options={[{ value: "", label: "Tous les sites" }, ...projects.map((p) => ({ value: p.id, label: p.name }))]} />
       </label>
       {showNiche && (
         <label className="flex flex-col text-xs text-muted-foreground">Niche

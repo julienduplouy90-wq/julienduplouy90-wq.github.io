@@ -2,11 +2,17 @@ import { expect, test } from "@playwright/test";
 
 test.describe.configure({ mode: "serial" });
 
-test("le tableau de bord affiche les indicateurs et la bannière démo", async ({ page }) => {
-  await page.goto("/dashboard");
-  await expect(page.getByRole("heading", { name: "Vue d'ensemble" })).toBeVisible();
-  await expect(page.getByText("Prospects reçus").first()).toBeVisible();
+test("l'accueil Leads affiche les tâches, les chiffres et les deux espaces", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/leads$/);
+  await expect(page.getByRole("heading", { name: "Leads", exact: true })).toBeVisible();
+  await expect(page.getByText("À vérifier").first()).toBeVisible();
+  await expect(page.getByText("Demandes reçues")).toBeVisible();
   await expect(page.getByRole("status").filter({ hasText: "Données de démonstration" })).toBeVisible();
+  await page.getByRole("tab", { name: "Sites" }).first().click();
+  await expect(page.getByRole("heading", { name: "Mes sites" })).toBeVisible();
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/leads$/);
 });
 
 test("un particulier dépose une demande sur le site pilote, visible dans le back-office", async ({ page }, info) => {
@@ -40,22 +46,29 @@ test("un particulier dépose une demande sur le site pilote, visible dans le bac
   await page.getByRole("button", { name: "Envoyer ma demande" }).click();
   await expect(page.getByText("Merci, votre demande est enregistrée.")).toBeVisible();
 
-  await page.goto("/prospects?q=" + encodeURIComponent(name));
-  await page.getByRole("link", { name }).click();
-  await expect(page.getByText(/Score : \d+ \/ 100/)).toBeVisible();
+  await page.goto("/prospects?etape=a-verifier&q=" + encodeURIComponent(name));
+  await page.getByRole("link", { name: new RegExp(name) }).click();
+  await expect(page.getByText(/Score \d+\/100/)).toBeVisible();
   await page.getByRole("button", { name: "Qualifier" }).click();
-  await expect(page.getByText("Qualifié").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: /partenaire/ })).toBeVisible();
 });
 
 test("la double attribution est impossible et la transmission reste manuelle", async ({ page }) => {
-  await page.goto("/distribution");
-  // File d'attente : prospects démo qualifiés (Lot-et-Garonne) servis par les partenaires démo actifs.
-  const first = page.locator("table").first().getByRole("link", { name: /Client Démo/ }).first();
-  await first.click();
+  // Prospects démo qualifiés (Lot-et-Garonne) servis par les partenaires démo actifs.
+  await page.goto("/prospects?etape=a-attribuer");
+  const hrefs = await page.getByRole("link", { name: /Client Démo/ }).evaluateAll((els) => els.map((e) => e.getAttribute("href")!));
+  let found = false;
+  for (const h of hrefs) {
+    await page.goto(h);
+    if (await page.getByRole("button", { name: "Attribuer" }).count()) { found = true; break; }
+  }
+  expect(found).toBe(true);
   await page.getByRole("button", { name: "Attribuer" }).first().click();
-  await expect(page.getByRole("button", { name: "Marquer comme transmis" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "C'est envoyé" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Attribuer" })).toHaveCount(0);
-  await expect(page.getByText("LeadFactory n'envoie rien")).toBeAttached();
+  await expect(page.getByText("LeadFactory n'envoie rien")).toBeVisible();
+  await page.getByRole("button", { name: "C'est envoyé" }).click();
+  await expect(page.getByText("Transmis").first()).toBeVisible();
 });
 
 test("le robots.txt bloque l'indexation d'un site non publié", async ({ request }) => {

@@ -1,18 +1,18 @@
-import { Badge, Button, Card, CardBody, CardHeader, Field, Input, Notice, PageHeader, Table, Td } from "@/components/ui";
+import { Badge, Button, Card, CardBody, CardHeader, Field, Input, PageHeader, Table, Td } from "@/components/ui";
 import { ConfirmButton } from "@/components/admin/action-form";
 import { purgeDemo, purgeExpiredLeads, updateWorkspace } from "@/lib/actions";
 import { getWorkspace } from "@/lib/repo/queries";
 import { getDbMode } from "@/lib/db/client";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Paramètres" };
+export const metadata = { title: "Réglages" };
 
 export default async function Settings() {
   const { workspace: w, counts: c, audit } = await getWorkspace();
   const demoTotal = c.demoProjects + c.demoLeads + c.demoPartners;
   return (
     <>
-      <PageHeader title="Paramètres" />
+      <PageHeader title="Réglages" />
       <div className="grid gap-6 xl:grid-cols-2">
         <Card>
           <CardHeader title="Espace de travail" />
@@ -57,7 +57,13 @@ export default async function Settings() {
           </CardBody>
         </Card>
       </div>
-      <Notice className="mt-6">Authentification multi-utilisateur (Supabase Auth), rôles et facturation : modules futurs.</Notice>
+      <details className="mt-6 rounded-xl border bg-card p-5">
+        <summary className="cursor-pointer text-sm font-medium">Modules à venir (non disponibles)</summary>
+        <ul className="mt-3 grid gap-1 text-sm text-muted-foreground sm:grid-cols-2">
+          {["Recherche de niches et volumes de recherche", "Analyse de la concurrence SEO", "Contenus SEO assistés par IA (relus)", "Search Console et suivi des positions",
+            "Google Ads", "Qualification assistée par IA", "Portail partenaire", "Facturation Stripe, crédits, abonnements", "Multi-utilisateur, marque blanche, domaines", "Internationalisation"].map((x) => <li key={x}>· {x}</li>)}
+        </ul>
+      </details>
       <Card className="mt-6">
         <CardHeader title="Journal des actions" description="30 dernières actions importantes" />
         <Table head={["Date", "Acteur", "Action", "Objet"]}>

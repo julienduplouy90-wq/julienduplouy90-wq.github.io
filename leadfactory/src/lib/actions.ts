@@ -61,8 +61,8 @@ export async function createProject(_: ActionState, fd: FormData): Promise<Actio
   } catch (e) {
     return { ok: false, message: String(e).includes("unique") || String(e).includes("duplicate") ? "Ce slug est déjà utilisé" : "Erreur lors de la création" };
   }
-  revalidatePath("/projets");
-  redirect(`/projets/${id}`);
+  revalidatePath("/sites");
+  redirect(`/sites/${id}`);
 }
 
 export async function updateProject(id: string, _: ActionState, fd: FormData): Promise<ActionState> {
@@ -82,7 +82,7 @@ export async function updateProject(id: string, _: ActionState, fd: FormData): P
       JSON.stringify({ qualifyThreshold, rejectThreshold }),
       JSON.stringify({ indexable: fd.get("indexable") === "on", metaDescription: str(fd.get("metaDescription")) || undefined })]);
   await audit(db, ws, ACTOR, "project.updated", "project", id);
-  revalidatePath(`/projets/${id}`);
+  revalidatePath(`/sites/${id}`);
   return { ok: true, message: "Projet enregistré" };
 }
 
@@ -274,7 +274,7 @@ export async function assignLead(leadId: string, fd: FormData): Promise<void> {
     await audit(t, ws, ACTOR, "lead.assigned", "lead", leadId, { partnerId, priceCents: choice.priceCents, isFree: choice.isFree });
   });
   revalidatePath(`/prospects/${leadId}`);
-  revalidatePath("/distribution");
+  revalidatePath("/leads");
 }
 
 const NEXT_LEAD_STATUS: Record<string, string> = { sent: "sent", accepted: "sent", refused: "refused_by_partner", cancelled: "qualified" };
@@ -294,7 +294,7 @@ export async function setAssignmentStatus(assignmentId: string, fd: FormData) {
     await t.query("update leads set status=$2 where id=$1", [a.leadId, NEXT_LEAD_STATUS[status]]);
     await audit(t, ws, ACTOR, `assignment.${status}`, "lead_assignment", assignmentId);
   });
-  revalidatePath("/distribution");
+  revalidatePath("/leads");
   revalidatePath("/prospects");
 }
 
@@ -383,7 +383,7 @@ export async function updateWorkspace(fd: FormData) {
   const ws = await getWorkspaceId();
   await db.query("update workspaces set lead_retention_days=$2, name=coalesce(nullif($3,''), name) where id=$1", [ws, days, str(fd.get("name")).slice(0, 120)]);
   await audit(db, ws, ACTOR, "workspace.updated", "workspace", ws, { leadRetentionDays: days });
-  revalidatePath("/parametres");
+  revalidatePath("/reglages");
 }
 
 export async function purgeExpiredLeads() {
@@ -396,5 +396,5 @@ export async function purgeExpiredLeads() {
           user_agent=null, source_url=null, postal_code=left(postal_code, 2) || '000', dedupe_key='erased:' || id where id=$1`, [r.id]);
   }
   await audit(db, ws, ACTOR, "retention.purged", "workspace", ws, { count: rows.length });
-  revalidatePath("/parametres");
+  revalidatePath("/reglages");
 }

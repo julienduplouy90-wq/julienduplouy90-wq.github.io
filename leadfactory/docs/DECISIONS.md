@@ -19,3 +19,4 @@ Format : date — décision — raison — statut (✅ appliquée, ⏳ à valide
 | 13 | 2026-11-26 | Prix cible 50 €/prospect exclusif, 2 offerts par partenaire | Hypothèses du cahier des charges, paramétrables | ⏳ |
 | 14 | — | Hébergement de production | **Vercel Hobby interdit l'usage commercial** → Vercel Pro (~20 $/mois) ou alternative ; Supabase gratuit met en pause les projets inactifs | ⏳ |
 | 15 | — | Nom de marque et domaine du site pilote | « Assainissement Dordogne » est provisoire | ⏳ |
+| 16 | 2026-11-26 | Navigation simplifiée en deux espaces (Leads / Sites) ; projet et site fusionnés dans l'interface ; distribution intégrée aux étapes des prospects | Retour du propriétaire : navigation pas assez fluide ni simple | ✅ |

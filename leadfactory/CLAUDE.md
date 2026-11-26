@@ -27,7 +27,7 @@ Next.js 16 (App Router, `src/proxy.ts` remplace middleware) · React 19 · TypeS
 - `src/lib/repo/` — lectures SQL (`queries.ts`), enregistrement prospect (`lead-intake.ts`), journal (`audit.ts`).
 - `src/lib/actions.ts` — actions serveur du back-office.
 - `src/lib/sites/` — modèles de niche (`niches/`), consentement versionné, chargement de site.
-- `src/app/(admin)/` — back-office. `src/app/s/[site]/` — sites publics. `src/app/api/leads` — collecte publique.
+- `src/app/(admin)/` — back-office (espaces Leads : leads, prospects, partenaires, finances ; Sites : sites ; reglages). Navigation : `src/components/admin/nav.tsx`. `src/app/s/[site]/` — sites publics. `src/app/api/leads` — collecte publique.
 
 ## Vérifications avant commit
 `npm run typecheck && npm test` ; `npm run test:e2e` si parcours public ou attribution modifiés.

@@ -30,7 +30,7 @@ export function PartnerFields({ p, services, projects }: { p?: PartnerRow; servi
         </div>
       </fieldset>
       {projects && (
-        <Field label="Associer à un projet (facultatif)"><Select name="projectId" defaultValue="" options={[{ value: "", label: "—" }, ...projects.map((x) => ({ value: x.id, label: x.name }))]} /></Field>
+        <Field label="Associer à un site (facultatif)"><Select name="projectId" defaultValue="" options={[{ value: "", label: "—" }, ...projects.map((x) => ({ value: x.id, label: x.name }))]} /></Field>
       )}
       <Field label="Notes" className="sm:col-span-2"><Textarea name="notes" defaultValue={p?.notes ?? ""} /></Field>
     </div>

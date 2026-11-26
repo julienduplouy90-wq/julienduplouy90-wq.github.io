@@ -19,6 +19,13 @@ Le seul objectif qui compte à court terme : **vendre les premiers prospects du 
 | G. Distribution | Classement des partenaires (zone, prestation, statut, capacité, prix, équité), exclusivité garantie en base, transmission manuelle | Portail partenaire, envoi automatique, multi-attribution |
 | H. Rentabilité | Prévisionnel / facturé / encaissé, offerts, refusés, dépenses par catégorie, marge par projet | Factures PDF, Stripe, rapprochement bancaire |
 
+## Navigation (v0.2)
+Deux espaces séparés par un sélecteur, chacun avec sa couleur :
+- **Leads** (indigo) — Accueil (« à faire » : à vérifier, à attribuer, à transmettre, à facturer ; puis 4 chiffres clés), Prospects (onglets par étape), Partenaires, Finances.
+- **Sites** (vert) — Mes sites, fiche unique par site. Un site = un projet (activité × zone) : la notion de « projet » n'apparaît plus dans l'interface.
+- **Réglages** à part. Sur mobile : barre d'onglets en bas.
+Chaque fiche prospect affiche une frise d'avancement et une seule carte « Prochaine étape » avec l'action principale.
+
 ## Définitions des indicateurs
 - **Reçus** : prospects créés sur la période. **Qualifiés** : statut qualifié ou au-delà (attribué, transmis, vendu, refusé par le partenaire).
 - **Transmis** : attributions « transmise » ou « acceptée ». **Vendus** : transmis, non offerts, facturables.

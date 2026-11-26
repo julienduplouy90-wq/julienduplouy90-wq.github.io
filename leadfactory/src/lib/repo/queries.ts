@@ -106,7 +106,36 @@ export type LeadListRow = {
   createdAt: string; projectName: string; projectId: string; isDemo: boolean; duplicateOf: string | null; partnerName: string | null;
 };
 
-export async function listLeads(f: { status?: string; projectId?: string; q?: string }) {
+/** Étapes du parcours d'un prospect, dans l'ordre (onglets de la page Prospects). */
+export const LEAD_STEPS = [
+  { key: "a-verifier", label: "À vérifier", statuses: ["new"], hint: "Lire la demande, puis qualifier ou rejeter" },
+  { key: "a-attribuer", label: "À attribuer", statuses: ["qualified"], hint: "Choisir le partenaire" },
+  { key: "a-transmettre", label: "À transmettre", statuses: ["assigned"], hint: "Envoyer la fiche au partenaire" },
+  { key: "transmis", label: "Transmis", statuses: ["sent"], hint: "En attente de facturation" },
+  { key: "vendus", label: "Vendus", statuses: ["sold"], hint: "Facturés ou encaissés" },
+  { key: "ecartes", label: "Écartés", statuses: ["rejected", "refused_by_partner"], hint: "Rejetés ou refusés" },
+] as const;
+
+export async function leadStepCounts(): Promise<Record<string, number>> {
+  const db = await getDb();
+  const rows = await db.query<{ status: string; n: number }>(
+    "select status, count(*)::int n from leads where workspace_id = $1 group by status", [await getWorkspaceId()]);
+  const by = Object.fromEntries(rows.map((r) => [r.status, r.n]));
+  return Object.fromEntries(LEAD_STEPS.map((st) => [st.key, st.statuses.reduce((a, x) => a + (by[x] ?? 0), 0)]));
+}
+
+/** Facturation à suivre : attributions transmises facturables pas encore encaissées. */
+export async function billingQueue() {
+  const db = await getDb();
+  return db.query<{ id: string; leadId: string; leadName: string; partnerName: string; priceCents: number; billingStatus: string; sentAt: string | null; isDemo: boolean }>(
+    `select a.id, a.lead_id as "leadId", l.full_name as "leadName", p.company_name as "partnerName", a.price_cents as "priceCents",
+            a.billing_status as "billingStatus", a.sent_at as "sentAt", a.is_demo as "isDemo"
+       from lead_assignments a join leads l on l.id = a.lead_id join partners p on p.id = a.partner_id
+      where a.workspace_id = $1 and a.status in ('sent','accepted') and not a.is_free and a.billing_status in ('forecast','invoiced')
+      order by a.billing_status desc, a.sent_at`, [await getWorkspaceId()]);
+}
+
+export async function listLeads(f: { status?: string; statuses?: readonly string[]; projectId?: string; q?: string }) {
   const db = await getDb();
   return db.query<LeadListRow>(
     `select l.id, l.full_name as "fullName", l.postal_code as "postalCode", l.city, l.service_slug as "serviceSlug", l.status, l.score,
@@ -116,8 +145,9 @@ export async function listLeads(f: { status?: string; projectId?: string; q?: st
        from leads l join projects p on p.id = l.project_id
       where l.workspace_id = $1 and ($2::text is null or l.status = $2) and ($3::uuid is null or l.project_id = $3)
         and ($4::text is null or l.full_name ilike '%' || $4 || '%' or l.postal_code like $4 || '%' or l.city ilike '%' || $4 || '%')
+        and ($5::text[] is null or l.status = any($5::text[]))
       order by l.created_at desc limit 500`,
-    [await getWorkspaceId(), f.status || null, f.projectId || null, f.q || null]);
+    [await getWorkspaceId(), f.status || null, f.projectId || null, f.q || null, f.statuses ? [...f.statuses] : null]);
 }
 
 export type LeadDetail = {

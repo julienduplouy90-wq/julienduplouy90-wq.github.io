@@ -10,7 +10,7 @@ export function ProjectFields({ p, edit = false }: { p?: ProjectRow; edit?: bool
   const seo = (p?.seo ?? {}) as { indexable?: boolean; metaDescription?: string };
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <Field label="Nom du projet"><Input name="name" required defaultValue={p?.name} placeholder="Assainissement Gironde" /></Field>
+      <Field label="Nom du site"><Input name="name" required defaultValue={p?.name} placeholder="Assainissement Gironde" /></Field>
       <Field label="Identifiant (slug)" hint={edit ? "Non modifiable (URL du site)." : "Minuscules et tirets, utilisé dans l'URL du site."}>
         <Input name="slug" required defaultValue={p?.slug} readOnly={edit} pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="assainissement-gironde" />
       </Field>

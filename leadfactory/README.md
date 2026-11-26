@@ -16,12 +16,13 @@ npm run dev                    # http://localhost:3000
 
 Aucun service externe n'est requis : la base PostgreSQL est **embarquée** (PGlite) et stockée dans `./.data/pglite`.
 Au premier démarrage : migrations, projet pilote réel (sans prospect ni partenaire) et **données de démonstration fictives**
-dans un projet séparé « [Démo] Assainissement Lot-et-Garonne » (bannière jaune). Supprimez-les dans **Paramètres → Supprimer la démo**.
+dans un projet séparé « [Démo] Assainissement Lot-et-Garonne » (bannière jaune). Supprimez-les dans **Réglages → Supprimer la démo**.
 
 | URL | Contenu |
 |---|---|
-| `/dashboard` | Vue d'ensemble (filtres période / projet / niche) |
-| `/prospects`, `/partenaires`, `/distribution`, `/finances` | Back-office |
+| `/leads` | Espace **Leads** : accueil « à faire », prospects par étape, partenaires, finances |
+| `/sites` | Espace **Sites** : mes sites, fiche unique par site (réglages, mentions légales, check-list) |
+| `/reglages` | Données de démo, conservation, journal, modules à venir |
 | `/s/assainissement-dordogne` | Prévisualisation du site pilote (non indexé) |
 | `/s/assainissement-dordogne/devis` | Formulaire progressif en 9 étapes |
 

@@ -4,61 +4,127 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
+type Item = { href: string; label: string; icon: string };
+type SpaceKey = "leads" | "sites";
+
 const ICONS: Record<string, string> = {
-  overview: "M3 13h8V3H3zm10 8h8V11h-8zM3 21h8v-6H3zm10-18v6h8V3z",
-  projects: "M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
-  sites: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm-9 9h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z",
+  home: "M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z",
   leads: "M4 4h16v12H5.2L4 17.2zm4 5h8m-8 3h5",
   partners: "M16 11a4 4 0 1 0-8 0m-5 9a7 7 0 0 1 18 0M12 7a3 3 0 1 0 0-.01",
-  distribution: "M5 12h14m-4-4 4 4-4 4M5 6h6m-6 12h6",
-  finances: "M4 19V5m0 14h16M8 15l3-4 3 2 4-6",
-  automations: "M13 3 4 14h7l-1 7 9-11h-7z",
-  settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2-1.2L14.5 3h-5l-.4 2.6a7.6 7.6 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2 1.2l.4 2.6h5l.4-2.6a7.6 7.6 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z",
+  money: "M4 19V5m0 14h16M8 15l3-4 3 2 4-6",
+  sites: "M3 5h18v14H3zm0 4h18M7 7h.01M10 7h.01",
+  plus: "M12 5v14M5 12h14",
+  settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM4 12h2m12 0h2M12 4v2m0 12v2M6.3 6.3l1.4 1.4m8.6 8.6 1.4 1.4m0-11.4-1.4 1.4m-8.6 8.6-1.4 1.4",
 };
 
-export const NAV = [
-  { href: "/dashboard", label: "Vue d'ensemble", icon: "overview" },
-  { href: "/projets", label: "Projets", icon: "projects" },
-  { href: "/sites", label: "Sites", icon: "sites" },
-  { href: "/prospects", label: "Prospects", icon: "leads" },
-  { href: "/partenaires", label: "Partenaires", icon: "partners" },
-  { href: "/distribution", label: "Distribution", icon: "distribution" },
-  { href: "/finances", label: "Finances", icon: "finances" },
-  { href: "/automatisations", label: "Automatisations", icon: "automations", future: true },
-  { href: "/parametres", label: "Paramètres", icon: "settings" },
-];
+export const SPACES: Record<SpaceKey, { label: string; hint: string; home: string; items: Item[] }> = {
+  leads: {
+    label: "Leads", hint: "Demandes, partenaires, argent", home: "/leads",
+    items: [
+      { href: "/leads", label: "Accueil", icon: "home" },
+      { href: "/prospects", label: "Prospects", icon: "leads" },
+      { href: "/partenaires", label: "Partenaires", icon: "partners" },
+      { href: "/finances", label: "Finances", icon: "money" },
+    ],
+  },
+  sites: {
+    label: "Sites", hint: "Création et réglages des sites", home: "/sites",
+    items: [
+      { href: "/sites", label: "Mes sites", icon: "sites" },
+      { href: "/sites/nouveau", label: "Nouveau site", icon: "plus" },
+    ],
+  },
+};
 
-export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
-  const pathname = usePathname();
+export function spaceOf(pathname: string): SpaceKey | null {
+  if (pathname.startsWith("/sites")) return "sites";
+  if (pathname.startsWith("/reglages")) return null;
+  return "leads";
+}
+
+/** Élément actif = préfixe le plus long correspondant au chemin courant. */
+function activeHref(pathname: string, items: Item[]) {
+  return items.filter((i) => pathname === i.href || pathname.startsWith(i.href + "/")).sort((a, b) => b.href.length - a.href.length)[0]?.href;
+}
+
+const ACCENT: Record<SpaceKey, { on: string; soft: string }> = {
+  leads: { on: "bg-indigo-600 text-white", soft: "bg-indigo-600/10 text-indigo-600 dark:text-indigo-300" },
+  sites: { on: "bg-emerald-600 text-white", soft: "bg-emerald-600/10 text-emerald-700 dark:text-emerald-300" },
+};
+
+function Icon({ name, className = "size-4" }: { name: string; className?: string }) {
   return (
-    <nav className="space-y-0.5" aria-label="Navigation principale">
-      {NAV.map((n) => {
-        const active = pathname === n.href || pathname.startsWith(n.href + "/");
-        return (
-          <Link key={n.href} href={n.href} onClick={onNavigate} aria-current={active ? "page" : undefined}
-            className={cn("flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
-              active ? "bg-primary/10 font-medium text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>
-            <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d={ICONS[n.icon]} />
-            </svg>
-            <span className="flex-1">{n.label}</span>
-            {n.future && <span className="rounded bg-muted px-1.5 text-[10px] text-muted-foreground">futur</span>}
-          </Link>
-        );
-      })}
-    </nav>
+    <svg viewBox="0 0 24 24" className={cn("shrink-0", className)} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d={ICONS[name]} />
+    </svg>
   );
 }
 
-export function MobileNav() {
+/** Sélecteur des deux espaces : toujours visible, couleur propre à chaque espace. */
+export function SpaceSwitch({ compact = false }: { compact?: boolean }) {
+  const current = spaceOf(usePathname());
   return (
-    <details className="group relative lg:hidden">
-      <summary className="flex h-9 cursor-pointer list-none items-center rounded-md border bg-card px-3 text-sm [&::-webkit-details-marker]:hidden">
-        Menu
-      </summary>
-      <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border bg-card p-2 shadow-lg">
-        <NavLinks onNavigate={() => document.querySelectorAll("details[open]").forEach((d) => d.removeAttribute("open"))} />
-      </div>
-    </details>
+    <div className="grid grid-cols-2 gap-1 rounded-lg bg-muted p-1" role="tablist" aria-label="Espace">
+      {(Object.keys(SPACES) as SpaceKey[]).map((k) => (
+        <Link key={k} href={SPACES[k].home} role="tab" aria-selected={current === k}
+          className={cn("rounded-md px-3 text-center font-medium transition", compact ? "py-1 text-sm" : "py-2 text-sm",
+            current === k ? ACCENT[k].on + " shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+          {SPACES[k].label}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+export function SideNav() {
+  const pathname = usePathname();
+  const space = spaceOf(pathname);
+  const items = space ? SPACES[space].items : [];
+  const active = activeHref(pathname, items);
+  return (
+    <>
+      <SpaceSwitch />
+      {space && <p className="mt-3 px-2.5 text-xs text-muted-foreground">{SPACES[space].hint}</p>}
+      <nav className="mt-2 space-y-0.5" aria-label="Navigation">
+        {items.map((n) => (
+          <Link key={n.href} href={n.href} aria-current={active === n.href ? "page" : undefined}
+            className={cn("flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+              active === n.href ? ACCENT[space!].soft + " font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>
+            <Icon name={n.icon} />{n.label}
+          </Link>
+        ))}
+      </nav>
+    </>
+  );
+}
+
+export function SettingsLink() {
+  const on = usePathname().startsWith("/reglages");
+  return (
+    <Link href="/reglages" className={cn("flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm", on ? "bg-muted font-medium" : "text-muted-foreground hover:bg-muted")}>
+      <Icon name="settings" />Réglages
+    </Link>
+  );
+}
+
+/** Barre d'onglets mobile : les entrées de l'espace courant + Réglages. */
+export function BottomTabs() {
+  const pathname = usePathname();
+  const space = spaceOf(pathname) ?? "leads";
+  const items = [...SPACES[space].items, { href: "/reglages", label: "Réglages", icon: "settings" }];
+  const active = activeHref(pathname, items);
+  return (
+    <nav aria-label="Navigation" className="fixed inset-x-0 bottom-0 z-20 border-t bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
+      <ul className="flex">
+        {items.map((n) => (
+          <li key={n.href} className="flex-1">
+            <Link href={n.href} aria-current={active === n.href ? "page" : undefined}
+              className={cn("flex flex-col items-center gap-0.5 py-2 text-[11px]", active === n.href ? (space === "sites" ? "text-emerald-600" : "text-indigo-600") + " font-medium" : "text-muted-foreground")}>
+              <Icon name={n.icon} className="size-5" />{n.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
