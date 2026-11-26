@@ -1,0 +1,13 @@
+{
+  "domain": "obliging-darkgreen-albatross-28.hostingersite.com",
+  "brand": "Devis Toiture",
+  "niche": "renovation-toiture",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

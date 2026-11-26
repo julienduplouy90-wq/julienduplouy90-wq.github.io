@@ -1,0 +1,13 @@
+{
+  "domain": "first-dimgray-heron-90.hostingersite.com",
+  "brand": "Devis Monte-Escalier",
+  "niche": "monte-escalier",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

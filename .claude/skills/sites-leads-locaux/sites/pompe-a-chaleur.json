@@ -1,0 +1,13 @@
+{
+  "domain": "versatile-mistyrose-barracuda-10.hostingersite.com",
+  "brand": "Devis Pompe à Chaleur",
+  "niche": "pompe-a-chaleur",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

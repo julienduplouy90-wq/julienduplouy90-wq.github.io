@@ -1,0 +1,13 @@
+{
+  "domain": "thrifty-mistyrose-partridge-08.hostingersite.com",
+  "brand": "Devis Fenêtres",
+  "niche": "fenetres",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

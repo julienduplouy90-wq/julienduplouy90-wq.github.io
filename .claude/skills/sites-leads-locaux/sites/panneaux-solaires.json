@@ -1,0 +1,13 @@
+{
+  "domain": "smart-lavender-mink-25.hostingersite.com",
+  "brand": "Devis Panneaux Solaires",
+  "niche": "panneaux-solaires",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

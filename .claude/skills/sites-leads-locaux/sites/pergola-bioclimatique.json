@@ -1,0 +1,13 @@
+{
+  "domain": "cultural-sandybrown-cod-86.hostingersite.com",
+  "brand": "Devis Pergola Bioclimatique",
+  "niche": "pergola-bioclimatique",
+  "minPop": 5000,
+  "depts": [
+    "*"
+  ],
+  "leadEmail": "",
+  "leadWebhook": "",
+  "consentRecipients": "une à trois entreprises partenaires intervenant dans mon secteur",
+  "retention": "12 mois à compter de la demande, puis suppression"
+}

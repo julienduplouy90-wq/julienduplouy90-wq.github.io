@@ -33,7 +33,7 @@ const geo = JSON.parse(await readFile(GEO, "utf8"));
 const { niches } = JSON.parse(await readFile(`${here}/niches.json`, "utf8"));
 
 const siteFiles = flag("--fleet")
-  ? (await readdir(resolve(opt("--fleet")))).filter((f) => f.endsWith(".json")).map((f) => join(resolve(opt("--fleet")), f))
+  ? (await readdir(resolve(opt("--fleet")))).filter((f) => f.endsWith(".json") && !f.startsWith("_")).map((f) => join(resolve(opt("--fleet")), f))
   : [resolve(opt("--site"))];
 if (!opt("--site") && !flag("--fleet")) {
   console.error("Indiquez --site <fichier.json> ou --fleet <dossier>.");
@@ -59,7 +59,9 @@ async function buildSite(site, file) {
   if (!site.domain) throw new Error("champ domain manquant");
 
   const REQUIRED = ["name", "address", "email", "director", "host"];
-  const pub = site.publisher ?? {};
+  // Infos éditeur : dans le site, sinon dans _publisher.json à côté (non commité, commun à toute la flotte).
+  const pubFile = join(dirname(file), "_publisher.json");
+  const pub = site.publisher ?? (existsSync(pubFile) ? JSON.parse(await readFile(pubFile, "utf8")) : {});
   const missing = REQUIRED.filter((k) => !pub[k]).concat(pub.siret || pub.rna ? [] : ["siret"]);
   if (missing.length && !DRAFT)
     throw new Error(`mentions légales incomplètes (${missing.join(", ")}). Complétez publisher ou relancez avec --draft.`);

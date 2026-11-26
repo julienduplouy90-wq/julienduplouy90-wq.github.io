@@ -19,9 +19,11 @@ Tout est dans ce dossier :
 | `scripts/fetch-geo.mjs` | Télécharge communes + départements (geo.api.gouv.fr) → `data/geo-fr.json` (+ départements limitrophes) |
 | `scripts/fetch-businesses.mjs` | Annuaire Google Maps par ville via DataForSEO → `data/businesses/<niche>/<insee>.json` |
 | `scripts/build-site.mjs` | Génère un site complet (ou toute une flotte) dans `dist/<domaine>/` |
+| `scripts/deploy-hostinger.mjs` | Crée le site Hostinger (sous-domaine gratuit si besoin) et déploie `dist/<domaine>/` |
+| `sites/*.json` | Flotte déployée (une config par niche) |
 | `examples/site-exemple.json` | Modèle de configuration d'un site |
 
-`data/`, `dist/` et `sites/` sont ignorés par Git (données volumineuses, infos éditeur).
+`data/`, `dist/` et `sites/_publisher.json` sont ignorés par Git (données volumineuses, infos éditeur).
 
 ## Déroulé
 
@@ -72,11 +74,21 @@ Chaque site contient : `index.html`, pages départements `/<mot-clé>-<departeme
 (HTTPS, sans www, slash final), `robots.txt`, sitemap index.
 
 ### 6. Déployer (Hostinger)
-L'offre Business de l'utilisateur accepte jusqu'à 50 sites (cf. mémoire « leadfactory-hostinger-deploy »).
-Pour chaque domaine : ajouter le site dans hPanel, puis envoyer le contenu de `dist/<domaine>/` dans `public_html/`
-(zip + Gestionnaire de fichiers, FTP, ou API developers.hostinger.com). Les leads arrivent dans
-`../leads-private/<domaine>.csv` (hors racine web) + e-mail. **Demander l'accord avant toute mise en ligne
-ou achat de domaine.**
+L'offre Business de l'utilisateur (commande 1009872677) accepte un nombre de sites illimité selon lui.
+```bash
+NODE_USE_ENV_PROXY=1 node scripts/deploy-hostinger.mjs --site sites/<niche>.json --out dist   # ou --fleet sites/
+```
+Le script : sous-domaine gratuit `*.hostingersite.com` si `"domain": "auto"` (écrit dans le JSON), création du site
+sur la commande, build (en brouillon `noindex` si l'éditeur est incomplet — voulu sur un domaine provisoire), zip,
+envoi TUS, déploiement statique. Jeton : injecté par le proxy en session cloud (d'où `NODE_USE_ENV_PROXY=1`),
+sinon `HOSTINGER_API_TOKEN`. Les leads arrivent dans `../leads-private/<domaine>.csv` (hors racine web), + e-mail si
+`leadEmail`. **Demander l'accord avant toute mise en ligne ou achat de domaine.**
+
+Infos éditeur communes : `sites/_publisher.json` (non commité). Les `sites/<niche>.json` (domaine, niche) sont commités
+pour garder la correspondance niche ↔ domaine.
+
+Passage au vrai domaine : remplacer `domain` dans le JSON, compléter SIRET + e-mail dans `_publisher.json`
+(sinon le site reste en `noindex`), relancer le script.
 
 ### 7. Après la mise en ligne
 Search Console (propriété domaine + sitemap), envoi d'un lead test, puis suivi à J+30/J+60/J+90 selon
