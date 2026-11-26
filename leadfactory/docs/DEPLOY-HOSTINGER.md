@@ -26,3 +26,10 @@ Prérequis : une offre Hostinger compatible **Node.js** (Business, Cloud ou sup�
 ## Limites (pilote)
 Une seule instance (PGlite n'accepte qu'un processus). Pour plusieurs utilisateurs ou plus de trafic : passer sur Supabase
 (`DATABASE_MODE=postgres`, voir `ARCHITECTURE.md`).
+
+## Déploiement actuel (2026-11-26)
+- Site Hostinger : `novel-aqua-gaur-08.hostingersite.com` (sous-domaine gratuit, offre Business, compte `u241978786`).
+- Déployé via l'API Hostinger (`developers.hostinger.com`) : site créé par `POST /api/hosting/v1/orders/{order}/onboardings`,
+  archive `git archive` téléversée en TUS (`files/upload-urls`), puis `nodejs/builds` (Node 22, app_type `next`, source `archive`).
+- Le build utilise **webpack** (`next build --webpack`) : Turbopack échoue dans l'environnement de build Hostinger.
+- Variables : `ADMIN_PASSWORD`, `IP_HASH_SALT`, `DATABASE_MODE=local`, `SEED_DEMO=false`, `PUBLIC_BASE_URL`.
