@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.next-e2e/
+out/
+.data/
+*.tsbuildinfo
+next-env.d.ts
+.env
+.env.local
+.env.*.local
+test-results/
+playwright-report/
+coverage/
+# Ne jamais versionner de vraies données (exports CSV, prospects, partenaires)
+imports/
+exports/
+*.private.csv
