@@ -80,12 +80,12 @@ export const assainissement: NicheDefinition = {
       "Plus votre description est précise (type de logement, installation actuelle, diagnostic éventuel), plus l'entreprise pourra vous répondre utilement.",
     ],
     faq: [
-      { q: "Qui êtes-vous ?", a: "Ce site est un service de mise en relation. Nous ne réalisons aucun travaux nous-mêmes : nous transmettons votre demande à une entreprise partenaire indépendante intervenant dans votre secteur." },
-      { q: "Le service est-il gratuit ?", a: "Oui, déposer une demande est gratuit et sans engagement pour vous. Le service est rémunéré par les entreprises partenaires qui reçoivent les demandes." },
-      { q: "Combien d'entreprises vont me contacter ?", a: "Votre demande est transmise à une seule entreprise partenaire, si une entreprise disponible intervient dans votre secteur. Nous ne pouvons pas garantir qu'une entreprise sera disponible pour chaque demande." },
-      { q: "Vais-je obtenir un devis ?", a: "L'entreprise partenaire vous recontacte pour échanger sur votre projet. L'établissement d'un devis, ses conditions, son prix et ses délais relèvent uniquement de l'entreprise." },
-      { q: "Qu'est-ce que le SPANC ?", a: "Le Service Public d'Assainissement Non Collectif (SPANC) est le service, rattaché à la commune ou à l'intercommunalité, chargé du contrôle des installations d'assainissement individuel. Renseignez-vous auprès de votre mairie pour connaître le SPANC compétent." },
-      { q: "Que faites-vous de mes données ?", a: "Vos données servent uniquement à traiter votre demande et, avec votre accord explicite, à la transmettre à une entreprise partenaire. Vous pouvez demander leur consultation ou leur suppression à tout moment (voir la politique de confidentialité)." },
+      { q: "Qui êtes-vous ?", a: "Ce site est un service de mise en relation. Nous ne réalisons aucun travaux nous-mêmes : nous transmettons votre demande à une entreprise partenaire indépendante intervenant dans votre secteur." },
+      { q: "Le service est-il gratuit ?", a: "Oui, déposer une demande est gratuit et sans engagement pour vous. Le service est rémunéré par les entreprises partenaires qui reçoivent les demandes." },
+      { q: "Combien d'entreprises vont me contacter ?", a: "Votre demande est transmise à une seule entreprise partenaire, si une entreprise disponible intervient dans votre secteur. Nous ne pouvons pas garantir qu'une entreprise sera disponible pour chaque demande." },
+      { q: "Vais-je obtenir un devis ?", a: "L'entreprise partenaire vous recontacte pour échanger sur votre projet. L'établissement d'un devis, ses conditions, son prix et ses délais relèvent uniquement de l'entreprise." },
+      { q: "Qu'est-ce que le SPANC ?", a: "Le Service Public d'Assainissement Non Collectif (SPANC) est le service, rattaché à la commune ou à l'intercommunalité, chargé du contrôle des installations d'assainissement individuel. Renseignez-vous auprès de votre mairie pour connaître le SPANC compétent." },
+      { q: "Que faites-vous de mes données ?", a: "Vos données servent uniquement à traiter votre demande et, avec votre accord explicite, à la transmettre à une entreprise partenaire. Vous pouvez demander leur consultation ou leur suppression à tout moment (voir la politique de confidentialité)." },
     ],
   },
 };

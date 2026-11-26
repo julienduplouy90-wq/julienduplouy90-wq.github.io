@@ -93,3 +93,30 @@ export async function insertLead(
   await audit(db, args.workspaceId, args.actor ?? "public-form", "lead.created", "lead", row!.id, { score: result.score, duplicateOf });
   return { id: row!.id, score: result.score, duplicateOf };
 }
+
+/** Recalcule le score d'un prospect existant (après modification de la configuration du projet par ex.). */
+export async function rescoreLead(db: Db, workspaceId: string, leadId: string) {
+  const [l] = await db.query<{
+    full_name: string; email: string | null; phone: string | null; postal_code: string; service_slug: string | null; description: string | null;
+    timeline: string | null; answers: Record<string, unknown>; consent_transmission: boolean; duplicate_of: string | null; project_id: string;
+    niche: string; zone_codes: string[]; qualification: QualificationConfig;
+  }>(
+    `select l.full_name, l.email, l.phone, l.postal_code, l.service_slug, l.description, l.timeline, l.answers, l.consent_transmission,
+            l.duplicate_of, l.project_id, p.niche, p.zone_codes, p.qualification
+       from leads l join projects p on p.id = l.project_id where l.workspace_id = $1 and l.id = $2`, [workspaceId, leadId]);
+  if (!l) throw new Error("Prospect introuvable");
+  const niche = getNiche(l.niche);
+  const serviceSlugs = (await db.query<{ slug: string }>("select slug from services where project_id = $1", [l.project_id])).map((r) => r.slug);
+  const result = scoreLead(
+    {
+      fullName: l.full_name, email: l.email, phone: l.phone, postalCode: l.postal_code,
+      serviceSlug: l.service_slug === "other" ? null : l.service_slug, description: l.description,
+      timelineActionable: niche.timelines.find((t) => t.value === l.timeline)?.actionable ?? null,
+      answers: l.answers, requiredAnswerIds: niche.questions.filter((q) => q.required).map((q) => q.id), consentTransmission: l.consent_transmission,
+    },
+    { zoneCodes: l.zone_codes, serviceSlugs, isDuplicate: !!l.duplicate_of },
+    l.qualification,
+  );
+  await db.query("update leads set score = $2, score_details = $3::jsonb where id = $1", [leadId, result.score, JSON.stringify(result)]);
+  return result;
+}

@@ -19,7 +19,7 @@ export function buildLeadSchema(niche: NicheDefinition) {
   return z
     .object({
       siteSlug: z.string().min(1).max(100),
-      serviceSlug: z.enum([...niche.services.map((s) => s.slug), OTHER_SERVICE] as [string, ...string[]]),
+      serviceSlug: z.enum([OTHER_SERVICE, ...niche.services.map((s) => s.slug)] as [string, ...string[]]),
       postalCode: z.string().trim().regex(/^\d{5}$/, "Code postal à 5 chiffres"),
       city: z.string().trim().min(1, "Commune requise").max(120),
       answers: z.object(answers),
